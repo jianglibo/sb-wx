@@ -1,0 +1,47 @@
+{
+  "data" : {
+    "id" : "4358145",
+    "type" : "loginAttempts",
+    "attributes" : {
+      "createdAt" : null,
+      "password" : "",
+      "provider" : "NORMAL",
+      "success" : true,
+      "jwtToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcmluY2lwYWwiLCJnZW5kZXIiOiJGRU1BTEUiLCJpc3MiOiJqaWFuZ2xpYm8iLCJpZCI6Ijc1MzY2OSIsImV4cCI6MTQ5NDY4NTE3MiwiZW1haWwiOiJhZG1pbkBtMzk1OC5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOSVNUUkFUT1IiLCJST0xFX1VTRVIiXSwidXNlcm5hbWUiOiJhZG1pbiJ9.F533hnJ5dBA6DMCgEjWrsOPR8TxAIQk5JrPD0jtSkbo",
+      "sessionId" : null,
+      "user" : {
+        "id" : 753669,
+        "createdAt" : null,
+        "updatePassword" : false,
+        "displayName" : null,
+        "avatar" : null,
+        "emailVerified" : true,
+        "mobileVerified" : false,
+        "accountNonExpired" : true,
+        "accountNonLocked" : true,
+        "credentialsNonExpired" : true,
+        "enabled" : true,
+        "gender" : "FEMALE",
+        "mysites" : [ ],
+        "name" : "admin",
+        "email" : "admin@m3958.com",
+        "password" : null,
+        "mobile" : null,
+        "roles" : [ {
+          "id" : 1,
+          "createdAt" : 1493985147463,
+          "name" : "ROLE_ADMINISTRATOR"
+        }, {
+          "id" : 2,
+          "createdAt" : 1493985147502,
+          "name" : "ROLE_USER"
+        } ]
+      },
+      "remoteAddress" : null,
+      "username" : "admin"
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/loginAttempts/4358145"
+    }
+  }
+}

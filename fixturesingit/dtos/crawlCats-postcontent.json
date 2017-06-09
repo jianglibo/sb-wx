@@ -1,0 +1,9 @@
+{
+    "data": {
+        "type": "crawlCats",
+        "attributes": {
+            "name": "crawlcat1",
+            "description": "hello"
+        }
+    }
+}

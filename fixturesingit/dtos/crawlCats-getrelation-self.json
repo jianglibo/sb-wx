@@ -1,0 +1,32 @@
+{
+  "data" : [ {
+    "id" : "2621440",
+    "type" : "sites",
+    "attributes" : {
+      "createdAt" : 1494678738709,
+      "protocol" : "HTTP",
+      "domainName" : "a.b.com",
+      "entryPath" : null
+    },
+    "relationships" : {
+      "crawlCat" : {
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/sites/2621440/relationships/crawlCat",
+          "related" : "http://localhost:88/jsonapi/sites/2621440/crawlCat"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/sites/2621440"
+    }
+  } ],
+  "links" : {
+    "first" : "http://localhost:88/jsonapi/sites/?page[limit]=20&filter[sites][crawlCat][id][EQ]=4194305&include[sites]=crawlCat",
+    "last" : "http://localhost:88/jsonapi/sites/?page[limit]=20&filter[sites][crawlCat][id][EQ]=4194305&include[sites]=crawlCat",
+    "next" : null,
+    "prev" : null
+  },
+  "meta" : {
+    "totalResourceCount" : 1
+  }
+}

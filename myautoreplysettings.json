@@ -1,0 +1,48 @@
+{
+    "is_add_friend_reply_open": 1,
+    "is_autoreply_open": 1,
+    "add_friend_autoreply_info": {
+        "type": "text",
+        "content": "hello"
+    },
+    "keyword_autoreply_info": {
+        "list": [
+            {
+                "rule_name": "è§\u0084å\u0088\u00991",
+                "create_time": 1496990663,
+                "reply_mode": "random_one",
+                "keyword_list_info": [
+                    {
+                        "type": "text",
+                        "match_mode": "contain",
+                        "content": "abc"
+                    },
+                    {
+                        "type": "text",
+                        "match_mode": "contain",
+                        "content": "ddd"
+                    }
+                ],
+                "reply_list_info": [
+                    {
+                        "type": "news",
+                        "content": "M3GEwXTrryEKKsR0x5r5XhonNQROZYzSaymYqZ-xFpo",
+                        "news_info": {
+                            "list": [
+                                {
+                                    "title": "å·²æ\u009c\u0089DAOå±\u0082ç\u009a\u0084æ\u0083\u0085å\u0086µä¸\u008bï¼\u008cæ\u009c\u0089å¿\u0085è¦\u0081å\u009c¨æ·»å\u008a ä¸\u0080å±\u0082ç\u0095\u008cé\u009d¢å\u0090\u0097ï¼\u009f",
+                                    "author": "",
+                                    "digest": "æ\u0089\u008bå¤´ç\u009a\u0084ä¸\u0080ä¸ªé¡¹ç\u009b®é\u009c\u0080è¦\u0081æ\u0095´å\u0090\u0088Spring Data Jpaå\u0092\u008cKatharsisï¼\u0088jsonapiå®\u009eç\u008e°ï¼\u0089ï¼\u008cå\u009c¨ç¼\u0096å\u0086\u0099æ\u009d\u0083é\u0099\u0090ç®¡",
+                                    "show_cover": 0,
+                                    "cover_url": "http://mmbiz.qpic.cn/mmbiz_png/mA4J3HHWFtF3BKkwBX2UuuS4bhwqPD1dIiaWZjwicN51s0jXOIuwib8kLn5nsugqtbkwDf9TCwgKoPOlOmy1MX9ow/0?wx_fmt=png",
+                                    "content_url": "http://mp.weixin.qq.com/s?__biz=MzI4MzYwNzE3OA==&mid=100000017&idx=1&sn=e59ccb320a162ffb7507f3e41bc397db&chksm=6b8968f45cfee1e2e7aaaa9d5a602d9054599d78bc057a0b13c7df49950086935539810c09d8#rd",
+                                    "source_url": ""
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

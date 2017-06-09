@@ -1,0 +1,295 @@
+{
+  "data" : [ {
+    "id" : "1114116",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585640,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp6209183837960895007.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114116/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114116/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114116"
+    }
+  }, {
+    "id" : "1114117",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585642,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp-5447115589266451352.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114117/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114117/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114117"
+    }
+  }, {
+    "id" : "1114118",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585643,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp-4337167618849076777.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114118/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114118/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114118"
+    }
+  }, {
+    "id" : "1114119",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585645,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp4831937097856828356.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114119/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114119/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114119"
+    }
+  }, {
+    "id" : "1114120",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585646,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp-779825601167082723.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114120/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114120/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114120"
+    }
+  }, {
+    "id" : "1114121",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585648,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp-906802388746132760.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114121/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114121/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114121"
+    }
+  }, {
+    "id" : "1114122",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585649,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp-8057339665784670312.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114122/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114122/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114122"
+    }
+  }, {
+    "id" : "1114123",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585650,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp5476116900677160314.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114123/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114123/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114123"
+    }
+  }, {
+    "id" : "1114124",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585651,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp-8909094305222502494.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114124/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114124/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114124"
+    }
+  }, {
+    "id" : "1114125",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "aaa",
+      "createdAt" : 1494682585652,
+      "cburlVerified" : false,
+      "cbsecret" : "secret",
+      "homepage" : "http://hp574883133547843734.c.com"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "786433",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114125/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114125/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114125"
+    }
+  } ],
+  "included" : [ {
+    "id" : "786433",
+    "type" : "users",
+    "attributes" : {
+      "updatePassword" : false,
+      "gender" : "FEMALE",
+      "displayName" : null,
+      "credentialsNonExpired" : true,
+      "roles" : [ ],
+      "mobile" : null,
+      "mobileVerified" : false,
+      "avatar" : null,
+      "enabled" : true,
+      "emailVerified" : true,
+      "createdAt" : null,
+      "password" : null,
+      "name" : "a",
+      "accountNonExpired" : true,
+      "email" : "a@m3958.com",
+      "accountNonLocked" : true
+    },
+    "relationships" : {
+      "mysites" : {
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/users/786433/relationships/mysites",
+          "related" : "http://localhost:88/jsonapi/users/786433/mysites"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/users/786433"
+    }
+  } ],
+  "links" : {
+    "first" : "http://localhost:88/jsonapi/mysites/?page[limit]=20&filter[mysites][creator][id][EQ]=786433&include[mysites]=creator",
+    "last" : "http://localhost:88/jsonapi/mysites/?page[limit]=20&filter[mysites][creator][id][EQ]=786433&include[mysites]=creator",
+    "next" : null,
+    "prev" : null
+  },
+  "meta" : {
+    "totalResourceCount" : 10
+  }
+}

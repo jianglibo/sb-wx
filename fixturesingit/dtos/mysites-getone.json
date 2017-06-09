@@ -1,0 +1,24 @@
+{
+  "data" : {
+    "id" : "1114112",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "http://a.b.c/callback",
+      "createdAt" : 1494682583071,
+      "cburlVerified" : false,
+      "cbsecret" : "nooneknow",
+      "homepage" : "http://www.abc.com/start"
+    },
+    "relationships" : {
+      "creator" : {
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114112/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114112/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114112"
+    }
+  }
+}

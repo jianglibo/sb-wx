@@ -1,0 +1,61 @@
+{
+  "data" : {
+    "id" : "1114114",
+    "type" : "mysites",
+    "attributes" : {
+      "cburl" : "http://a.b.c/callback",
+      "createdAt" : 1494682584485,
+      "cburlVerified" : false,
+      "cbsecret" : "nooneknow",
+      "homepage" : "http://www.abc.com/start"
+    },
+    "relationships" : {
+      "creator" : {
+        "data" : {
+          "id" : "753669",
+          "type" : "users"
+        },
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/mysites/1114114/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/mysites/1114114/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/mysites/1114114"
+    }
+  },
+  "included" : [ {
+    "id" : "753669",
+    "type" : "users",
+    "attributes" : {
+      "updatePassword" : false,
+      "gender" : "FEMALE",
+      "displayName" : null,
+      "credentialsNonExpired" : true,
+      "roles" : [ ],
+      "mobile" : null,
+      "mobileVerified" : false,
+      "avatar" : null,
+      "enabled" : true,
+      "emailVerified" : true,
+      "createdAt" : null,
+      "password" : null,
+      "name" : "admin",
+      "accountNonExpired" : true,
+      "email" : "admin@m3958.com",
+      "accountNonLocked" : true
+    },
+    "relationships" : {
+      "mysites" : {
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/users/753669/relationships/mysites",
+          "related" : "http://localhost:88/jsonapi/users/753669/mysites"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/users/753669"
+    }
+  } ]
+}

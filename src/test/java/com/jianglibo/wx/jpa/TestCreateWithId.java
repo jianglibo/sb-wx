@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.jpa;
+package com.jianglibo.wx.jpa;
 
 import static org.junit.Assert.assertFalse;
 

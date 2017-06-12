@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.vo;
+package com.jianglibo.wx.vo;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

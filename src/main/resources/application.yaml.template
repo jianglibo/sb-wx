@@ -80,6 +80,9 @@ logging:
 myapp:
     appId: 
     appSecret: 
+    miniAppApiToken: 
+    miniAppEncodingAESKey: 
+    miniAppId: 
     refreshWxToken: true
     disableCsrf: true
     dataWriteSourcePath: E:\OneDriver\OneDrive\浙江政务服务网

@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis.vo;
+package com.jianglibo.wx.katharsis.vo;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;

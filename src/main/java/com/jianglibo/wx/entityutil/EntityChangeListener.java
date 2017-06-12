@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.entityutil;
+package com.jianglibo.wx.entityutil;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

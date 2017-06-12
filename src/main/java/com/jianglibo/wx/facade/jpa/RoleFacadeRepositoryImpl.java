@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.facade.jpa;
+package com.jianglibo.wx.facade.jpa;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;

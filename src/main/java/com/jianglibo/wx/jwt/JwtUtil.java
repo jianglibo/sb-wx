@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.jwt;
+package com.jianglibo.wx.jwt;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

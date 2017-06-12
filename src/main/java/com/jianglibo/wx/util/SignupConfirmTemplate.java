@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.util;
+package com.jianglibo.wx.util;
 
 
 import com.jianglibo.wx.domain.UcToken;

@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.vo;
+package com.jianglibo.wx.vo;
 
 import java.util.Collection;
 import java.util.HashSet;

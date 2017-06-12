@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.startup;
+package com.jianglibo.wx.startup;
 
 import java.io.File;
 import java.io.FileFilter;

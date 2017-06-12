@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.repository;
+package com.jianglibo.wx.repository;
 
 import com.jianglibo.wx.domain.CrawlCat;
 

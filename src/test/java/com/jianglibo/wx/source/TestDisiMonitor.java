@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.source;
+package com.jianglibo.wx.source;
 
 import java.io.IOException;
 

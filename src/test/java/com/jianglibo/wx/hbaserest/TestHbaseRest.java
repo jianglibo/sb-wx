@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.hbaserest;
+package com.jianglibo.wx.hbaserest;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.*;

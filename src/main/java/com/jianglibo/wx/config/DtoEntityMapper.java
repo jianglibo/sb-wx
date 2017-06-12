@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.config;
+package com.jianglibo.wx.config;
 
 import java.util.HashMap;
 import java.util.List;

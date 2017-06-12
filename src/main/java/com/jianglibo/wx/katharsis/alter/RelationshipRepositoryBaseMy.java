@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis.alter;
+package com.jianglibo.wx.katharsis.alter;
 
 import java.util.Arrays;
 import java.util.HashSet;

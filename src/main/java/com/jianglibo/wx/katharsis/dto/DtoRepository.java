@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis.dto;
+package com.jianglibo.wx.katharsis.dto;
 
 import org.springframework.data.domain.AbstractPageRequest;
 import org.springframework.data.domain.Pageable;

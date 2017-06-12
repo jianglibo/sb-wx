@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.config;
+package com.jianglibo.wx.config;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;

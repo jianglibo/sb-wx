@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis.exception;
+package com.jianglibo.wx.katharsis.exception;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;

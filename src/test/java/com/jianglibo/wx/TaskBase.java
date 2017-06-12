@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx;
+package com.jianglibo.wx;
 
 /**
  * @author jianglibo@gmail.com 

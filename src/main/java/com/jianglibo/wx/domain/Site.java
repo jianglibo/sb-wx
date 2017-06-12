@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.domain;
+package com.jianglibo.wx.domain;
 
 
 import java.util.Date;

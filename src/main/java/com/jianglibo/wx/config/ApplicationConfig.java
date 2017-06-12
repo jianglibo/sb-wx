@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.config;
+package com.jianglibo.wx.config;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +19,12 @@ public class ApplicationConfig implements InitializingBean {
 	private String templateRoot;
 	
 	private String buildRoot;
+	
+	private String miniAppApiToken;
+	
+	private String miniAppEncodingAESKey;
+	
+	private String miniAppId;
 	
 	private String appId;
 	
@@ -239,6 +245,33 @@ public class ApplicationConfig implements InitializingBean {
 
 	public void setRefreshWxToken(boolean refreshWxToken) {
 		this.refreshWxToken = refreshWxToken;
+	}
+
+
+	public String getMiniAppApiToken() {
+		return miniAppApiToken;
+	}
+
+	public void setMiniAppApiToken(String miniAppApiToken) {
+		this.miniAppApiToken = miniAppApiToken;
+	}
+
+
+	public String getMiniAppEncodingAESKey() {
+		return miniAppEncodingAESKey;
+	}
+
+	public void setMiniAppEncodingAESKey(String miniAppEncodingAESKey) {
+		this.miniAppEncodingAESKey = miniAppEncodingAESKey;
+	}
+
+
+	public String getMiniAppId() {
+		return miniAppId;
+	}
+
+	public void setMiniAppId(String miniAppId) {
+		this.miniAppId = miniAppId;
 	}
 
 

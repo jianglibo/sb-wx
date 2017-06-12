@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.util;
+package com.jianglibo.wx.util;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;

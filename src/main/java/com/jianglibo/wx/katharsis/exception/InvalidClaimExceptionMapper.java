@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis.exception;
+package com.jianglibo.wx.katharsis.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

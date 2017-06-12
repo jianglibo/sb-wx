@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.repository.specification;
+package com.jianglibo.wx.repository.specification;
 
 import java.util.Optional;
 

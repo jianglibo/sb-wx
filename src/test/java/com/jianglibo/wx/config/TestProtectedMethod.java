@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.config;
+package com.jianglibo.wx.config;
 
 import org.junit.Test;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;

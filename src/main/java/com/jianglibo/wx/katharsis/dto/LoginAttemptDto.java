@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis.dto;
+package com.jianglibo.wx.katharsis.dto;
 
 import com.jianglibo.wx.annotation.DtoToEntity;
 import com.jianglibo.wx.config.JsonApiResourceNames;

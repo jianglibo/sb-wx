@@ -30,7 +30,7 @@ import com.jianglibo.wx.message.in.VoiceMessage;
 import com.jianglibo.wx.message.WxBody.WxMessageType;
 
 @Component
-public class WxInBoundUtil {
+public class WxBodyUtil {
 
 	private ObjectMapper xmlObjectMapper;
 	

@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.aop;
+package com.jianglibo.wx.aop;
 
 import org.junit.Test;
 

@@ -51,7 +51,7 @@ public class AccessTokenHolder {
 		return this.ato.getAccess_token();
 	}
 	
-	@Scheduled(initialDelay=100000, fixedRate=AccessTokenHolder.checkRate)
+//	@Scheduled(initialDelay=100000, fixedRate=AccessTokenHolder.checkRate)
 	public void refreshToken() {
 		if (nextRefreshTime - Instant.now().getEpochSecond() < gap) {
 			for(int i = 0;i<retryTimes;i++) {

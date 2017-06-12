@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis;
+package com.jianglibo.wx.katharsis;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertNotNull;

@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.config;
+package com.jianglibo.wx.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;

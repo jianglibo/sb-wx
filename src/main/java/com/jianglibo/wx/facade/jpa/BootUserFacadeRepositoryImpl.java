@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.facade.jpa;
+package com.jianglibo.wx.facade.jpa;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

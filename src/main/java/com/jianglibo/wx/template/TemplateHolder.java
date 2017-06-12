@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.template;
+package com.jianglibo.wx.template;
 
 import java.io.IOException;
 import java.nio.file.Files;

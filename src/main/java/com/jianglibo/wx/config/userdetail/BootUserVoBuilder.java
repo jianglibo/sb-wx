@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.config.userdetail;
+package com.jianglibo.wx.config.userdetail;
 
 import java.util.ArrayList;
 import java.util.List;

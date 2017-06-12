@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.template;
+package com.jianglibo.wx.template;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;

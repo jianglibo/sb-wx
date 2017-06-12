@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis.repository;
+package com.jianglibo.wx.katharsis.repository;
 
 import org.springframework.stereotype.Component;
 

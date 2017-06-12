@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.facade;
+package com.jianglibo.wx.facade;
 
 public class SortBroker {
 	private String fieldName;

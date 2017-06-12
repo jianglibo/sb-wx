@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.domain;
+package com.jianglibo.wx.domain;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

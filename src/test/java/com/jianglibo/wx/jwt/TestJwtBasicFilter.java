@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.jwt;
+package com.jianglibo.wx.jwt;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertNotEquals;

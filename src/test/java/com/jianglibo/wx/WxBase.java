@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jianglibo.wx.message.WxInBoundUtil;
+import com.jianglibo.wx.message.WxBodyUtil;
 
 public abstract class WxBase extends Tbase {
 	
@@ -19,7 +19,7 @@ public abstract class WxBase extends Tbase {
 	private static Path dtosPath = Paths.get("fixturesingit", "wx");
 	
 	@Autowired
-	protected WxInBoundUtil wxUtil;
+	protected WxBodyUtil wxUtil;
 
 	protected ResponseEntity<String> response;
 	

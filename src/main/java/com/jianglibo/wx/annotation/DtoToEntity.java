@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.annotation;
+package com.jianglibo.wx.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

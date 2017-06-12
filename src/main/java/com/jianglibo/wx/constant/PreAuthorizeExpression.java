@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.constant;
+package com.jianglibo.wx.constant;
 
 public class PreAuthorizeExpression {
 	

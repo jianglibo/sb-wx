@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.vo;
+package com.jianglibo.wx.vo;
 
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;

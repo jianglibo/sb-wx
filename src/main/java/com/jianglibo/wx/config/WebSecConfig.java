@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.config;
+package com.jianglibo.wx.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,7 +117,7 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
 		.anonymous().and()
 		.servletApi().and()
 		.authorizeRequests()
-        .antMatchers(basePath + "/**", "/login", "/", "/static/**", "/**").permitAll()
+        .antMatchers(basePath + "/**", "/login", "/", "/static/**", "/**", "/wxentrance", "/miniapp", "/miniappd").permitAll()
         .anyRequest().authenticated().and()
 //        .formLogin().loginPage("/login").and()
 //        .rememberMe().and()

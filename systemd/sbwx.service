@@ -2,12 +2,12 @@
 WantedBy=multi-user.target
 
 [Unit]
-Description=Make nutch builder process easy.
+Description=an weixin miniapp
 After=syslog.target
 
 [Service]
 User=nutchbuilder
-ExecStart=/var/nutchbuilder/nutchbuilder.jar
+ExecStart=/var/sbwx/sbwx.jar
 SuccessExitStatus=143
 
 [Install]

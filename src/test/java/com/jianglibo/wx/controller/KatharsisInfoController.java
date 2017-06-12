@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.controller;
+package com.jianglibo.wx.controller;
 
 import java.util.HashMap;
 import java.util.Map;

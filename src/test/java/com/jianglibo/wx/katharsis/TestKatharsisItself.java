@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis;
+package com.jianglibo.wx.katharsis;
 
 import java.util.Collection;
 import java.util.List;

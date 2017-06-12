@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.facade;
+package com.jianglibo.wx.facade;
 
 import java.util.List;
 

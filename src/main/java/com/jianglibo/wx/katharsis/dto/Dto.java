@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis.dto;
+package com.jianglibo.wx.katharsis.dto;
 
 public interface Dto<T, E> {
 

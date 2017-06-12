@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.aop;
+package com.jianglibo.wx.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

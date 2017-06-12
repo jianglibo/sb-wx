@@ -35,7 +35,7 @@ springBoot {
 
 remotes {
   sbwxweb {
-    host = "$sbwx"
+    host = "$sbwxhost"
     user = 'root'
     knownHosts = allowAnyHosts
     identity = file(identityFile)
@@ -137,7 +137,7 @@ task wrapper(type: Wrapper) {
 task printVars {
 	doLast {
 		println jar.baseName + "-" + jar.version + ".jar"
-		println remotes.spwx.host
+		println remotes.sbwx.host
 		
 	}
 }

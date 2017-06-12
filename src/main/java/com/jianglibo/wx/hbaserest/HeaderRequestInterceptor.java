@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.hbaserest;
+package com.jianglibo.wx.hbaserest;
 
 import java.io.IOException;
 

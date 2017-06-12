@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.hbaserest;
+package com.jianglibo.wx.hbaserest;
 
 import org.apache.http.HttpHost;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.domain;
+package com.jianglibo.wx.domain;
 
 import com.jianglibo.wx.domain.UcToken.UcTokenFor;
 import java.util.Date;

@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx;
+package com.jianglibo.wx;
 
 import java.io.UnsupportedEncodingException;
 

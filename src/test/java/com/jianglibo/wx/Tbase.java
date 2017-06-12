@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx;
+package com.jianglibo.wx;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 

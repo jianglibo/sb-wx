@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.jwt;
+package com.jianglibo.wx.jwt;
 
 import java.io.IOException;
 import java.util.regex.Pattern;

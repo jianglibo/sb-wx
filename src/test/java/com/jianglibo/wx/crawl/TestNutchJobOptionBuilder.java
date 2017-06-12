@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.crawl;
+package com.jianglibo.wx.crawl;
 
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;

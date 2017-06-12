@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.aop;
+package com.jianglibo.wx.aop;
 
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;

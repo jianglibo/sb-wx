@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.facade;
+package com.jianglibo.wx.facade;
 
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.katharsis.dto.UserDto;

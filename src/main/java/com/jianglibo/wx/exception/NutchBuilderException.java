@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.exception;
+package com.jianglibo.wx.exception;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

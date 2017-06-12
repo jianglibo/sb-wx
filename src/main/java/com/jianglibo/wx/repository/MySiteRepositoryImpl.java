@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.repository;
+package com.jianglibo.wx.repository;
 
 import java.util.List;
 

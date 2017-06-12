@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.katharsis.dto;
+package com.jianglibo.wx.katharsis.dto;
 
 import java.util.ArrayList;
 import java.util.List;

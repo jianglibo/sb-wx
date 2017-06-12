@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.crawl;
+package com.jianglibo.wx.crawl;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.config.userdetail;
+package com.jianglibo.wx.config.userdetail;
 
 import java.util.Set;
 import java.util.regex.Pattern;

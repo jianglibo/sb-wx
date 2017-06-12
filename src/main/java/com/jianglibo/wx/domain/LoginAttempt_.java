@@ -1,4 +1,4 @@
-﻿package com.jianglibo.wx.domain;
+package com.jianglibo.wx.domain;
 
 import com.jianglibo.wx.domain.ThirdPartLogin.Provider;
 import javax.annotation.Generated;

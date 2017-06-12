@@ -1,1 +1,1 @@
-﻿abcdefg
+abcdefg

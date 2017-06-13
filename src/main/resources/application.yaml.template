@@ -104,6 +104,13 @@ myapp:
       issuer: jianglibo
       principalTokenAlive: 1800000 # 30 minutes
       emailTokenAlive: 172800000 #2 days
+wxstate:
+    serverHost: jianglibo.com
+    authServerUrl: https://jianglibo.com/wxstate/
+    tunnelServerUrl: https://ws.qcloud.com
+    tunnelSignatureKey: 
+    networkProxy:
+    networkTimeout: 30000
 katharsis:
     resourcePackage: com.jianglibo.sbwx.katharsis
     domainName: https://jianglibo.com:8080

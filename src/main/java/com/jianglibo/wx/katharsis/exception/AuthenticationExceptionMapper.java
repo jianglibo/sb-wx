@@ -27,6 +27,7 @@ public class AuthenticationExceptionMapper implements ExceptionMapper<Authentica
 	@Override
 	public AuthenticationException fromErrorResponse(ErrorResponse errorResponse) {
 		ErrorData ed = errorResponse.getErrors().iterator().next();
+		@SuppressWarnings("serial")
 		AuthenticationException ae = new AuthenticationException(ed.getDetail()) {
 		};
 		return ae;

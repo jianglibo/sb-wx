@@ -28,6 +28,7 @@ public class AccessDeniedExceptionMapper implements ExceptionMapper<AccessDenied
 	@Override
 	public AccessDeniedException fromErrorResponse(ErrorResponse errorResponse) {
 		ErrorData ed =  errorResponse.getErrors().iterator().next();
+		@SuppressWarnings("serial")
 		AccessDeniedException ae = new AccessDeniedException(ed.getDetail()) {
 		};
 		return ae;

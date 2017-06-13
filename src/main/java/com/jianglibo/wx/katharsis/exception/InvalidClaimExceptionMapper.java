@@ -22,6 +22,7 @@ public class InvalidClaimExceptionMapper implements ExceptionMapper<InvalidClaim
 	@Override
 	public InvalidClaimException fromErrorResponse(ErrorResponse errorResponse) {
 		ErrorData ed =  errorResponse.getErrors().iterator().next();
+		@SuppressWarnings("serial")
 		InvalidClaimException ae = new InvalidClaimException(ed.getDetail()) {
 		};
 		return ae;

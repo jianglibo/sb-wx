@@ -20,6 +20,9 @@ import com.jianglibo.wx.config.ApplicationConfig;
 @Controller
 public class WxMiniapp {
 	
+//	/miniapp/signature=e76330857ac93dddaed9b0f4cf95438b141abea5&echostr=16322968932946230268×tamp=1497311940&nonce=971462508
+//	signature: daa35cebd01b112931e7a6a1b960a9ad5383b6f6timestamp: 1497313081nonce: 2797966136echostr: 6347584983506354171
+	
 	@Autowired
 	private ApplicationConfig appConfig;
 	
@@ -36,7 +39,11 @@ public class WxMiniapp {
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
-			pw.write(s);
+			pw.println(s);
+			pw.println("signature: " + signature);
+			pw.println("timestamp: " + timestamp);
+			pw.println("nonce: " + nonce);
+			pw.println("echostr: " + echostr);
 			e.printStackTrace(pw);
 			s = sw.toString();
 		}

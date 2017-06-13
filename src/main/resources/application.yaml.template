@@ -106,7 +106,7 @@ myapp:
       emailTokenAlive: 172800000 #2 days
 wxstate:
     serverHost: jianglibo.com
-    authServerUrl: https://jianglibo.com/wxstate/
+    authServerUrl: https://jianglibo.com/mina_auth/
     tunnelServerUrl: https://ws.qcloud.com
     tunnelSignatureKey: 
     networkProxy:

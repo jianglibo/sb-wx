@@ -29,6 +29,7 @@ import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Role;
 import com.jianglibo.wx.repository.BootUserRepository;
 import com.jianglibo.wx.repository.RoleRepository;
+import com.jianglibo.wx.util.BootUserFactory;
 import com.jianglibo.wx.util.SecurityUtil;
 import com.jianglibo.wx.vo.BootUserAuthentication;
 import com.jianglibo.wx.vo.BootUserPrincipal;
@@ -46,6 +47,8 @@ public abstract class Tbase extends M3958TsBase {
     
 	@Autowired
 	protected TestRestTemplate restTemplate;
+	
+	protected BootUserFactory bootUserFactory;
     
     @Autowired
     protected TestUtil testUtil;
@@ -108,9 +111,7 @@ public abstract class Tbase extends M3958TsBase {
     }
 
     protected BootUser createBootUser(String name,String password, String... rns) {
-    	
         List<Role> rnl = Stream.of(rns).map(Role::new).collect(Collectors.toList()); 
-        
 
         if (!rnl.contains(new Role(RoleNames.USER))) {
             rnl.add(new Role(RoleNames.USER));
@@ -131,12 +132,7 @@ public abstract class Tbase extends M3958TsBase {
         BootUser p = bootUserRepo.findByName(name);
         
         if (p == null) {
-            p = BootUser.newValidPerson();
-            p.setName(name);
-            p.setEmail(name + "@m3958.com");
-            p.setEmailVerified(true);
-            p.setPassword(passwordEncoder.encode(password));
-            p.setRoles(nroles);
+            p = bootUserFactory.getBootUserBuilder(name, name + "m3958.com", name, name).withRoles(nroles).build();
             p = bootUserRepo.save(p);
         } else {
         	p.setRoles(nroles);

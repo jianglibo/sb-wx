@@ -3,12 +3,12 @@ package com.jianglibo.wx.webapp.authorization;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WxServerApiInterface {
+public class SessionServerBodyInterface {
 	private final String interfaceName;
 	
 	private final Map<String, Object> para = new HashMap<>();
 	
-	public WxServerApiInterface(String interfaceName) {
+	public SessionServerBodyInterface(String interfaceName) {
 		super();
 		this.interfaceName = interfaceName;
 	}

@@ -19,7 +19,7 @@ import org.springframework.security.config.annotation.authentication.configurers
 
 public class BootUserManagerConfigurer<B extends ProviderManagerBuilder<B>> extends UserDetailsServiceConfigurer<B, BootUserManagerConfigurer<B>, BootUserDetailManager> {
 
-	private final List<BootUserVoBuilder> userBuilders = new ArrayList<BootUserVoBuilder>();
+	private final List<BootUserPrincipalBuilder> userBuilders = new ArrayList<BootUserPrincipalBuilder>();
 	
 	private Logger logger = LoggerFactory.getLogger(BootUserManagerConfigurer.class);
 	
@@ -29,7 +29,7 @@ public class BootUserManagerConfigurer<B extends ProviderManagerBuilder<B>> exte
     
 	@Override
 	protected void initUserDetailsService() throws Exception {
-		for (BootUserVoBuilder userBuilder : userBuilders) {
+		for (BootUserPrincipalBuilder userBuilder : userBuilders) {
 			try {
 				getUserDetailsService().createUser(userBuilder.build());
 			} catch (DataIntegrityViolationException e) {
@@ -38,8 +38,8 @@ public class BootUserManagerConfigurer<B extends ProviderManagerBuilder<B>> exte
 		}
 	}
 
-	public final BootUserVoBuilder withUser(String name) {
-		BootUserVoBuilder userBuilder = new BootUserVoBuilder(this);
+	public final BootUserPrincipalBuilder withUser(String name) {
+		BootUserPrincipalBuilder userBuilder = new BootUserPrincipalBuilder(this);
 		userBuilder.name(name);
 		this.userBuilders.add(userBuilder);
 		return userBuilder;

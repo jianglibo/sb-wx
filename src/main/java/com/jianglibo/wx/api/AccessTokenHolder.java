@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.jianglibo.wx.config.ApplicationConfig;
@@ -39,8 +40,12 @@ public class AccessTokenHolder {
 	@PostConstruct
 	public void pc() {
 		this.url = String.format(tpl, appConfig.getAppId(), appConfig.getAppSecret());
-		ato = restTemplate.getForObject(url, AccessTokenObject.class);
-		nextRefreshTime = Instant.now().getEpochSecond() + ato.getExpires_in();
+		try {
+			ato = restTemplate.getForObject(url, AccessTokenObject.class);
+			nextRefreshTime = Instant.now().getEpochSecond() + ato.getExpires_in();
+		} catch (RestClientException e) {
+			logger.error("---get wx token failed--- {}", e.getMessage());
+		}
 	}
 	
 	public synchronized String getAccessToken() {

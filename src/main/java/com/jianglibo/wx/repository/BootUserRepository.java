@@ -12,5 +12,7 @@ public interface BootUserRepository extends RepositoryBase<BootUser> {
     BootUser findByMobile(@Param("mobile") String mobile);
 
     BootUser findByName(@Param("name") String name);
+    
+    BootUser findByOpenId(@Param("openId") String openId);
 
 }

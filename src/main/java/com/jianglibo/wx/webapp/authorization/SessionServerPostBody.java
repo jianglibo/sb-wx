@@ -2,13 +2,13 @@ package com.jianglibo.wx.webapp.authorization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class WxServerApiBody {
+public class SessionServerPostBody {
 	
 	private int version = 1;
 	private String componentName = "MA";
 
 	@JsonProperty(value="interface")
-	private WxServerApiInterface wxinterface;
+	private SessionServerBodyInterface wxinterface;
 	
 	public int getVersion() {
 		return version;
@@ -26,11 +26,11 @@ public class WxServerApiBody {
 		this.componentName = componentName;
 	}
 
-	public WxServerApiInterface getWxinterface() {
+	public SessionServerBodyInterface getWxinterface() {
 		return wxinterface;
 	}
 
-	public void setWxinterface(WxServerApiInterface wxinterface) {
+	public void setWxinterface(SessionServerBodyInterface wxinterface) {
 		this.wxinterface = wxinterface;
 	}
 }

@@ -46,7 +46,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 	@Override
 	public UserDto createNew(UserDto dto) {
 		validate(dto, OnCreateGroup.class, Default.class);
-		BootUserPrincipal bu = new BootUserPrincipal(dto);
+		BootUserPrincipal bu = new BootUserPrincipal(null);
 		return dto.fromEntity(bootUserDetailManager.createUserAndReturn(bu));
 	}
 	
@@ -64,7 +64,6 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			return dto.fromEntity(entity);
 		}
 	}
-
 
 	@Override
 	protected UserDtoList findAllWithQuerySpec(QuerySpec querySpec) {

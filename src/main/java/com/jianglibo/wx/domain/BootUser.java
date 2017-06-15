@@ -1,12 +1,10 @@
 package com.jianglibo.wx.domain;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,7 +12,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -23,7 +20,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Proxy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import com.jianglibo.wx.vo.BootUserPrincipal;
 
 @Entity
@@ -48,9 +44,6 @@ public class BootUser extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender = Gender.FEMALE;
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bootUser", cascade = CascadeType.REMOVE)
-    private Set<ThirdPartLogin> thirdConns = new HashSet<>();
-    
     @NotNull
     @Column(nullable = false)
     private String name;
@@ -63,6 +56,8 @@ public class BootUser extends BaseEntity {
     @JsonIgnore
     private String password;
 
+    @NotNull
+    @Column(nullable = false)
     private String mobile;
 
     private boolean accountNonExpired;
@@ -74,44 +69,75 @@ public class BootUser extends BaseEntity {
     private boolean enabled;
 
     @Column(nullable = false)
+    @NotNull
     private String openId;
+    
+    private String city;
+    
+    private String country;
+    
+    private String language;
+    
+    private String province;
+    
+    public String getCity() {
+		return city;
+	}
 
-    @ManyToMany(fetch = FetchType.EAGER)
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "BOOTUSER_ROLES")
     private Set<Role> roles = new HashSet<>();
-
-    public static BootUser newValidPerson() {
-        BootUser p = new BootUser();
-        p.setAccountNonExpired(true);
-        p.setAccountNonLocked(true);
-        p.setCreatedAt(Date.from(Instant.now()));
-        p.setCredentialsNonExpired(true);
-        p.setEnabled(true);
-        return p;
-    }
 
     public BootUser() {
     }
 
     
     /**
-     * @param bootUserVo
+     * @param bootUserPrincipal
      * @param encodedPwd
      */
-    public BootUser(BootUserPrincipal bootUserVo, String encodedPwd) {
-        setName(bootUserVo.getUsername());
-        setDisplayName(bootUserVo.getDisplayName());
-        setAvatar(bootUserVo.getAvatar());
-        setEmail(bootUserVo.getEmail());
-        setMobile(bootUserVo.getMobile());
+    public BootUser(BootUserPrincipal bootUserPrincipal, String encodedPwd) {
+        setName(bootUserPrincipal.getUsername());
+        setDisplayName(bootUserPrincipal.getUsername());
+        setAvatar(bootUserPrincipal.getAvatar());
+        setEmail(bootUserPrincipal.getEmail());
+        setMobile(bootUserPrincipal.getMobile());
         setPassword(encodedPwd);
-        setAccountNonExpired(bootUserVo.isAccountNonExpired());
-        setAccountNonLocked(bootUserVo.isAccountNonLocked());
-        setCredentialsNonExpired(bootUserVo.isCredentialsNonExpired());
-        setEnabled(bootUserVo.isEnabled());
+        setAccountNonExpired(bootUserPrincipal.isAccountNonExpired());
+        setAccountNonLocked(bootUserPrincipal.isAccountNonLocked());
+        setCredentialsNonExpired(bootUserPrincipal.isCredentialsNonExpired());
+        setEnabled(bootUserPrincipal.isEnabled());
         setCreatedAt(new Date());
-        setEmailVerified(bootUserVo.isEmailVerified());
-        setMobileVerified(bootUserVo.isMobileVerified());
+        setEmailVerified(bootUserPrincipal.isEmailVerified());
+        setMobileVerified(bootUserPrincipal.isMobileVerified());
     }
 
     @PrePersist
@@ -237,14 +263,6 @@ public class BootUser extends BaseEntity {
 
     public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public Set<ThirdPartLogin> getThirdConns() {
-        return thirdConns;
-    }
-
-    public void setThirdConns(Set<ThirdPartLogin> thirdConns) {
-        this.thirdConns = thirdConns;
     }
 
 	public static enum Gender {

@@ -13,10 +13,7 @@ import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.BootUser.Gender;
 
-import io.katharsis.resource.annotations.JsonApiRelation;
 import io.katharsis.resource.annotations.JsonApiResource;
-import io.katharsis.resource.annotations.LookupIncludeBehavior;
-import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.BOOT_USER)
 @DtoToEntity(entityClass=BootUser.class)
@@ -37,13 +34,52 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     private boolean accountNonLocked;
 
     private boolean credentialsNonExpired;
+    
+    private String openId;
 
     private boolean enabled;
     
     private Gender gender;
     
-    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
-    private List<MySiteDto> mysites = new ArrayList<>();
+    private String city;
+    
+    private String country;
+    
+    private String language;
+    
+    private String province;
+    
+    public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
     
     @NotNull
     @Size(min=6, max=36)
@@ -225,11 +261,11 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 		return entity;
 	}
 
-	public List<MySiteDto> getMysites() {
-		return mysites;
+	public String getOpenId() {
+		return openId;
 	}
 
-	public void setMysites(List<MySiteDto> mysites) {
-		this.mysites = mysites;
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 }

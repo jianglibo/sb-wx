@@ -59,7 +59,6 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
     public WebSecConfig() {
         super(true);
     }
-    
 
     @Override
     @Bean
@@ -72,11 +71,7 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
         // @formatter:off
         BootUserManagerConfigurer<AuthenticationManagerBuilder> pc = auth.apply(new BootUserManagerConfigurer<AuthenticationManagerBuilder>(bootUserManager)).passwordEncoder(passwordEncoder);
         pc.withUser("admin")
-        	.accountExpired(false)
-        	.accountLocked(false)
         	.authorities(RoleNames.ROLE_ADMINISTRATOR)
-        	.credentialsExpired(false)
-        	.disabled(false)
         	.displayName("admin")
         	.email("admin@localhost.com")
         	.emailVerified(true)
@@ -117,7 +112,7 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
 		.anonymous().and()
 		.servletApi().and()
 		.authorizeRequests()
-        .antMatchers(basePath + "/**", "/login", "/", "/static/**", "/**", "/wxentrance", "/miniapp", "/miniappd").permitAll()
+        .antMatchers(basePath + "/**", "/login", "/", "/static/**", "/**", "/wxentrance", "/miniapp", "/wxlogin").permitAll()
         .anyRequest().authenticated().and()
 //        .formLogin().loginPage("/login").and()
 //        .rememberMe().and()

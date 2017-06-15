@@ -1,6 +1,6 @@
 package com.jianglibo.wx.webapp.authorization;
 
-public class WxServerApiBodyBuilderFactory {
+public class SessionServerBodyBuilderFactory {
 
 	public static IdskeyBodyBuilder getIdskeyBodyBuilder() {
 		return new IdskeyBodyBuilder();
@@ -12,8 +12,8 @@ public class WxServerApiBodyBuilderFactory {
 	
 	
 	public static class IdskeyBodyBuilder {
-		private WxServerApiBody sab;
-		private WxServerApiInterface idskey = new WxServerApiInterface("qcloud.cam.id_skey");
+		private SessionServerPostBody sab;
+		private SessionServerBodyInterface idskey = new SessionServerBodyInterface("qcloud.cam.id_skey");
 		
 		public IdskeyBodyBuilder withCode(String code) {
 			idskey.getPara().put("code", code);
@@ -30,16 +30,16 @@ public class WxServerApiBodyBuilderFactory {
 			return this;
 		}
 		
-		public WxServerApiBody build() {
-			sab = new WxServerApiBody();
+		public SessionServerPostBody build() {
+			sab = new SessionServerPostBody();
 			sab.setWxinterface(idskey);
 			return sab;
 		}
 	}
 	
 	public static class AuthBodyBuilder {
-		private WxServerApiBody sab;
-		private WxServerApiInterface idskey = new WxServerApiInterface("qcloud.cam.auth");
+		private SessionServerPostBody sab;
+		private SessionServerBodyInterface idskey = new SessionServerBodyInterface("qcloud.cam.auth");
 		
 		public AuthBodyBuilder withId(String id) {
 			idskey.getPara().put("id", id);
@@ -51,8 +51,8 @@ public class WxServerApiBodyBuilderFactory {
 			return this;
 		}
 		
-		public WxServerApiBody build() {
-			sab = new WxServerApiBody();
+		public SessionServerPostBody build() {
+			sab = new SessionServerPostBody();
 			sab.setWxinterface(idskey);
 			return sab;
 		}

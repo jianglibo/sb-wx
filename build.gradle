@@ -111,6 +111,10 @@ dependencies {
 
     // https://mvnrepository.com/artifact/io.katharsis/katharsis-validation
     compile group: 'io.katharsis', name: 'katharsis-validation', version: '3.0.1'
+    
+    // https://mvnrepository.com/artifact/org.json/json
+	compile group: 'org.json', name: 'json', version: '20170516'
+    
 
 	
 	// https://mvnrepository.com/artifact/io.zipkin.brave/brave-apache-http-interceptors

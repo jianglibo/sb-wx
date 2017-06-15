@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletOutputStream;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
@@ -29,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jianglibo.wx.config.ApplicationConfig;
 import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.Role;
+import com.jianglibo.wx.util.BootUserFactory;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.BootUser.Gender;
 import com.jianglibo.wx.vo.BootUserPrincipal;
@@ -47,6 +46,9 @@ public class JwtUtil implements InitializingBean {
 	
 	@Autowired
 	private ApplicationConfig applicationConfig;
+	
+	@Autowired
+	private BootUserFactory bootUserFactory;
 	
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -82,26 +84,10 @@ public class JwtUtil implements InitializingBean {
 		Gender gender = Gender.valueOf(gd);
 		String ids = decodedJwt.getClaim("id").asString();
 		long id = Long.valueOf(ids);
-		Collection<? extends GrantedAuthority> authorities = decodedJwt.getClaim("authorities").asList(String.class).stream().map(Role::new).collect(Collectors.toSet());
-		
-		return new BootUserPrincipal(
-				  decodedJwt.getClaim("username").asString()
-				, decodedJwt.getClaim("displayName").asString()
-				, decodedJwt.getClaim("email").asString()
-				, decodedJwt.getClaim("mobile").asString()
-				, ""
-				, true
-				, true
-				, true
-				, true
-				, decodedJwt.getClaim("avatar").asString()
-				, authorities
-				, true
-				, true
-				, gender
-				, new HashSet<>()
-				, id
-				, "");
+		Collection<Role> authorities = decodedJwt.getClaim("authorities").asList(String.class).stream().map(Role::new).collect(Collectors.toSet());
+		BootUser bu = bootUserFactory.getBootUserBuilder(decodedJwt.getClaim("username").asString(), decodedJwt.getClaim("email").asString(), decodedJwt.getClaim("mobile").asString(), decodedJwt.getClaim("openId").asString())
+		.withRoles(authorities).id(id).withGender(gender).build();
+		return new BootUserPrincipal(bu);
 	}
 	
 	public String regenToken(DecodedJWT decodedJwt, BootUserPrincipal principal) {
@@ -135,10 +121,10 @@ public class JwtUtil implements InitializingBean {
 		        .sign(algorithm);
 	}
 	
-//	public BootUserPrincipal verifyPrincipalToken(String token) {
-//        DecodedJWT jwt = verifier.verify(token);
-//        return toPrincipal(jwt);
-//	}
+	public BootUserPrincipal verifyPrincipalToken(String token) {
+        DecodedJWT jwt = verifier.verify(token);
+        return toPrincipal(jwt);
+	}
 	
 	public DecodedJWT verifyEmailToken(String token) {
         return verifier.verify(token);

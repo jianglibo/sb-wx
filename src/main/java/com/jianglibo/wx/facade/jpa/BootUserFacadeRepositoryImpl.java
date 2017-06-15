@@ -67,4 +67,9 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 		}
 		return getRepository().save(user);
 	}
+
+	@Override
+	public BootUser findByOpenId(String openId) {
+		return getRepository().findByOpenId(openId);
+	}
 }

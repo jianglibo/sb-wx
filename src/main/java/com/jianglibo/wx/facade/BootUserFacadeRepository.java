@@ -14,5 +14,7 @@ public interface BootUserFacadeRepository extends FacadeRepositoryBase<BootUser>
 	BootUser updatePassword(Long id, String encodedPassword);
 	
 	BootUser patch(BootUser user, UserDto userDto);
+	
+	BootUser findByOpenId(String openId);
 
 }

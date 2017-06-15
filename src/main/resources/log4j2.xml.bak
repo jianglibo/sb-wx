@@ -1,26 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="DEBUG">
-  <Appenders>
-    <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-    </Console>
-  </Appenders>
-  <Loggers>
-    <Root level="error">
-      <AppenderRef ref="Console"/>
-    </Root>
-    
-    <Logger name="hello" level="debug">
-      <AppenderRef ref="Console"/>
-    </Logger>
-
-    <Logger name="org.apache.nutch.util" level="debug">
-      <AppenderRef ref="Console"/>
-    </Logger>
-    
-   <Logger name="org.springframework.security.web.access" level="debug">
-      <AppenderRef ref="Console"/>
-    </Logger>
-
-  </Loggers>
-</Configuration>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml" />
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

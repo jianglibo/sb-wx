@@ -127,8 +127,6 @@ public class BootUserDetailManager implements UserDetailsManager {
 
     @Override
     public void updateUser(UserDetails user) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override

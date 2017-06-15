@@ -20,8 +20,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
-import com.jianglibo.wx.domain.Site;
-import com.jianglibo.wx.katharsis.dto.MySiteDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.BootUserRepository;
 
@@ -42,17 +40,11 @@ public class TestUserApi  extends KatharsisBase {
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		BootUser admin1 = userRepository.findByName(USER_T1);
-		if (admin1 != null) {
-			loginAsAdmin();
-			userRepository.delete(admin1);
-			logout();
-		}
 		long c= userRepository.count();
+		assertThat(c, equalTo(1L));
 		ResponseEntity<String> response = postItem(jwtToken);
 		writeDto(response, getResourceName(), ActionNames.POST_RESULT);
 		assertThat(response.getStatusCodeValue(), equalTo(HttpStatus.CREATED.value()));
-		assertThat(userRepository.count() - 1, equalTo(c));
 		UserDto newUser = getOne(response.getBody(), UserDto.class);
 		assertThat(newUser.getName(), equalTo(USER_T1));
 		assertTrue("password should be empty.", newUser.getPassword() == null || newUser.getPassword().isEmpty());
@@ -61,44 +53,6 @@ public class TestUserApi  extends KatharsisBase {
 		writeDto(response, getResourceName(), ActionNames.GET_ONE);
 		response = deleteByExchange(jwtToken, getItemUrl(newUser.getId()));
 		assertThat(userRepository.count(), equalTo(c));
-	}
-	
-//	@Test
-//	public void tAddSiteToUser() throws IOException {
-//		BootUser bu = loginAsAdmin();
-//		response = addRelation("mysites-postcontent", "mysites", bu.getId(), jwtToken);
-//		writeDto(response, getResourceName(), "add-mysites-relation-result");
-//	}
-	
-	@Test
-	public void getMysitesRelationsSelf() throws Exception {
-		BootUser bu = loginAsAdmin();
-		Site site = createSite();
-		IntStream.range(0, 10).forEach(i -> {
-			createMySite(bu, site);
-		});
-		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/relationships/mysites");
-		writeDto(response, JsonApiResourceNames.BOOT_USER, "getmysitesrelations-self");
-		List<MySiteDto> mysites = getList(response, MySiteDto.class);
-		assertThat(mysites.size(), equalTo(10));
-		
-		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/relationships/mysites?page[limit]=1&page[offset]=0");
-		writeDto(response, JsonApiResourceNames.BOOT_USER, "getmysitesrelations-self");
-		mysites = getList(response, MySiteDto.class);
-		assertThat(mysites.size(), equalTo(1));
-	}
-	
-	@Test
-	public void getMysitesRelationsRelated() throws Exception {
-		BootUser bu = loginAsAdmin();
-		Site site = createSite();
-		IntStream.range(0, 10).forEach(i -> {
-			createMySite(bu, site);
-		});
-		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/mysites");
-		writeDto(response, JsonApiResourceNames.BOOT_USER, "getmysitesrelations-related");
-		List<MySiteDto> mysites = getList(response, MySiteDto.class);
-		assertThat(mysites.size(), equalTo(10));
 	}
 	
 	@Test

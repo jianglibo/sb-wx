@@ -46,7 +46,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 	@Override
 	public UserDto createNew(UserDto dto) {
 		validate(dto, OnCreateGroup.class, Default.class);
-		BootUserPrincipal bu = new BootUserPrincipal(null);
+		BootUserPrincipal bu = new BootUserPrincipal(dto);
 		return dto.fromEntity(bootUserDetailManager.createUserAndReturn(bu));
 	}
 	

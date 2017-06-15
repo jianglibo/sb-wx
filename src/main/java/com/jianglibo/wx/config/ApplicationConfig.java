@@ -26,6 +26,8 @@ public class ApplicationConfig implements InitializingBean {
 	
 	private String miniAppId;
 	
+	private boolean notAutoFetchWxToken;
+	
 	private String appId;
 	
 	private String appSecret;
@@ -272,6 +274,15 @@ public class ApplicationConfig implements InitializingBean {
 
 	public void setMiniAppId(String miniAppId) {
 		this.miniAppId = miniAppId;
+	}
+
+
+	public boolean isNotAutoFetchWxToken() {
+		return notAutoFetchWxToken;
+	}
+
+	public void setNotAutoFetchWxToken(boolean notAutoFetchWxToken) {
+		this.notAutoFetchWxToken = notAutoFetchWxToken;
 	}
 
 

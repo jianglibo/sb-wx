@@ -28,11 +28,8 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.jianglibo.wx.config.ApplicationConfig;
 import com.jianglibo.wx.config.KatharsisModuleConfig;
-import com.jianglibo.wx.facade.CrawlCatFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.LoginAttemptDto;
-import com.jianglibo.wx.katharsis.dto.MySiteDto;
 import com.jianglibo.wx.katharsis.dto.RoleDto;
-import com.jianglibo.wx.katharsis.dto.SiteDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 
 import io.katharsis.client.KatharsisClient;
@@ -56,11 +53,6 @@ public class Application {
     }
 
     
-	@Bean("watcherExecutor")
-	public ThreadPoolTaskExecutor watcherExecutor(ApplicationConfig applicationConfig, CrawlCatFacadeRepository crawlCatRepository) {
-		ThreadPoolTaskExecutor tple = new ThreadPoolTaskExecutor();
-		return tple;
-	}
     
     @Bean
     public KatharsisClient katharsisClient(@Value("${katharsis.domainName}") String domainName, @Value("${katharsis.pathPrefix}") String pathPrefix) {
@@ -74,10 +66,8 @@ public class Application {
 			}
 		});
     	// load resource
-    	kc.getRepositoryForType(SiteDto.class);
     	kc.getRepositoryForType(UserDto.class);
     	kc.getRepositoryForType(RoleDto.class);
-    	kc.getRepositoryForType(MySiteDto.class);
     	kc.getRepositoryForType(LoginAttemptDto.class);
     	return kc;
     }

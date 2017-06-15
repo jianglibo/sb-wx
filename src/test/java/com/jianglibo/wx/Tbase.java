@@ -17,7 +17,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -25,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jianglibo.wx.config.ApplicationConfig;
+import com.jianglibo.wx.config.userdetail.BootUserDetailManager;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Role;
 import com.jianglibo.wx.repository.BootUserRepository;
@@ -48,7 +48,11 @@ public abstract class Tbase extends M3958TsBase {
 	@Autowired
 	protected TestRestTemplate restTemplate;
 	
+	@Autowired
 	protected BootUserFactory bootUserFactory;
+	
+	@Autowired
+	private BootUserDetailManager bootUserDetailManager;
     
     @Autowired
     protected TestUtil testUtil;
@@ -64,9 +68,6 @@ public abstract class Tbase extends M3958TsBase {
 
     @Autowired
     protected RoleRepository roleRepo;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
     
     @Autowired
     protected ObjectMapper objectMapper;
@@ -132,8 +133,7 @@ public abstract class Tbase extends M3958TsBase {
         BootUser p = bootUserRepo.findByName(name);
         
         if (p == null) {
-            p = bootUserFactory.getBootUserBuilder(name, name + "m3958.com", name, name).withRoles(nroles).build();
-            p = bootUserRepo.save(p);
+            p = bootUserDetailManager.createUserAndReturn(new BootUserPrincipal(bootUserFactory.getBootUserBuilder(name, name + "m3958.com", name, name).enable().withPassword(password).withRoles(nroles).build()));
         } else {
         	p.setRoles(nroles);
         	p = bootUserRepo.save(p);

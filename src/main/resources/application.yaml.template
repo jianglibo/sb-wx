@@ -197,6 +197,7 @@ myapp:
     antExec: G:/apache-ant-1.9.6/bin/ant.bat
     tProjectRoot: e:/sbwxRoot/buildRoot/a
     zkQuoram: s62.host.name,s63.host.name,s64.host.name,s65.host.name,s66.host.name
+    notAutoFetchWxToken: true
     jwtConfig:
       file: d:\jwtsecret.txt
       issuer: jianglibo

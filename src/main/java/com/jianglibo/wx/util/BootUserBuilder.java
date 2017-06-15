@@ -24,6 +24,7 @@ public class BootUserBuilder {
         bu.setEmail(email);
         bu.setMobile(mobile);
         bu.setOpenId(openId);
+        bu.setPassword("");
 	}
 	
 	protected BootUserBuilder(RoleFacadeRepository roleRepository, UserDto userDto) {
@@ -36,7 +37,7 @@ public class BootUserBuilder {
         .withAvatar(userDto.getAvatar())
         .withDisplayName(userDto.getDisplayName())
         .withGender(userDto.getGender())
-        .withPassword(userDto.getPassword())
+        .withPassword(userDto.getPassword() == null ? "" : userDto.getPassword())
         .withWxProperties(userDto.getCity(), userDto.getCountry(), userDto.getLanguage(), userDto.getProvince());
 	}
 	

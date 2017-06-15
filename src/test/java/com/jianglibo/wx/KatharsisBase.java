@@ -31,13 +31,6 @@ import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.config.StatelessCSRFFilter;
 import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.BootUser;
-import com.jianglibo.wx.domain.CrawlCat;
-import com.jianglibo.wx.domain.MySite;
-import com.jianglibo.wx.domain.Site;
-import com.jianglibo.wx.domain.Site.SiteProtocol;
-import com.jianglibo.wx.repository.CrawlCatRepository;
-import com.jianglibo.wx.repository.MySiteRepository;
-import com.jianglibo.wx.repository.SiteRepository;
 import com.jianglibo.wx.vo.RoleNames;
 
 import io.katharsis.client.KatharsisClient;
@@ -70,15 +63,7 @@ public abstract class KatharsisBase extends Tbase {
 	@Autowired
 	protected KatharsisBoot kboot;
 	
-	@Autowired
-	protected SiteRepository siteRepository;
-	
-	@Autowired
-	protected MySiteRepository mySiteRepository;
-	
-	@Autowired
-	protected CrawlCatRepository ccrepository;
-	
+
 	@Autowired
 	protected KatharsisClient katharsisClient;
 	
@@ -122,18 +107,9 @@ public abstract class KatharsisBase extends Tbase {
 	}
 	
 	public void deleteAllUsers() {
-		mySiteRepository.deleteAll();
 		bootUserRepo.deleteAll();
 	}
 	
-	public void deleteAllSitesAndCrawlCats() {
-		List<MySite> mysites = mySiteRepository.findAll();
-		mySiteRepository.delete(mysites);
-		List<Site> sites = siteRepository.findAll();
-		siteRepository.delete(sites);
-		List<CrawlCat> ccc = ccrepository.findAll();
-		ccrepository.delete(ccc);
-	}
 	
 	public void writeDto(String content, String resourceName, String action) {
 		try {
@@ -147,63 +123,6 @@ public abstract class KatharsisBase extends Tbase {
 	
 	public void writeDto(ResponseEntity<String> re, String resourceName, String action) {
 		writeDto(re.getBody(), resourceName, action);
-	}
-	
-	public Site createSite() {
-		CrawlCat crawlCat = new CrawlCat();
-		crawlCat.setName("c" + new Random().nextLong());
-		crawlCat.setDescription("dd");
-		crawlCat = ccrepository.save(crawlCat);
-		Site site = new Site();
-		site.setProtocol(SiteProtocol.HTTP);
-		site.setDomainName("a" + new Random().nextLong() + ".b.com");
-		site.setCrawlCat(crawlCat);
-		site = siteRepository.save(site);
-		logout();
-		return site;
-	}
-	
-	
-	public Site createSite(CrawlCat crawlCat) {
-		Site site = new Site();
-		site.setProtocol(SiteProtocol.HTTP);
-		site.setDomainName("a.b.com");
-		site.setCrawlCat(crawlCat);
-		site = siteRepository.save(site);
-		return site;
-	}
-	
-	public MySite createMySite() {
-		BootUser bu = loginAsAdmin();
-		CrawlCat crawlCat = new CrawlCat();
-		crawlCat.setName("acc");
-		crawlCat.setDescription("dd");
-		crawlCat = ccrepository.save(crawlCat);
-		
-		Site site = new Site();
-		site.setProtocol(SiteProtocol.HTTP);
-		site.setDomainName("a.b.com");
-		site.setCrawlCat(crawlCat);
-		site = siteRepository.save(site);
-		
-		MySite mysite = new MySite();
-		mysite.setSite(site);
-		mysite.setCbsecret("secret");
-		mysite.setCburl("aaa");
-		mysite.setCburlVerified(true);
-		mysite.setCreator(bu);
-		return mySiteRepository.save(mysite);
-	}
-	
-	public MySite createMySite(BootUser bu, Site site) {
-		MySite mysite = new MySite();
-		mysite.setHomepage("http://hp" + new Random().nextLong() + ".c.com");
-		mysite.setSite(site);
-		mysite.setCbsecret("secret");
-		mysite.setCburl("aaa");
-		mysite.setCburlVerified(true);
-		mysite.setCreator(bu);
-		return mySiteRepository.save(mysite);
 	}
 	
 	public ResponseEntity<String> requestForBody(String jwtToken, String url) throws IOException {

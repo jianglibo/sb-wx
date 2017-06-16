@@ -6,8 +6,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.IntStream;
 
 import org.junit.Before;
 import org.junit.Test;

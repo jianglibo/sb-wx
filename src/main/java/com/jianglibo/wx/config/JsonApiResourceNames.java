@@ -6,6 +6,10 @@ public class JsonApiResourceNames {
 	public static final String BOOT_USER = "users";
 	public static final String ROLE = "roles";
 	
+	public static final String POST = "posts";
+	
+	public static final String MEDIUM = "medium";
+	
 	public static final String CRAWL_CAT = "crawlCats";
 	public static final String CRAWL_FRE = "crawlFres";
 	public static final String SITE = "sites";

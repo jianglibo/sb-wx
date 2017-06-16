@@ -22,32 +22,36 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 	public static interface OnCreateGroup {}
 	
     private String displayName;
-
     private String avatar;
-
     private boolean emailVerified;
-
     private boolean mobileVerified;
-    
     private boolean accountNonExpired;
-
     private boolean accountNonLocked;
-
     private boolean credentialsNonExpired;
-    
     private String openId;
-
     private boolean enabled;
-    
     private Gender gender;
-    
     private String city;
-    
     private String country;
-    
     private String language;
-    
     private String province;
+    @NotNull
+    @Size(min=6, max=36)
+    private String name;
+
+    @NotNull
+    @Size(min=6, max=36)
+    @Email
+    private String email;
+
+    @NotNull
+    @Size(min=6, max=36, groups=OnCreateGroup.class)
+    private String password;
+
+    @NotNull
+    @Size(min=8, max=16)
+    private String mobile;
+
     
     public String getCity() {
 		return city;
@@ -80,23 +84,6 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 	public void setProvince(String province) {
 		this.province = province;
 	}
-    
-    @NotNull
-    @Size(min=6, max=36)
-    private String name;
-
-    @NotNull
-    @Size(min=6, max=36)
-    @Email
-    private String email;
-
-    @NotNull
-    @Size(min=6, max=36, groups=OnCreateGroup.class)
-    private String password;
-
-    @NotNull
-    @Size(min=8, max=16)
-    private String mobile;
 
     private List<RoleDto> roles = new ArrayList<>();
     
@@ -107,25 +94,6 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 	public void setRoles(List<RoleDto> roles) {
 		this.roles = roles;
 	}
-
-	@Override
-    public UserDto fromEntity(BootUser bu) {
-    	setAccountNonExpired(bu.isAccountNonExpired());
-    	setAccountNonLocked(bu.isAccountNonLocked());
-    	setAvatar(bu.getAvatar());
-    	setCredentialsNonExpired(bu.isCredentialsNonExpired());
-    	setDisplayName(bu.getDisplayName());
-    	setEmail(bu.getEmail());
-    	setEmailVerified(bu.isEmailVerified());
-    	setEnabled(bu.isEnabled());
-    	setGender(bu.getGender());
-    	setId(bu.getId());
-    	setMobile(bu.getMobile());
-    	setMobileVerified(bu.isMobileVerified());
-    	setName(bu.getName());
-    	setPassword(null);
-    	return this;
-    }
 
 	public String getDisplayName() {
 		return displayName;
@@ -231,35 +199,35 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 		this.enabled = enabled;
 	}
 
-	@Override
-	public BootUser patch(BootUser entity) {
-		entity.setAccountNonExpired(isAccountNonExpired());
-		entity.setAccountNonLocked(isAccountNonLocked());
-		entity.setCredentialsNonExpired(isCredentialsNonExpired());
-		entity.setEmailVerified(isEmailVerified());
-		entity.setMobileVerified(isMobileVerified());
-		entity.setEnabled(isEnabled());
-		
-		entity.setAvatar(getAvatar());
-		entity.setDisplayName(getDisplayName());
-		entity.setEmail(getEmail());
-		entity.setGender(getGender());
-		entity.setId(getId());
-		entity.setMobile(getMobile());
-		entity.setName(getName());
-		return entity;
-	}
-	
-	public BootUser patchLeaveStatusUnChanged(BootUser entity) {
-		entity.setAvatar(getAvatar());
-		entity.setDisplayName(getDisplayName());
-		entity.setEmail(getEmail());
-		entity.setGender(getGender());
-		entity.setId(getId());
-		entity.setMobile(getMobile());
-		entity.setName(getName());
-		return entity;
-	}
+//	@Override
+//	public BootUser patch(BootUser entity) {
+//		entity.setAccountNonExpired(isAccountNonExpired());
+//		entity.setAccountNonLocked(isAccountNonLocked());
+//		entity.setCredentialsNonExpired(isCredentialsNonExpired());
+//		entity.setEmailVerified(isEmailVerified());
+//		entity.setMobileVerified(isMobileVerified());
+//		entity.setEnabled(isEnabled());
+//		
+//		entity.setAvatar(getAvatar());
+//		entity.setDisplayName(getDisplayName());
+//		entity.setEmail(getEmail());
+//		entity.setGender(getGender());
+//		entity.setId(getId());
+//		entity.setMobile(getMobile());
+//		entity.setName(getName());
+//		return entity;
+//	}
+//	
+//	public BootUser patchLeaveStatusUnChanged(BootUser entity) {
+//		entity.setAvatar(getAvatar());
+//		entity.setDisplayName(getDisplayName());
+//		entity.setEmail(getEmail());
+//		entity.setGender(getGender());
+//		entity.setId(getId());
+//		entity.setMobile(getMobile());
+//		entity.setName(getName());
+//		return entity;
+//	}
 
 	public String getOpenId() {
 		return openId;

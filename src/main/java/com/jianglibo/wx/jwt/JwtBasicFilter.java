@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jianglibo.wx.vo.BootUserAuthentication;
 import com.jianglibo.wx.vo.BootUserPrincipal;
+import com.jianglibo.wx.webapp.authorization.WxConstants;
 
 /**
  * copy some code from @see {@link BasicAuthenticationFilter}
@@ -41,9 +42,9 @@ public class JwtBasicFilter implements Filter {
 
 	private static Logger logger = LoggerFactory.getLogger(JwtBasicFilter.class);
 	
-	private Pattern pathPattern;
+	public static Pattern pathPattern;
 	
-	private Pattern negPathPattern;
+	public static Pattern negPathPattern;
 	
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -62,7 +63,6 @@ public class JwtBasicFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		logger.debug("filter_order");
 		if (req instanceof HttpServletRequest && res instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;
@@ -85,7 +85,9 @@ public class JwtBasicFilter implements Filter {
     private void processBasicLogin(HttpServletRequest request, HttpServletResponse response) throws AccessDeniedException, IOException {
         String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith("Bearer ")) {
-            throw new AccessDeniedException("no jwt header.");
+        	return;
+        	// don't terminate procedure, cause wxsession validate follows.
+        	// throw new AccessDeniedException("no jwt header.");
         }
         String jwttoken = header.substring(7);
         SecurityContextHolder.clearContext();

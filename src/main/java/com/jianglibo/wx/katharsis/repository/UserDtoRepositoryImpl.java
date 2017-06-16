@@ -1,7 +1,6 @@
 package com.jianglibo.wx.katharsis.repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.groups.Default;
 
@@ -12,10 +11,11 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.config.userdetail.BootUserDetailManager;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
-import com.jianglibo.wx.katharsis.dto.RoleDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.UserDto.OnCreateGroup;
+import com.jianglibo.wx.katharsis.dto.converter.UserDtoConverter;
 import com.jianglibo.wx.katharsis.repository.UserDtoRepository.UserDtoList;
+import com.jianglibo.wx.util.UuidUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 import com.jianglibo.wx.vo.BootUserPrincipal;
 
@@ -30,24 +30,19 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
     private PasswordEncoder passwordEncoder;
     
     @Autowired
-	public UserDtoRepositoryImpl(BootUserFacadeRepository bootUserRepository, BootUserDetailManager bootUserDetailManager) {
-		super(UserDto.class, UserDtoList.class, BootUser.class, bootUserRepository);
+	public UserDtoRepositoryImpl(BootUserFacadeRepository bootUserRepository, BootUserDetailManager bootUserDetailManager, UserDtoConverter converter) {
+		super(UserDto.class, UserDtoList.class, BootUser.class, bootUserRepository, converter);
 		this.bootUserDetailManager = bootUserDetailManager;
 	}
     
-    
-    @Override
-    public UserDto convertToDto(BootUser entity) {
-    	UserDto user = super.convertToDto(entity);
-    	user.setRoles(entity.getRoles().stream().map(r -> new RoleDto().fromEntity(r)).collect(Collectors.toList()));
-    	return user;
-    }
-	
 	@Override
 	public UserDto createNew(UserDto dto) {
 		validate(dto, OnCreateGroup.class, Default.class);
+		if (dto.getOpenId() == null || dto.getOpenId().isEmpty()) {
+			dto.setOpenId(UuidUtil.uuidNoDash());
+		}
 		BootUserPrincipal bu = new BootUserPrincipal(dto);
-		return dto.fromEntity(bootUserDetailManager.createUserAndReturn(bu));
+		return getConverter().entity2Dto(bootUserDetailManager.createUserAndReturn(bu));
 	}
 	
 	@Override
@@ -61,7 +56,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			validate(dto);
 			BootUser entity = getRepository().findOne(dto.getId(), false);
 			entity = getRepository().patch(entity, dto);
-			return dto.fromEntity(entity);
+			return getConverter().entity2Dto(entity);
 		}
 	}
 

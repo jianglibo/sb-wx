@@ -74,7 +74,6 @@ public class BootUserDetailManager implements UserDetailsManager {
     
     public BootUser createUserAndReturn(UserDetails bootUserVo) {
         BootUserPrincipal bootUserVoLocal = (BootUserPrincipal) bootUserVo;
-
         // maybe is for the vary first run.
         final boolean initRun = SecurityUtil.isAuthenticationNull() && roleRepo.count() == 0;
         

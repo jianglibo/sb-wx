@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.jianglibo.wx.domain.BaseEntity;
 import com.jianglibo.wx.facade.FacadeRepositoryBase;
 import com.jianglibo.wx.katharsis.dto.Dto;
+import com.jianglibo.wx.katharsis.dto.converter.DtoConverter;
 import com.jianglibo.wx.katharsis.exception.AppException;
 import com.jianglibo.wx.katharsis.exception.UnsortableException;
 import com.jianglibo.wx.util.QuerySpecUtil;
@@ -26,7 +27,7 @@ import io.katharsis.queryspec.QuerySpec;
 import io.katharsis.repository.ResourceRepositoryBase;
 import io.katharsis.resource.list.ResourceListBase;
 
-public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceListBase<T, DtoListMeta, DtoListLinks>, E extends BaseEntity, F extends FacadeRepositoryBase<E>>
+public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceListBase<T, DtoListMeta, DtoListLinks>, E extends BaseEntity, F extends FacadeRepositoryBase<E, T>>
 		extends ResourceRepositoryBase<T, Long> {
 	
 	private static Logger log = LoggerFactory.getLogger(DtoRepositoryBase.class);
@@ -39,6 +40,8 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 	
 	private Validator validator;
 	
+	private final DtoConverter<E, T> converter;
+	
 	public void validate(Dto<?, ?> o, Class<?>...groups) {
 		Set<ConstraintViolation<Dto<?, ?>>> cve = validator.validate(o, groups);
 		if (!cve.isEmpty()) {
@@ -46,11 +49,12 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 		}
 	}
 
-	protected DtoRepositoryBase(Class<T> resourceClass, Class<L> resourceListClass,Class<E> entityClass, F repository) {
+	protected DtoRepositoryBase(Class<T> resourceClass, Class<L> resourceListClass,Class<E> entityClass, F repository, DtoConverter<E, T> converter) {
 		super(resourceClass);
 		this.repository = repository;
 		this.resourceListClass = resourceListClass;
 		this.entityClass = entityClass;
+		this.converter = converter;
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	    validator = factory.getValidator();
 	}
@@ -74,16 +78,16 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 	public T modify(T dto) {
 		validate(dto);
 		E entity = repository.findOne(dto.getId(), false);
-		entity = dto.patch(entity);
-		return dto.fromEntity(saveToBackendRepo(dto, entity));
+		entity = getRepository().patch(entity, dto);
+		return converter.entity2Dto(saveToBackendRepo(dto, entity));
 	}
 	
 	public T createNew(T dto) {
 		validate(dto);
 		try {
 			E entity = entityClass.newInstance();
-			entity = dto.patch(entity);
-			return dto.fromEntity(saveToBackendRepo(dto, entity));
+			entity = getRepository().newByDto(dto);
+			return converter.entity2Dto(saveToBackendRepo(dto, entity));
 		} catch (InstantiationException | IllegalAccessException e) {
 			log.error("instantiationException {}", entityClass.getName());
 			throw new AppException().addError(1000, entityClass.getName(), "cannot instantiation " + entityClass.getName());
@@ -97,21 +101,7 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 	@Override
 	public T findOne(Long id, QuerySpec querySpec) {
 		E entity = repository.findOne(id, false);
-		return convertToDto(entity);
-	}
-	
-	protected T convertToDto(E entity) {
-		if (entity == null) {
-			return null;
-		}
-		T t;
-		try {
-			t = getResourceClass().newInstance();
-			return t.fromEntity(entity);
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return converter.entity2Dto(entity);
 	}
 
 	@Override
@@ -123,7 +113,7 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 		L udl;
 		try {
 			udl = resourceListClass.newInstance();
-			udl.addAll(bus.stream().map(entity -> convertToDto(entity)).collect(Collectors.toList()));
+			udl.addAll(bus.stream().map(entity -> converter.entity2Dto(entity)).collect(Collectors.toList()));
 			return udl;
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
@@ -169,7 +159,7 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 	protected abstract L findAllWithQuerySpec(QuerySpec querySpec);
 
 	protected L convertToResourceList(List<E> entities, long count) {
-		List<T> list = entities.stream().map(entity -> convertToDto(entity)).collect(Collectors.toList());		
+		List<T> list = entities.stream().map(entity -> converter.entity2Dto(entity)).collect(Collectors.toList());		
 		L listOb = null;
 		try {
 			listOb = resourceListClass.newInstance();
@@ -184,5 +174,9 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 	
 	public F getRepository() {
 		return repository;
+	}
+
+	public DtoConverter<E, T> getConverter() {
+		return converter;
 	}
 }

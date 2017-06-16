@@ -15,8 +15,7 @@ public class CustomerService {
 	private static final String updateUrl = serviceUrlCommon + "update?access_token=";
 	private static final String delUrl = serviceUrlCommon + "del?access_token=";
 	
-	@Autowired
-	private RestTemplate restTemplate;
+	private RestTemplate restTemplate = new RestTemplate();
 	@Autowired
 	private AccessTokenHolder tokenHolder;
 	

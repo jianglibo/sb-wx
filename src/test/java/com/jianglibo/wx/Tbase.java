@@ -133,7 +133,8 @@ public abstract class Tbase extends M3958TsBase {
         BootUser p = bootUserRepo.findByName(name);
         
         if (p == null) {
-            p = bootUserDetailManager.createUserAndReturn(new BootUserPrincipal(bootUserFactory.getBootUserBuilder(name, name + "m3958.com", name, name).enable().withPassword(password).withRoles(nroles).build()));
+        	BootUserPrincipal bp = new BootUserPrincipal(bootUserFactory.getBootUserBuilder(name, name + "m3958.com", name, name).enable().password(password).roles(nroles).build());
+            p = bootUserDetailManager.createUserAndReturn(bp);
         } else {
         	p.setRoles(nroles);
         	p = bootUserRepo.save(p);

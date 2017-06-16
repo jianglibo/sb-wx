@@ -1,11 +1,14 @@
 package com.jianglibo.wx.facade.jpa;
 
+import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
 import com.jianglibo.wx.domain.Role;
 import com.jianglibo.wx.facade.RoleFacadeRepository;
+import com.jianglibo.wx.katharsis.dto.RoleDto;
 import com.jianglibo.wx.repository.RoleRepository;
 
 /**
@@ -13,7 +16,7 @@ import com.jianglibo.wx.repository.RoleRepository;
  *
  */
 @Component
-public class RoleFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Role, RoleRepository> implements RoleFacadeRepository {
+public class RoleFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Role,RoleDto, RoleRepository> implements RoleFacadeRepository {
 	
 	public RoleFacadeRepositoryImpl(RoleRepository jpaRepo) {
 		super(jpaRepo);
@@ -34,5 +37,22 @@ public class RoleFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Role, Rol
 	@Override
 	public Role initSave(Role entity) {
 		return super.save(entity);
+	}
+
+	@Override
+	public List<Role> findAll() {
+		return getRepository().findAll();
+	}
+
+	@Override
+	public Role patch(Role entity, RoleDto dto) {
+		entity.setName(dto.getName());
+		return entity;
+	}
+
+	@Override
+	public Role newByDto(RoleDto dto) {
+		Role entity = new Role(dto.getName());
+		return entity;
 	}
 }

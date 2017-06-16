@@ -2,16 +2,20 @@ package com.jianglibo.wx.facade;
 
 import java.util.List;
 
-public interface FacadeRepositoryBase<T> {
+public interface FacadeRepositoryBase<E, D> {
 	
-	List<T> findRange(long offset, long limit, SortBroker...sortFields);
+	List<E> findRange(long offset, long limit, SortBroker...sortFields);
 	
 	long count();
 	
-	T save(T entity);
+	E save(E entity);
 	
 	void delete(Long id);
+	
+	E patch(E entity, D dto);
+	
+	E newByDto(D dto);
 
-	T findOne(Long id, boolean internalCall);
+	E findOne(Long id, boolean internalCall);
 
 }

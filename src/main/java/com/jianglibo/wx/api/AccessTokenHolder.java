@@ -31,8 +31,7 @@ public class AccessTokenHolder {
 	@Autowired
 	private ApplicationConfig appConfig;
 	
-	@Autowired
-	private RestTemplate restTemplate;
+	private RestTemplate restTemplate = new RestTemplate();
 	
 	private long nextRefreshTime;
 	

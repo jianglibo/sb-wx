@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.domain.Role;
 import com.jianglibo.wx.facade.RoleFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.RoleDto;
+import com.jianglibo.wx.katharsis.dto.converter.RoleDtoConverter;
 import com.jianglibo.wx.katharsis.repository.RoleDtoRepository.RoleDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 
@@ -18,8 +19,8 @@ import io.katharsis.queryspec.QuerySpec;
 public class RoleDtoRepositoryImpl  extends DtoRepositoryBase<RoleDto, RoleDtoList, Role, RoleFacadeRepository> implements RoleDtoRepository {
 	
 	@Autowired
-	public RoleDtoRepositoryImpl(RoleFacadeRepository repository) {
-		super(RoleDto.class, RoleDtoList.class, Role.class, repository);
+	public RoleDtoRepositoryImpl(RoleFacadeRepository repository, RoleDtoConverter converter) {
+		super(RoleDto.class, RoleDtoList.class, Role.class, repository, converter);
 	}
 //	$r = Invoke-WebRequest -Uri http://localhost:8080/jsonapi/roles/32768 -Headers @{Accept="application/vnd.api+json;charset=UTF-8"} -Method Delete
 //	$r = Invoke-WebRequest -Uri http://localhost:8080/jsonapi/roles -Headers @{Accept="application/vnd.api+json;charset=UTF-8"} -ContentType "application/vnd.api+json;charset=UTF-8" -Body '{"data": {"attributes": {"name": "test"}, "type": "roles"}}' -Method Post

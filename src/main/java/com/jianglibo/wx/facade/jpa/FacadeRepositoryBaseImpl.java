@@ -7,7 +7,7 @@ import com.jianglibo.wx.facade.SimplePageable;
 import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.repository.RepositoryBase;
 
-public abstract class FacadeRepositoryBaseImpl<T, R extends RepositoryBase<T>> implements FacadeRepositoryBase<T> {
+public abstract class FacadeRepositoryBaseImpl<T, D, R extends RepositoryBase<T>> implements FacadeRepositoryBase<T, D> {
 
 	private final R jpaRepo;
 	

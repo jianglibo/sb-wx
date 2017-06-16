@@ -1,7 +1,9 @@
 package com.jianglibo.wx.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -38,6 +41,9 @@ public class BootUser extends BaseEntity {
     private boolean emailVerified;
 
     private boolean mobileVerified;
+    
+    @OneToMany(mappedBy="creator", fetch=FetchType.LAZY)
+    private List<Post> posts;
     
     @Enumerated(EnumType.STRING)
     private Gender gender = Gender.FEMALE;
@@ -77,6 +83,12 @@ public class BootUser extends BaseEntity {
     private String language;
     
     private String province;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<BootUser> myFollowers = new ArrayList<>();
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<BootUser> myFolloweds = new ArrayList<>();
     
     public String getCity() {
 		return city;
@@ -119,23 +131,29 @@ public class BootUser extends BaseEntity {
 
     
     /**
-     * @param bootUserPrincipal
+     * @param up
      * @param encodedPwd
      */
-    public BootUser(BootUserPrincipal bootUserPrincipal, String encodedPwd) {
-        setName(bootUserPrincipal.getUsername());
-        setDisplayName(bootUserPrincipal.getUsername());
-        setAvatar(bootUserPrincipal.getAvatar());
-        setEmail(bootUserPrincipal.getEmail());
-        setMobile(bootUserPrincipal.getMobile());
+    public BootUser(BootUserPrincipal up, String encodedPwd) {
+    	// 18 fields totally.
+        setName(up.getUsername());
+        setDisplayName(up.getDisplayName());
+        setAvatar(up.getAvatar());
+        setEmail(up.getEmail());
+        setMobile(up.getMobile());
         setPassword(encodedPwd);
-        setAccountNonExpired(bootUserPrincipal.isAccountNonExpired());
-        setAccountNonLocked(bootUserPrincipal.isAccountNonLocked());
-        setCredentialsNonExpired(bootUserPrincipal.isCredentialsNonExpired());
-        setEnabled(bootUserPrincipal.isEnabled());
+        setAccountNonExpired(up.isAccountNonExpired());
+        setAccountNonLocked(up.isAccountNonLocked());
+        setCredentialsNonExpired(up.isCredentialsNonExpired());
+        setEnabled(up.isEnabled());
         setCreatedAt(new Date());
-        setEmailVerified(bootUserPrincipal.isEmailVerified());
-        setMobileVerified(bootUserPrincipal.isMobileVerified());
+        setEmailVerified(up.isEmailVerified());
+        setMobileVerified(up.isMobileVerified());
+        setOpenId(up.getOpenId());
+        setProvince(up.getProvince());
+        setCity(up.getCity());
+        setCountry(up.getCountry());
+        setLanguage(up.getLanguage());
     }
 
     public boolean isEmailVerified() {
@@ -257,6 +275,31 @@ public class BootUser extends BaseEntity {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+
+	public List<BootUser> getMyFollowers() {
+		return myFollowers;
+	}
+
+	public void setMyFollowers(List<BootUser> myFollowers) {
+		this.myFollowers = myFollowers;
+	}
+
+	public List<BootUser> getMyFolloweds() {
+		return myFolloweds;
+	}
+
+	public void setMyFolloweds(List<BootUser> myFolloweds) {
+		this.myFolloweds = myFolloweds;
+	}
 
 	public static enum Gender {
         MALE, FEMALE

@@ -16,14 +16,6 @@ public class RoleDto extends DtoBase<RoleDto, Role>{
 	@NotNull
 	@Size(min=3, max=30)
 	private String name;
-	
-	@Override
-	public RoleDto fromEntity(Role role) {
-		setId(role.getId());
-		setName(role.getName());
-		setCreatedAt(role.getCreatedAt());
-		return this;
-	}
 
 	public String getName() {
 		return name;
@@ -31,12 +23,6 @@ public class RoleDto extends DtoBase<RoleDto, Role>{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public Role patch(Role entity) {
-		entity.setName(getName());
-		return entity;
 	}
 	
 	@Override

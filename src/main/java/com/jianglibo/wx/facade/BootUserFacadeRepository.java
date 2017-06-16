@@ -3,7 +3,7 @@ package com.jianglibo.wx.facade;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 
-public interface BootUserFacadeRepository extends FacadeRepositoryBase<BootUser> {
+public interface BootUserFacadeRepository extends FacadeRepositoryBase<BootUser, UserDto> {
 
 	BootUser findByEmail(String emailOrMobile);
 

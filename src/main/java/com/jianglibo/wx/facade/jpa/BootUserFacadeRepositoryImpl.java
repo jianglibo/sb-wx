@@ -19,7 +19,7 @@ import com.jianglibo.wx.vo.RoleNames;
  *
  */
 @Component
-public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootUser, BootUserRepository> implements BootUserFacadeRepository {
+public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootUser, UserDto, BootUserRepository> implements BootUserFacadeRepository {
 	
 
 	@Autowired
@@ -59,17 +59,40 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 
 	@Override
 	@PreAuthorize("hasRole('ADMINISTRATOR') or (#user.id == principal.id)")
-	public BootUser patch(@P("user") BootUser user, UserDto userDto) {
+	public BootUser patch(@P("user") BootUser entity, UserDto dto) {
 		if (SecurityUtil.hasRole(RoleNames.ROLE_ADMINISTRATOR)) {
-			userDto.patch(user);
-		} else {
-			userDto.patchLeaveStatusUnChanged(user);
+			entity.setAccountNonExpired(dto.isAccountNonExpired());
+			entity.setAccountNonLocked(dto.isAccountNonLocked());
+			entity.setCredentialsNonExpired(dto.isCredentialsNonExpired());
+			entity.setEmailVerified(dto.isEmailVerified());
+			entity.setMobileVerified(dto.isMobileVerified());
+			entity.setEnabled(dto.isEnabled());
 		}
-		return getRepository().save(user);
+		setAllowChange(entity, dto);
+		return getRepository().save(entity);
+	}
+	
+	private void setAllowChange(BootUser entity, UserDto dto) {
+		entity.setAvatar(dto.getAvatar());
+		entity.setDisplayName(dto.getDisplayName());
+		entity.setEmail(dto.getEmail());
+		entity.setGender(dto.getGender());
+		entity.setId(dto.getId());
+		entity.setMobile(dto.getMobile());
+		entity.setName(dto.getName());
+		entity.setOpenId(dto.getOpenId());
+		entity.setCity(dto.getCity());
+		entity.setCountry(dto.getCountry());
+		entity.setLanguage(dto.getLanguage());
 	}
 
 	@Override
 	public BootUser findByOpenId(String openId) {
 		return getRepository().findByOpenId(openId);
+	}
+
+	@Override
+	public BootUser newByDto(UserDto dto) {
+		return null;
 	}
 }

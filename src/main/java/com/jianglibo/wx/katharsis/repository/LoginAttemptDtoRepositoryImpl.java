@@ -1,7 +1,6 @@
 package com.jianglibo.wx.katharsis.repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -13,14 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.LoginAttempt;
-import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.LoginAttemptFacadeRepository;
-import com.jianglibo.wx.jwt.JwtUtil;
 import com.jianglibo.wx.katharsis.dto.LoginAttemptDto;
-import com.jianglibo.wx.katharsis.dto.RoleDto;
-import com.jianglibo.wx.katharsis.dto.UserDto;
+import com.jianglibo.wx.katharsis.dto.converter.LoginAttemptDtoConverter;
 import com.jianglibo.wx.katharsis.repository.LoginAttemptDtoRepository.LoginAttemptDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 import com.jianglibo.wx.vo.BootUserPrincipal;
@@ -34,19 +29,13 @@ public class LoginAttemptDtoRepositoryImpl  extends DtoRepositoryBase<LoginAttem
 	@Autowired
 	private ApplicationContext applicationContext;
 	
-	@Autowired
-	private BootUserFacadeRepository userRepository;
-	
-	@Autowired
-	private JwtUtil jwtUtil;
-	
 	private AuthenticationManager getAuthenticationManager() {
 		return applicationContext.getBean(AuthenticationManager.class);
 	}
 
 	@Autowired
-	public LoginAttemptDtoRepositoryImpl(LoginAttemptFacadeRepository repository) {
-		super(LoginAttemptDto.class, LoginAttemptDtoList.class, LoginAttempt.class, repository);
+	public LoginAttemptDtoRepositoryImpl(LoginAttemptFacadeRepository repository, LoginAttemptDtoConverter converter) {
+		super(LoginAttemptDto.class, LoginAttemptDtoList.class, LoginAttempt.class, repository, converter);
 	}
 	
 	@Override
@@ -79,15 +68,7 @@ public class LoginAttemptDtoRepositoryImpl  extends DtoRepositoryBase<LoginAttem
 				loginAttemp.setSuccess(true);
 				loginAttemp.setPassword("");
 				getRepository().save(loginAttemp);
-				dto.setId(loginAttemp.getId());
-				dto.setSuccess(true);
-				dto.setPassword("");
-				dto.setJwtToken(jwtUtil.issuePrincipalToken(user));
-				BootUser bu = userRepository.findOne(user.getId(), true);
-				UserDto udto = new UserDto().fromEntity(bu);
-				udto.setRoles(bu.getRoles().stream().map(r -> new RoleDto().fromEntity(r)).collect(Collectors.toList()));
-				dto.setUser(udto);
-				return dto;
+				return ((LoginAttemptDtoConverter)getConverter()).newDto(dto, user, loginAttemp);
 		} catch (AuthenticationException e) {
 				getRepository().save(loginAttemp);
 				throw e;

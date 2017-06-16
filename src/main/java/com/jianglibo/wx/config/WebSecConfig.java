@@ -21,6 +21,7 @@ import org.springframework.security.web.context.request.async.WebAsyncManagerInt
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jianglibo.wx.config.userdetail.BootUserDetailManager;
 import com.jianglibo.wx.config.userdetail.BootUserManagerConfigurer;
+import com.jianglibo.wx.util.UuidUtil;
 import com.jianglibo.wx.vo.RoleNames;
 
 
@@ -76,6 +77,7 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
         	.email("admin@localhost.com")
         	.emailVerified(true)
         	.mobile("123456789012")
+        	.openId(UuidUtil.uuidNoDash())
         	.password("123456");
         // @formatter:on
     };

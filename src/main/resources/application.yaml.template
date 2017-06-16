@@ -75,6 +75,7 @@ logging:
         org.springframework.security.web.access: DEBUG
         org.springframework.jdbc.core: DEBUG
         org.springframework.data: DEBUG
+        com.jianglibo.webapp: DEBUG
 #        org.springframework.batch: DEBUG
 #        org.apache.hadoop.mapreduce: DEBUG
 myapp:

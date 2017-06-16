@@ -85,8 +85,16 @@ public class JwtUtil implements InitializingBean {
 		String ids = decodedJwt.getClaim("id").asString();
 		long id = Long.valueOf(ids);
 		Collection<Role> authorities = decodedJwt.getClaim("authorities").asList(String.class).stream().map(Role::new).collect(Collectors.toSet());
-		BootUser bu = bootUserFactory.getBootUserBuilder(decodedJwt.getClaim("username").asString(), decodedJwt.getClaim("email").asString(), decodedJwt.getClaim("mobile").asString(), decodedJwt.getClaim("openId").asString())
-		.withRoles(authorities).id(id).withGender(gender).build();
+		BootUser bu = bootUserFactory.getBootUserBuilder(
+				decodedJwt.getClaim("username").asString(),
+				decodedJwt.getClaim("email").asString(),
+				decodedJwt.getClaim("mobile").asString(),
+				decodedJwt.getClaim("openId").asString())
+		.roles(authorities)
+		.id(id)
+		.gender(gender)
+		.avatar(decodedJwt.getClaim("avata").asString())
+		.build();
 		return new BootUserPrincipal(bu);
 	}
 	

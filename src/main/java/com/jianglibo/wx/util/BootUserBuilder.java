@@ -34,10 +34,10 @@ public class BootUserBuilder {
         bu.setMobile(userDto.getMobile());
         bu.setOpenId(userDto.getOpenId());
         enable()
-        .withAvatar(userDto.getAvatar())
-        .withDisplayName(userDto.getDisplayName())
-        .withGender(userDto.getGender())
-        .withPassword(userDto.getPassword() == null ? "" : userDto.getPassword())
+        .avatar(userDto.getAvatar())
+        .displayName(userDto.getDisplayName())
+        .gender(userDto.getGender())
+        .password(userDto.getPassword() == null ? "" : userDto.getPassword())
         .withWxProperties(userDto.getCity(), userDto.getCountry(), userDto.getLanguage(), userDto.getProvince());
 	}
 	
@@ -55,44 +55,44 @@ public class BootUserBuilder {
 		return this;
 	}
 	
-	public BootUserBuilder withRoles(Role...roles) {
+	public BootUserBuilder roles(Role...roles) {
 		bu.getRoles().addAll(Arrays.asList(roles));
 		return this;
 	}
 	
-	public BootUserBuilder withRoles(Iterable<Role> ri) {
+	public BootUserBuilder roles(Iterable<Role> ri) {
 		for (Role role : ri) {
 			bu.getRoles().add(role);
 		}
 		return this;
 	}
 	
-	public BootUserBuilder withRoles(String...roles) {
+	public BootUserBuilder roles(String...roles) {
 		bu.getRoles().addAll(Stream.of(roles).map(rn -> roleRepository.findByName(rn)).collect(Collectors.toList()));
 		return this;
 	}
 	
-	public BootUserBuilder withDisplayName(String displayName) {
+	public BootUserBuilder displayName(String displayName) {
 		bu.setDisplayName(displayName);
 		return this;
 	}
 	
-	public BootUserBuilder withAvatar(String avatar) {
+	public BootUserBuilder avatar(String avatar) {
 		bu.setAvatar(avatar);
 		return this;
 	}
 	
-	public BootUserBuilder withPassword(String password) {
+	public BootUserBuilder password(String password) {
 		bu.setPassword(password);
 		return this;
 	}
 	
-	public BootUserBuilder withGender(Gender gender) {
+	public BootUserBuilder gender(Gender gender) {
 		bu.setGender(gender);
 		return this;
 	}
 	
-	public BootUserBuilder withGender(int gender) {
+	public BootUserBuilder gender(int gender) {
 		bu.setGender(gender == 1 ? Gender.MALE : Gender.FEMALE);
 		return this;
 	}

@@ -22,7 +22,6 @@ public class BootUserPrincipal extends User {
     private static final long serialVersionUID = 1L;
 
     private final Long id;
-
     private final String email;
     private final String mobile;
     private final String avatar;
@@ -30,22 +29,24 @@ public class BootUserPrincipal extends User {
     private final String openId;
     private final boolean emailVerified;
     private final boolean mobileVerified;
+    private final String displayName; 
     
     private final String city;
     private final String country;
     private final String language;
     private final String province;
 
-    public BootUserPrincipal(String username, String password, Collection<? extends GrantedAuthority> authorities,
+    public BootUserPrincipal(String name, String displayName, String password, Collection<? extends GrantedAuthority> authorities,
 			Long id, String email, String mobile, String avatar, Gender gender, String openId, boolean emailVerified,
 			boolean mobileVerified, String city, String country, String language, String province, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked) {
-		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+		super(name, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 		this.id = id;
 		this.email = email;
 		this.mobile = mobile;
 		this.avatar = avatar;
 		this.gender = gender;
 		this.openId = openId;
+		this.displayName = displayName;
 		this.emailVerified = emailVerified;
 		this.mobileVerified = mobileVerified;
 		this.city = city;
@@ -59,7 +60,8 @@ public class BootUserPrincipal extends User {
      * @param bu
      */
     public BootUserPrincipal(BootUser bu) {
-    	super(bu.getDisplayName() == null ? bu.getName() : bu.getDisplayName(), bu.getPassword(), bu.isEnabled(), bu.isAccountNonExpired(), bu.isCredentialsNonExpired(), bu.isAccountNonLocked(), bu.getRoles());
+    	super(bu.getName(), bu.getPassword(), bu.isEnabled(), bu.isAccountNonExpired(), bu.isCredentialsNonExpired(), bu.isAccountNonLocked(), bu.getRoles());
+    	this.displayName = bu.getDisplayName();
 		this.email = bu.getEmail();
 		this.avatar = bu.getAvatar();
 		this.mobile = bu.getMobile();
@@ -75,7 +77,7 @@ public class BootUserPrincipal extends User {
     }
     
     public BootUserPrincipal(UserDto bu) {
-    	super(bu.getDisplayName(),
+    	super(bu.getName(),
     			bu.getPassword(),
     			bu.isEnabled(),
     			bu.isAccountNonExpired(),
@@ -84,6 +86,7 @@ public class BootUserPrincipal extends User {
     			bu.getRoles()
     			.stream().map(rdto -> new Role(rdto.getName())
     					).collect(Collectors.toList()));
+    	this.displayName = bu.getDisplayName();
 		this.email = bu.getEmail();
 		this.avatar = bu.getAvatar();
 		this.mobile = bu.getMobile();
@@ -145,4 +148,8 @@ public class BootUserPrincipal extends User {
     public Gender getGender() {
         return gender;
     }
+
+	public String getDisplayName() {
+		return displayName;
+	}
 }

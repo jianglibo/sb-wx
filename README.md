@@ -3,3 +3,12 @@
 * In Auth.php -> auth($id, $skey) -> add openid to userInfo.
 
 $arr_result['user_info']->openId = $result->openId
+
+## new resource creating steps.
+* new entity domain.
+* new facaderepository.
+* new jpa facade implementation.
+* new repostory
+* new dto
+* new convertor
+* new dto repository

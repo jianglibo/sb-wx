@@ -17,8 +17,7 @@ public class AutoReplyRule {
 
 	private String url = "https://api.weixin.qq.com/cgi-bin/get_current_autoreply_info?access_token=";
 	
-	@Autowired
-	private RestTemplate restTemplate;
+	private RestTemplate restTemplate = new RestTemplate();
 	
 	@Autowired
 	private AccessTokenHolder tokenHolder;

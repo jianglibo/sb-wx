@@ -53,12 +53,12 @@ public class ReceivedMessageDto extends DtoBase<ReceivedMessageDto, ReceivedText
 	public void setMsgId(long msgId) {
 		this.msgId = msgId;
 	}
-	@Override
-	public ReceivedMessageDto fromEntity(ReceivedTextMessage entity) {
-		return null;
-	}
-	@Override
-	public ReceivedTextMessage patch(ReceivedTextMessage entity) {
-		return null;
-	}
+//	@Override
+//	public ReceivedMessageDto fromEntity(ReceivedTextMessage entity) {
+//		return null;
+//	}
+//	@Override
+//	public ReceivedTextMessage patch(ReceivedTextMessage entity) {
+//		return null;
+//	}
 }

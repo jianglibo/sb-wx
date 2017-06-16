@@ -27,23 +27,6 @@ public class LoginAttemptDto extends  DtoBase<LoginAttemptDto, LoginAttempt>{
 	
 	private boolean success;
 
-	@Override
-	public LoginAttemptDto fromEntity(LoginAttempt entity) {
-		setId(entity.getId());
-		setPassword(entity.getPassword());
-		setProvider(entity.getProvider());
-		setRemoteAddress(entity.getRemoteAddress());
-		setSessionId(entity.getSessionId());
-		setSuccess(entity.isSuccess());
-		setUsername(entity.getUsername());
-		return this;
-	}
-
-	@Override
-	public LoginAttempt patch(LoginAttempt entity) {
-		return null;
-	}
-
 	public String getUsername() {
 		return username;
 	}

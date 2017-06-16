@@ -1,13 +1,15 @@
 {
   "data" : {
-    "id" : "425984",
+    "id" : "98304",
     "type" : "roles",
     "attributes" : {
-      "createdAt" : 1494682830480,
-      "name" : "ROLE_USER_T1"
+      "createdAt" : 1497593434924,
+      "name" : "ROLE_USER_T1",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/roles/425984"
+      "self" : "http://localhost/jsonapi/roles/98304"
     }
   }
 }

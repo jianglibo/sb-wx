@@ -1,43 +1,45 @@
 {
   "data" : {
-    "id" : "753668",
+    "id" : "163843",
     "type" : "users",
     "attributes" : {
-      "updatePassword" : false,
+      "country" : null,
       "gender" : "FEMALE",
+      "city" : null,
       "displayName" : "admin1",
+      "openId" : null,
       "credentialsNonExpired" : true,
       "roles" : [ {
-        "id" : 2,
-        "createdAt" : 1493985147502,
+        "id" : 1,
+        "createdAt" : 1497576792199,
+        "dtoApplyTo" : null,
+        "dtoAction" : null,
         "name" : "ROLE_USER"
       }, {
-        "id" : 3,
-        "createdAt" : 1493985151813,
+        "id" : 32768,
+        "createdAt" : 1497578713696,
+        "dtoApplyTo" : null,
+        "dtoAction" : null,
         "name" : "ROLE_ABC"
       } ],
       "mobile" : "1234567890121",
       "mobileVerified" : false,
+      "language" : null,
       "avatar" : null,
       "enabled" : true,
+      "dtoApplyTo" : null,
       "emailVerified" : true,
       "createdAt" : null,
       "password" : null,
+      "province" : null,
       "name" : "USER_T1",
       "accountNonExpired" : true,
       "email" : "admin@localhost.com1",
+      "dtoAction" : null,
       "accountNonLocked" : true
     },
-    "relationships" : {
-      "mysites" : {
-        "links" : {
-          "self" : "http://localhost:88/jsonapi/users/753668/relationships/mysites",
-          "related" : "http://localhost:88/jsonapi/users/753668/mysites"
-        }
-      }
-    },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/users/753668"
+      "self" : "http://localhost/jsonapi/users/163843"
     }
   }
 }

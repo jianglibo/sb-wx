@@ -3,50 +3,202 @@
     "id" : "1",
     "type" : "roles",
     "attributes" : {
-      "createdAt" : 1493985147463,
-      "name" : "ROLE_ADMINISTRATOR"
+      "createdAt" : 1497576792199,
+      "name" : "ROLE_USER",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/roles/1"
+      "self" : "http://localhost/jsonapi/roles/1"
     }
   }, {
     "id" : "2",
     "type" : "roles",
     "attributes" : {
-      "createdAt" : 1493985147502,
-      "name" : "ROLE_USER"
+      "createdAt" : 1497576792326,
+      "name" : "ROLE_APP_DATA_CHANGE_FIX_RATE",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/roles/2"
+      "self" : "http://localhost/jsonapi/roles/2"
     }
   }, {
     "id" : "3",
     "type" : "roles",
     "attributes" : {
-      "createdAt" : 1493985151813,
-      "name" : "ROLE_ABC"
+      "createdAt" : 1497576792328,
+      "name" : "ROLE_NOT_EXIST",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/roles/3"
+      "self" : "http://localhost/jsonapi/roles/3"
     }
   }, {
-    "id" : "425984",
+    "id" : "4",
     "type" : "roles",
     "attributes" : {
-      "createdAt" : 1494682830480,
-      "name" : "ROLE_USER_T1"
+      "createdAt" : 1497576792331,
+      "name" : "ROLE_PERSON_MANAGER",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/roles/425984"
+      "self" : "http://localhost/jsonapi/roles/4"
+    }
+  }, {
+    "id" : "5",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792333,
+      "name" : "ROLE_PERSON_DELETER",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/5"
+    }
+  }, {
+    "id" : "6",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792336,
+      "name" : "ROLE_PERSON_CREATOR",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/6"
+    }
+  }, {
+    "id" : "7",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792340,
+      "name" : "ROLE_ROLECREATOR",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/7"
+    }
+  }, {
+    "id" : "8",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792342,
+      "name" : "ROLE_ADMINISTRATOR",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/8"
+    }
+  }, {
+    "id" : "9",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792344,
+      "name" : "ROLE_SITEMANAGER",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/9"
+    }
+  }, {
+    "id" : "10",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792347,
+      "name" : "ROLE_ACL_OWNERSHIP",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/10"
+    }
+  }, {
+    "id" : "11",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792350,
+      "name" : "ROLE_ACL_AUDITING",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/11"
+    }
+  }, {
+    "id" : "12",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792354,
+      "name" : "ROLE_ACL_DETAIL",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/12"
+    }
+  }, {
+    "id" : "13",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792357,
+      "name" : "ROLE_SYSTEM_MANAGER",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/13"
+    }
+  }, {
+    "id" : "14",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497576792360,
+      "name" : "ROLE_MINIAPP",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/14"
+    }
+  }, {
+    "id" : "32768",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497578713696,
+      "name" : "ROLE_ABC",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/32768"
+    }
+  }, {
+    "id" : "98304",
+    "type" : "roles",
+    "attributes" : {
+      "createdAt" : 1497593434924,
+      "name" : "ROLE_USER_T1",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/roles/98304"
     }
   } ],
   "links" : {
-    "first" : "http://localhost:88/jsonapi/roles/?page[limit]=20",
-    "last" : "http://localhost:88/jsonapi/roles/?page[limit]=20",
+    "first" : "http://localhost/jsonapi/roles/?page[limit]=20",
+    "last" : "http://localhost/jsonapi/roles/?page[limit]=20",
     "next" : null,
     "prev" : null
   },
   "meta" : {
-    "totalResourceCount" : 4
+    "totalResourceCount" : 16
   }
 }

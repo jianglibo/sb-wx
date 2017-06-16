@@ -160,10 +160,7 @@ public class BootUserPrincipalBuilder {
 	}
 
 	public BootUserPrincipal build() {
-		if (displayName == null) {
-			this.displayName = name; 
-		}
-		return new BootUserPrincipal(displayName, password, authorities,
+		return new BootUserPrincipal(name, displayName, password, authorities,
 				0L, email, mobile, avatar, gender, openId, emailVerified,
 				mobileVerified, city, country, language, province, !disabled, !accountExpired, !credentialsExpired, !accountLocked);
 		}

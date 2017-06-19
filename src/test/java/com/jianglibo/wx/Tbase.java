@@ -28,6 +28,8 @@ import com.jianglibo.wx.config.userdetail.BootUserDetailManager;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Role;
 import com.jianglibo.wx.repository.BootUserRepository;
+import com.jianglibo.wx.repository.MediumRepository;
+import com.jianglibo.wx.repository.PostRepository;
 import com.jianglibo.wx.repository.RoleRepository;
 import com.jianglibo.wx.util.BootUserFactory;
 import com.jianglibo.wx.util.SecurityUtil;
@@ -65,6 +67,13 @@ public abstract class Tbase extends M3958TsBase {
 
     @Autowired
     protected BootUserRepository bootUserRepo;
+    
+    @Autowired
+    protected MediumRepository mediumRepo;
+    
+    @Autowired
+    protected PostRepository postRepo;
+
 
     @Autowired
     protected RoleRepository roleRepo;

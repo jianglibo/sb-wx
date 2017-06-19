@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jianglibo.wx.vo.BootUserAuthentication;
 import com.jianglibo.wx.vo.BootUserPrincipal;
-import com.jianglibo.wx.webapp.authorization.WxConstants;
 
 /**
  * copy some code from @see {@link BasicAuthenticationFilter}
@@ -68,7 +67,7 @@ public class JwtBasicFilter implements Filter {
 			HttpServletResponse response = (HttpServletResponse) res;
 			if (HttpMethod.POST.matches(request.getMethod()) && negPathPattern.matcher(request.getRequestURI()).matches()) {
 				chain.doFilter(request, response);
-			} else if (pathPattern.matcher(request.getRequestURI()).matches()) {
+			} else if (pathPattern.matcher(request.getRequestURI()).matches() || "/fileupload".equals(request.getRequestURI())) {
 				try {
 					processBasicLogin(request, response);
 					chain.doFilter(req, res);

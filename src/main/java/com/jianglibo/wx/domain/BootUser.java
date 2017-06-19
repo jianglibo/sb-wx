@@ -43,7 +43,7 @@ public class BootUser extends BaseEntity {
     private boolean mobileVerified;
     
     @OneToMany(mappedBy="creator", fetch=FetchType.LAZY)
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
     
     @Enumerated(EnumType.STRING)
     private Gender gender = Gender.FEMALE;
@@ -85,10 +85,13 @@ public class BootUser extends BaseEntity {
     private String province;
     
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<BootUser> myFollowers = new ArrayList<>();
+    private List<BootUser> follow2me = new ArrayList<>();
     
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<BootUser> myFolloweds = new ArrayList<>();
+    private List<BootUser> ifollow2 = new ArrayList<>();
+    
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Medium> media = new ArrayList<>();
     
     public String getCity() {
 		return city;
@@ -126,7 +129,15 @@ public class BootUser extends BaseEntity {
     @JoinTable(name = "BOOTUSER_ROLES")
     private Set<Role> roles = new HashSet<>();
 
-    public BootUser() {
+    public List<Medium> getMedia() {
+		return media;
+	}
+
+	public void setMedia(List<Medium> media) {
+		this.media = media;
+	}
+
+	public BootUser() {
     }
 
     
@@ -284,21 +295,20 @@ public class BootUser extends BaseEntity {
 		this.posts = posts;
 	}
 
-
-	public List<BootUser> getMyFollowers() {
-		return myFollowers;
+	public List<BootUser> getFollow2me() {
+		return follow2me;
 	}
 
-	public void setMyFollowers(List<BootUser> myFollowers) {
-		this.myFollowers = myFollowers;
+	public void setFollow2me(List<BootUser> follow2me) {
+		this.follow2me = follow2me;
 	}
 
-	public List<BootUser> getMyFolloweds() {
-		return myFolloweds;
+	public List<BootUser> getIfollow2() {
+		return ifollow2;
 	}
 
-	public void setMyFolloweds(List<BootUser> myFolloweds) {
-		this.myFolloweds = myFolloweds;
+	public void setIfollow2(List<BootUser> ifollow2) {
+		this.ifollow2 = ifollow2;
 	}
 
 	public static enum Gender {

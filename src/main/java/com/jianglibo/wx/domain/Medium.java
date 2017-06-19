@@ -16,6 +16,11 @@ public class Medium extends BaseEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private String orignName;
+	
+	@ManyToOne
+	private BootUser creator;
+	
 	private String url;
 	private String contentType;
 	private String localPath;
@@ -53,5 +58,17 @@ public class Medium extends BaseEntity {
 	}
 	public void setPost(Post post) {
 		this.post = post;
+	}
+	public String getOrignName() {
+		return orignName;
+	}
+	public void setOrignName(String orignName) {
+		this.orignName = orignName;
+	}
+	public BootUser getCreator() {
+		return creator;
+	}
+	public void setCreator(BootUser creator) {
+		this.creator = creator;
 	}
 }

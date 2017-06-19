@@ -31,6 +31,7 @@ import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.config.StatelessCSRFFilter;
 import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.BootUser;
+import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.vo.RoleNames;
 
 import io.katharsis.client.KatharsisClient;
@@ -102,14 +103,33 @@ public abstract class KatharsisBase extends Tbase {
 		return d.getErrors().get(0);
 	}
 	
+	public Post createPost(BootUser bu) {
+		Post post = new Post();
+		post.setCreator(bu);
+		post.setTitle("title-" + new Random().nextInt());
+		post.setContent("content-" + new Random().nextInt());
+		post = postRepo.save(post);
+		return post;
+	}
+	
 	public Long getNormalUserId() {
 		return bootUserRepo.findByName("user").getId();
 	}
 	
 	public void deleteAllUsers() {
+		mediumRepo.deleteAll();
+		postRepo.deleteAll();
 		bootUserRepo.deleteAll();
+		
 	}
 	
+	public void deleteAllMedia() {
+		mediumRepo.deleteAll();
+	}
+	
+	public void deleteAllPost() {
+		postRepo.deleteAll();
+	}
 	
 	public void writeDto(String content, String resourceName, String action) {
 		try {
@@ -218,8 +238,6 @@ public abstract class KatharsisBase extends Tbase {
 	public <T> List<T> getList(ResponseEntity<String> response, Class<T> targetClass) throws JsonParseException, JsonMappingException, IOException {
 		return getList(response.getBody(), targetClass);
 	}
-
-	
 	
 	public ResponseEntity<String> deleteByExchange(String jwtToken, String url) throws IOException {
 		HttpHeaders hds = getAuthorizationHaders(jwtToken);

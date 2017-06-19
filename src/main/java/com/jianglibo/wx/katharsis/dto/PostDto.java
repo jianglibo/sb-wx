@@ -6,7 +6,10 @@ import com.jianglibo.wx.annotation.DtoToEntity;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.Post;
 
+import io.katharsis.resource.annotations.JsonApiRelation;
 import io.katharsis.resource.annotations.JsonApiResource;
+import io.katharsis.resource.annotations.LookupIncludeBehavior;
+import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.POST)
 @DtoToEntity(entityClass=Post.class)
@@ -16,6 +19,9 @@ public class PostDto extends DtoBase<PostDto, Post>{
 	private String title;
 	
 	private String content;
+	
+	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="posts")
+	private UserDto creator;
 	
 	@Override
 	public String toString() {
@@ -36,5 +42,13 @@ public class PostDto extends DtoBase<PostDto, Post>{
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public UserDto getCreator() {
+		return creator;
+	}
+
+	public void setCreator(UserDto creator) {
+		this.creator = creator;
 	}
 }

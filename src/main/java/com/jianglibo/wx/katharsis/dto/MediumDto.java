@@ -4,7 +4,10 @@ import com.jianglibo.wx.annotation.DtoToEntity;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.Medium;
 
+import io.katharsis.resource.annotations.JsonApiRelation;
 import io.katharsis.resource.annotations.JsonApiResource;
+import io.katharsis.resource.annotations.LookupIncludeBehavior;
+import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.MEDIUM)
 @DtoToEntity(entityClass=Medium.class)
@@ -15,6 +18,10 @@ public class MediumDto extends DtoBase<MediumDto, Medium>{
 	private String localPath;
 	private long size;
 	
+	private String orignName;
+	
+	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="media")
+	private UserDto creator;
 	
 	@Override
 	public String toString() {
@@ -59,6 +66,26 @@ public class MediumDto extends DtoBase<MediumDto, Medium>{
 
 	public void setSize(long size) {
 		this.size = size;
+	}
+
+
+	public String getOrignName() {
+		return orignName;
+	}
+
+
+	public void setOrignName(String orignName) {
+		this.orignName = orignName;
+	}
+
+
+	public UserDto getCreator() {
+		return creator;
+	}
+
+
+	public void setCreator(UserDto creator) {
+		this.creator = creator;
 	}
 
 }

@@ -13,7 +13,10 @@ import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.BootUser.Gender;
 
+import io.katharsis.resource.annotations.JsonApiRelation;
 import io.katharsis.resource.annotations.JsonApiResource;
+import io.katharsis.resource.annotations.LookupIncludeBehavior;
+import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.BOOT_USER)
 @DtoToEntity(entityClass=BootUser.class)
@@ -35,7 +38,53 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     private String country;
     private String language;
     private String province;
-    @NotNull
+    
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
+    private List<PostDto> posts;
+    
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY)
+    private List<UserDto> follow2me;
+    
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY)
+    private List<UserDto> ifollow2;
+    
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
+    private List<MediumDto> media;
+    
+    
+    public List<PostDto> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<PostDto> posts) {
+		this.posts = posts;
+	}
+
+	public List<UserDto> getFollow2me() {
+		return follow2me;
+	}
+
+	public void setFollow2me(List<UserDto> follow2me) {
+		this.follow2me = follow2me;
+	}
+
+	public List<UserDto> getIfollow2() {
+		return ifollow2;
+	}
+
+	public void setIfollow2(List<UserDto> ifollow2) {
+		this.ifollow2 = ifollow2;
+	}
+
+	public List<MediumDto> getMedia() {
+		return media;
+	}
+
+	public void setMedia(List<MediumDto> media) {
+		this.media = media;
+	}
+
+	@NotNull
     @Size(min=6, max=36)
     private String name;
 

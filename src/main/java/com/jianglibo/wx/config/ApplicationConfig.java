@@ -20,6 +20,10 @@ public class ApplicationConfig implements InitializingBean {
 	
 	private String buildRoot;
 	
+	private String uploadPath;
+	
+	private String uploadSecret;
+	
 	private String miniAppApiToken;
 	
 	private String miniAppEncodingAESKey;
@@ -27,6 +31,10 @@ public class ApplicationConfig implements InitializingBean {
 	private String miniAppId;
 	
 	private boolean notAutoFetchWxToken;
+	
+	private String uploadLinkBase;
+	
+	private String outUrlBase;
 	
 	private String appId;
 	
@@ -72,10 +80,12 @@ public class ApplicationConfig implements InitializingBean {
 		} else {
 			this.setHdfsFullUrlNoLastSlash("hdfs://" + getHdfsHost() + ":" + getHdfsPort());
 		}
-	}
-
-	public String getOutSideBaseUrl() {
-		return null;
+		if (!getOutUrlBase().endsWith("/")) {
+			setOutUrlBase(getOutUrlBase() + "/");
+		}
+		if (!getUploadLinkBase().endsWith("/")) {
+			setUploadLinkBase(getUploadLinkBase() + "/");
+		}
 	}
 	
 	public String getDataWriteSourcePath() {
@@ -319,5 +329,38 @@ public class ApplicationConfig implements InitializingBean {
 		public void setPrincipalTokenAlive(long principalTokenAlive) {
 			this.principalTokenAlive = principalTokenAlive;
 		}
+	}
+
+
+	public String getUploadPath() {
+		return uploadPath;
+	}
+
+	public void setUploadPath(String uploadPath) {
+		this.uploadPath = uploadPath;
+	}
+
+	public String getUploadSecret() {
+		return uploadSecret;
+	}
+
+	public void setUploadSecret(String uploadSecret) {
+		this.uploadSecret = uploadSecret;
+	}
+
+	public String getOutUrlBase() {
+		return outUrlBase;
+	}
+
+	public void setOutUrlBase(String outUrlBase) {
+		this.outUrlBase = outUrlBase;
+	}
+
+	public String getUploadLinkBase() {
+		return uploadLinkBase;
+	}
+
+	public void setUploadLinkBase(String uploadLinkBase) {
+		this.uploadLinkBase = uploadLinkBase;
 	}
 }

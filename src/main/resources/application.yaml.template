@@ -86,7 +86,11 @@ myapp:
     miniAppId: 
     refreshWxToken: true
     disableCsrf: true
+    uploadSecret: 123456
+    uploadPath: E:\upload
     dataWriteSourcePath: E:\OneDriver\OneDrive\浙江政务服务网
+    outUrlBase: https://jianglibo.com
+    uploadLinkBase: ${myapp.outUrlBase}/uploaded/
     mapredout: e:\mapredout
     templateRoot: /home/sbwx/templateRoot
     buildRoot: /home/sbwx/buildRoot
@@ -119,17 +123,6 @@ katharsis:
     default-page-limit: 20
     jpa:
       enabled: false
----
-spring:
-    profiles: prod
-    security:
-        enable-csrf: false
-server:
-    port: 9008
-    tomcat:
-        remote_ip_header: x-forwarded-for
-        protocol_header: x-forwarded-proto
-# setx SPRING_PROFILES_ACTIVE dev
 ---
 spring:
     profiles: dev
@@ -183,9 +176,13 @@ myapp:
     appId: 
     appSecret: 
     refreshWxToken: false
+    uploadSecret: 123456
+    uploadPath: E:\upload
     disableCsrf: true
     dataWriteSourcePath: E:\OneDriver\OneDrive\浙江政务服务网
     mapredout: e:\mapredout
+    outUrlBase: http://localhost:${server.port}/
+    uploadLinkBase: ${myapp.outUrlBase}uploaded/
     templateRoot: e:\sbwxRoot\templateRoot
     buildRoot: e:\sbwxRoot\buildRoot
     unjarRoot: C:\Users\admin\AppData\Local\Temp

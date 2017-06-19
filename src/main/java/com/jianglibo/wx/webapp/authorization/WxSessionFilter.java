@@ -62,7 +62,7 @@ public class WxSessionFilter implements Filter {
 			HttpServletResponse response = (HttpServletResponse) res;
 			if (HttpMethod.POST.matches(request.getMethod()) && JwtBasicFilter.negPathPattern.matcher(request.getRequestURI()).matches()) {
 				chain.doFilter(request, response);
-			} else if (JwtBasicFilter.pathPattern.matcher(request.getRequestURI()).matches()) {
+			} else if (JwtBasicFilter.pathPattern.matcher(request.getRequestURI()).matches() || "/fileupload".equals(request.getRequestURI())) {
 				try {
 					invokeSessionVerify(request, response);
 					chain.doFilter(req, res);

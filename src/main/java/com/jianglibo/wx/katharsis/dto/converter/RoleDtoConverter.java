@@ -1,5 +1,6 @@
 package com.jianglibo.wx.katharsis.dto.converter;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.domain.Role;
@@ -10,15 +11,15 @@ public class RoleDtoConverter implements DtoConverter<Role, RoleDto> {
 
 	@Override
 	public Role dot2Entity(RoleDto dto) {
-		return null;
+		Role entity = new Role();
+		BeanUtils.copyProperties(dto, entity);
+		return entity;
 	}
 
 	@Override
 	public RoleDto entity2Dto(Role entity) {
 		RoleDto dto = new RoleDto();
-		dto.setId(entity.getId());
-		dto.setName(entity.getName());
-		dto.setCreatedAt(entity.getCreatedAt());
+		BeanUtils.copyProperties(entity, dto);
 		return dto;
 	}
 

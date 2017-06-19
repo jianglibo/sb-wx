@@ -11,6 +11,7 @@ import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.converter.PostDtoConverter;
 import com.jianglibo.wx.katharsis.repository.PostDtoRepository.PostDtoList;
+import com.jianglibo.wx.util.QuerySpecUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 
 import io.katharsis.queryspec.QuerySpec;
@@ -30,13 +31,16 @@ public class PostDtoRepositoryImpl  extends DtoRepositoryBase<PostDto, PostDtoLi
 
 	@Override
 	protected List<String> checkAllSortableFieldAllowed(QuerySpec querySpec) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected PostDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
-		// TODO Auto-generated method stub
+		if ("creator".equals(rq.getRelationName())) {
+			List<Post> posts = getRepository().findMine(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = getRepository().countMine(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			return convertToResourceList(posts, count);
+		}
 		return null;
 	}
 }

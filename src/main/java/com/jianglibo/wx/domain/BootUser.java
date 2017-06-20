@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -84,13 +85,21 @@ public class BootUser extends BaseEntity {
     
     private String province;
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<BootUser> follow2me = new ArrayList<>();
+	/**
+	 * From current user's perspective.
+	 * When someone follow to me, add me as befollowed.
+	 */
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<BootUser> ifollow2 = new ArrayList<>();
+    @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="befollowed")
+    private List<FollowRelation> follow2me = new ArrayList<>();
     
-    @OneToMany(fetch = FetchType.LAZY)
+    /**
+     * When I follow someone, add me as follower, and add other user as befollowed.
+     */
+    @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="follower")
+    private List<FollowRelation> ifollow2 = new ArrayList<>();
+    
+    @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="post")
     private List<Medium> media = new ArrayList<>();
     
     public String getCity() {
@@ -295,19 +304,19 @@ public class BootUser extends BaseEntity {
 		this.posts = posts;
 	}
 
-	public List<BootUser> getFollow2me() {
+	public List<FollowRelation> getFollow2me() {
 		return follow2me;
 	}
 
-	public void setFollow2me(List<BootUser> follow2me) {
+	public void setFollow2me(List<FollowRelation> follow2me) {
 		this.follow2me = follow2me;
 	}
 
-	public List<BootUser> getIfollow2() {
+	public List<FollowRelation> getIfollow2() {
 		return ifollow2;
 	}
 
-	public void setIfollow2(List<BootUser> ifollow2) {
+	public void setIfollow2(List<FollowRelation> ifollow2) {
 		this.ifollow2 = ifollow2;
 	}
 

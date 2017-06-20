@@ -1,0 +1,90 @@
+{
+  "data" : [ {
+    "id" : null,
+    "type" : "followrelations",
+    "attributes" : {
+      "createdAt" : null,
+      "follower" : {
+        "id" : 262145,
+        "createdAt" : 1497941499492,
+        "dtoApplyTo" : null,
+        "dtoAction" : null,
+        "displayName" : null,
+        "avatar" : null,
+        "emailVerified" : false,
+        "mobileVerified" : false,
+        "accountNonExpired" : true,
+        "accountNonLocked" : true,
+        "credentialsNonExpired" : true,
+        "openId" : "hello",
+        "enabled" : true,
+        "gender" : "FEMALE",
+        "city" : null,
+        "country" : null,
+        "language" : null,
+        "province" : null,
+        "posts" : null,
+        "follow2me" : null,
+        "ifollow2" : null,
+        "media" : null,
+        "name" : "hello",
+        "email" : "hellom3958.com",
+        "password" : null,
+        "mobile" : "hello",
+        "roles" : [ {
+          "id" : 1,
+          "createdAt" : 1497924240712,
+          "dtoApplyTo" : null,
+          "dtoAction" : null,
+          "name" : "ROLE_USER"
+        } ]
+      },
+      "befollowed" : {
+        "id" : 262144,
+        "createdAt" : 1497941498660,
+        "dtoApplyTo" : null,
+        "dtoAction" : null,
+        "displayName" : null,
+        "avatar" : null,
+        "emailVerified" : false,
+        "mobileVerified" : false,
+        "accountNonExpired" : true,
+        "accountNonLocked" : true,
+        "credentialsNonExpired" : true,
+        "openId" : "admin",
+        "enabled" : true,
+        "gender" : "FEMALE",
+        "city" : null,
+        "country" : null,
+        "language" : null,
+        "province" : null,
+        "posts" : null,
+        "follow2me" : null,
+        "ifollow2" : null,
+        "media" : null,
+        "name" : "admin",
+        "email" : "adminm3958.com",
+        "password" : null,
+        "mobile" : "admin",
+        "roles" : [ {
+          "id" : 8,
+          "createdAt" : 1497924240871,
+          "dtoApplyTo" : null,
+          "dtoAction" : null,
+          "name" : "ROLE_ADMINISTRATOR"
+        }, {
+          "id" : 1,
+          "createdAt" : 1497924240712,
+          "dtoApplyTo" : null,
+          "dtoAction" : null,
+          "name" : "ROLE_USER"
+        } ]
+      },
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/followrelations/null"
+    }
+  } ]
+}

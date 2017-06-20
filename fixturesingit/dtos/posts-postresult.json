@@ -1,0 +1,36 @@
+{
+  "data" : {
+    "id" : "196608",
+    "type" : "posts",
+    "attributes" : {
+      "createdAt" : 1497948284519,
+      "media" : [ {
+        "id" : 294912,
+        "createdAt" : 1497948284423,
+        "dtoApplyTo" : null,
+        "dtoAction" : null,
+        "url" : "http://localhost:80/uploaded/62f1348580db4273b6cb6f489b6e41a9.js",
+        "contentType" : "application/octet-stream",
+        "localPath" : "62f1348580db4273b6cb6f489b6e41a9.js",
+        "size" : 61,
+        "orignName" : "v.js",
+        "creator" : null
+      } ],
+      "title" : "title",
+      "content" : "content",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "relationships" : {
+      "creator" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/196608/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/196608/creator"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/posts/196608"
+    }
+  }
+}

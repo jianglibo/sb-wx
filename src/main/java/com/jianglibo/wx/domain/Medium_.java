@@ -4,9 +4,11 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2017-06-16T15:08:31.472+0800")
+@Generated(value="Dali", date="2017-06-20T08:57:03.356+0800")
 @StaticMetamodel(Medium.class)
 public class Medium_ extends BaseEntity_ {
+	public static volatile SingularAttribute<Medium, String> orignName;
+	public static volatile SingularAttribute<Medium, BootUser> creator;
 	public static volatile SingularAttribute<Medium, String> url;
 	public static volatile SingularAttribute<Medium, String> contentType;
 	public static volatile SingularAttribute<Medium, String> localPath;

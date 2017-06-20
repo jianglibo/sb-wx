@@ -17,5 +17,7 @@ public interface FacadeRepositoryBase<E, D> {
 	E newByDto(D dto);
 
 	E findOne(Long id, boolean internalCall);
+	
+	E findOne(Long id);
 
 }

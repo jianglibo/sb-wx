@@ -5,23 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,6 +31,7 @@ public class TestUpload extends KatharsisBase {
 		MediumDto m = fr.getMedia().get(0);
 		assertThat(m.getContentType(), equalTo("application/octet-stream"));
 		assertTrue("should end with .js", m.getOrignName().endsWith(".js"));
+		assertTrue("should end with .js", m.getUrl().endsWith(".js"));
 	}
 	
 	@Test
@@ -51,41 +39,12 @@ public class TestUpload extends KatharsisBase {
 		FileUploadResponse fr = uploadFile(Paths.get("fixturesingit", "th.jpg"));
 		MediumDto m = fr.getMedia().get(0);
 		assertThat(m.getContentType(), equalTo("application/octet-stream"));
-		assertTrue("should end with .js", m.getOrignName().endsWith(".jpg"));
-	}
-
-	
-	private FileUploadResponse uploadFile(Path fp) throws IOException {
-		CloseableHttpClient httpclient = HttpClients.createDefault();
-		String jwtToken = getAdminJwtToken();
-		File file = fp.toFile();
-		HttpPost post = new HttpPost(appConfig.getOutUrlBase() + "/fileupload");
-		FileBody fileBody = new FileBody(file, ContentType.DEFAULT_BINARY);
-		StringBody stringBody1 = new StringBody("Message 1", ContentType.MULTIPART_FORM_DATA);
-		StringBody stringBody2 = new StringBody("Message 2", ContentType.MULTIPART_FORM_DATA);
-		// 
-		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-		builder.addPart("upfile", fileBody);
-		builder.addPart("text1", stringBody1);
-		builder.addPart("text2", stringBody2);
-		HttpEntity entity = builder.build();
-		post.setHeader("Authorization", "Bearer " + jwtToken);
-		
-		//
-		post.setEntity(entity);
-		HttpResponse response = httpclient.execute(post);
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		response.getEntity().writeTo(os);
-		String c = new String(os.toByteArray());
-		
-		FileUploadResponse m = indentOm.readValue(c, FileUploadResponse.class);
-		return m;
+		assertTrue("should end with .jpg", m.getOrignName().endsWith(".jpg"));
+		assertTrue("should end with .jpg", m.getUrl().endsWith(".jpg"));
 	}
 
 	@Override
 	protected String getResourceName() {
-		// TODO Auto-generated method stub
 		return null;
 
 	}

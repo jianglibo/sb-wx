@@ -115,13 +115,14 @@ public class FileUploadFilter implements Filter {
 						    		keyValue = Streams.asString(stream);
 						    	}
 						    } else {
-						    	Path destPath = getDestPath(destFolder, name);
+						    	String originName = getOriginName(item.getName());
+						    	Path destPath = getDestPath(destFolder, originName);
 						    	Files.copy(stream, destPath);
 						    	Medium mi = new Medium();
 						    	mi.setLocalPath(destFolder.relativize(destPath).toString());
 						    	mi.setSize(Files.size(destPath));
 						    	mi.setContentType(item.getContentType());
-						    	mi.setOrignName(item.getName());
+						    	mi.setOrignName(originName);
 						    	mi.setCreator(userRepository.findOne(SecurityUtil.getLoginUserId(), false));
 						    	mi.setUrl(appConfig.getUploadLinkBase() + mi.getLocalPath());
 						    	mi = mediumRepository.save(mi);
@@ -147,14 +148,22 @@ public class FileUploadFilter implements Filter {
 			}
 		}
 	}
+	
+	/**
+	 * remove path part of file name.
+	 * @param name
+	 * @return
+	 */
+	protected String getOriginName(String name) {
+		return Paths.get(name).getFileName().toString();
+	}
 
 
 	protected static Path getDestPath(Path destFolder, String name) {
-		String fn = Paths.get(name).getFileName().toString();
-		int lastDot = fn.lastIndexOf('.');
+		int lastDot = name.lastIndexOf('.');
 		String ext = "";
 		if (lastDot != -1) {
-			ext = fn.substring(lastDot);
+			ext = name.substring(lastDot);
 		}
 		return destFolder.resolve(UuidUtil.uuidNoDash() + ext);
 	}

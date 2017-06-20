@@ -23,4 +23,5 @@ public class LoginAttemptFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<L
 	public LoginAttempt newByDto(LoginAttemptDto dto) {
 		return null;
 	}
+
 }

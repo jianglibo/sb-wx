@@ -1,0 +1,10 @@
+{
+    "data": {
+        "type": "posts",
+        "attributes": {
+            "title": "title",
+            "content": "content",
+            "media": [{"id": 55}]
+        }
+    }
+}

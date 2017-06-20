@@ -1,5 +1,8 @@
 package com.jianglibo.wx.katharsis.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import com.jianglibo.wx.annotation.DtoToEntity;
@@ -22,6 +25,9 @@ public class PostDto extends DtoBase<PostDto, Post>{
 	
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="posts")
 	private UserDto creator;
+	
+	
+	private List<MediumDto> media = new ArrayList<>();
 	
 	@Override
 	public String toString() {
@@ -50,5 +56,13 @@ public class PostDto extends DtoBase<PostDto, Post>{
 
 	public void setCreator(UserDto creator) {
 		this.creator = creator;
+	}
+
+	public List<MediumDto> getMedia() {
+		return media;
+	}
+
+	public void setMedia(List<MediumDto> media) {
+		this.media = media;
 	}
 }

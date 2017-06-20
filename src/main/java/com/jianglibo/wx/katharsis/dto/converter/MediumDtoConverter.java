@@ -9,12 +9,12 @@ import com.jianglibo.wx.katharsis.dto.MediumDto;
 @Component
 public class MediumDtoConverter implements DtoConverter<Medium, MediumDto> {
 
-	@Override
-	public Medium dot2Entity(MediumDto dto) {
-		Medium entity = new Medium();
-		BeanUtils.copyProperties(dto, entity);
-		return entity;
-	}
+//	@Override
+//	public Medium dto2Entity(MediumDto dto) {
+//		Medium entity = new Medium();
+//		BeanUtils.copyProperties(dto, entity);
+//		return entity;
+//	}
 
 	@Override
 	public MediumDto entity2Dto(Medium entity) {

@@ -1,5 +1,6 @@
 package com.jianglibo.wx.facade.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -7,6 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,13 +16,18 @@ import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
 import com.jianglibo.wx.domain.BootUser_;
+import com.jianglibo.wx.domain.Medium;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.Post_;
+import com.jianglibo.wx.facade.BootUserFacadeRepository;
+import com.jianglibo.wx.facade.MediumFacadeRepository;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.SimplePageable;
 import com.jianglibo.wx.facade.SortBroker;
+import com.jianglibo.wx.katharsis.dto.MediumDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.repository.PostRepository;
+import com.jianglibo.wx.util.SecurityUtil;
 
 /**
  * @author jianglibo@gmail.com
@@ -28,6 +35,12 @@ import com.jianglibo.wx.repository.PostRepository;
  */
 @Component
 public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,PostDto, PostRepository> implements PostFacadeRepository {
+	
+	@Autowired
+	private BootUserFacadeRepository userRepo;
+	
+	@Autowired
+	private MediumFacadeRepository mediumRepo;
 	
 	public PostFacadeRepositoryImpl(PostRepository jpaRepo) {
 		super(jpaRepo);
@@ -67,8 +80,21 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 
 
 	@Override
+	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
 	public Post newByDto(PostDto dto) {
 		Post entity = new Post();
+		entity.setTitle(dto.getTitle());
+		entity.setContent(dto.getContent());
+		entity.setCreator(userRepo.findOne(SecurityUtil.getLoginUserId()));
+		entity = getRepository().save(entity);
+		
+		List<Medium> media = new ArrayList<>();
+		for(MediumDto mdto : dto.getMedia()) {
+			Medium m = mediumRepo.findOne(mdto.getId());
+			m.setPost(entity);
+			media.add(mediumRepo.save(m));
+		}
+		entity.setMedia(media);
 		return entity;
 	}
 }

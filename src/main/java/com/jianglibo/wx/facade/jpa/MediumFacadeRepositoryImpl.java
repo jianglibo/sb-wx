@@ -28,7 +28,6 @@ public class MediumFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Medium,
 
 	@Override
 	public Medium patch(Medium entity, MediumDto dto) {
-//		entity.setName(dto.getName());
 		return entity;
 	}
 

@@ -23,10 +23,10 @@ public class LoginAttemptDtoConverter implements DtoConverter<LoginAttempt, Logi
 	@Autowired
 	private UserDtoConverter userConverter;
 
-	@Override
-	public LoginAttempt dot2Entity(LoginAttemptDto dto) {
-		return null;
-	}
+//	@Override
+//	public LoginAttempt dto2Entity(LoginAttemptDto dto) {
+//		return null;
+//	}
 
 	@Override
 	public LoginAttemptDto entity2Dto(LoginAttempt entity) {

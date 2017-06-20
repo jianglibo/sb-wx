@@ -15,10 +15,10 @@ public class UserDtoConverter implements DtoConverter<BootUser, UserDto> {
 	@Autowired
 	private RoleDtoConverter roleConverter;
 
-	@Override
-	public BootUser dot2Entity(UserDto dto) {
-		return null;
-	}
+//	@Override
+//	public BootUser dto2Entity(UserDto dto) {
+//		return null;
+//	}
 
 	@Override
 	public UserDto entity2Dto(BootUser entity) {

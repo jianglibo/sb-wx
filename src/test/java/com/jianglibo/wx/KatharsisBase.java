@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -16,6 +18,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +44,7 @@ import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.vo.RoleNames;
+import com.jianglibo.wx.webapp.authorization.FileUploadFilter.FileUploadResponse;
 
 import io.katharsis.client.KatharsisClient;
 import io.katharsis.core.internal.boot.KatharsisBoot;
@@ -76,6 +88,35 @@ public abstract class KatharsisBase extends Tbase {
 
 	@Value("${katharsis.default-page-limit}")
 	private String pageSize;
+	
+	
+	protected FileUploadResponse uploadFile(Path fp) throws IOException {
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		String jwtToken = getAdminJwtToken();
+		File file = fp.toFile();
+		HttpPost post = new HttpPost(applicationConfig.getOutUrlBase() + "/fileupload");
+		FileBody fileBody = new FileBody(file, ContentType.DEFAULT_BINARY);
+		StringBody stringBody1 = new StringBody("Message 1", ContentType.MULTIPART_FORM_DATA);
+		StringBody stringBody2 = new StringBody("Message 2", ContentType.MULTIPART_FORM_DATA);
+		// 
+		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+		builder.addPart("upfile", fileBody);
+		builder.addPart("text1", stringBody1);
+		builder.addPart("text2", stringBody2);
+		org.apache.http.HttpEntity entity = builder.build();
+		post.setHeader("Authorization", "Bearer " + jwtToken);
+		
+		//
+		post.setEntity(entity);
+		HttpResponse response = httpclient.execute(post);
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		response.getEntity().writeTo(os);
+		String c = new String(os.toByteArray());
+		
+		FileUploadResponse m = indentOm.readValue(c, FileUploadResponse.class);
+		return m;
+	}
 	
 	public List<ErrorData> getErrors(ResponseEntity<String> response) throws JsonParseException, JsonMappingException, IOException {
 		Document d = toDocument(response.getBody());
@@ -128,6 +169,7 @@ public abstract class KatharsisBase extends Tbase {
 	}
 	
 	public void deleteAllPost() {
+		mediumRepo.deleteAll();
 		postRepo.deleteAll();
 	}
 	
@@ -174,6 +216,12 @@ public abstract class KatharsisBase extends Tbase {
 		HttpEntity<String> request = new HttpEntity<String>(objectMapper.writeValueAsString(document), getAuthorizationHaders(jwtToken));
 		return restTemplate.postForEntity(getBaseURI(), request, String.class);
 	}
+	
+	public ResponseEntity<String> postItemWithContent(String content, String jwtToken) throws IOException {
+		HttpEntity<String> request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
+		return restTemplate.postForEntity(getBaseURI(), request, String.class);
+	}
+
 	
 	public HttpHeaders getCsrfHeader() {
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -298,6 +346,25 @@ public abstract class KatharsisBase extends Tbase {
 		dest.put("id", id);
 		return objectMapper.writeValueAsString(m);
 	}
+	
+	
+	protected String replaceEmbeddedListIdReturnString(String origin,String propertyName, Long...ids) throws JsonParseException, JsonMappingException, IOException {
+		Map<String, Object> m = objectMapper.readValue(origin, Map.class);
+		
+		Map<String, Object> dest = m;
+		String[] paths = new String[]{"data", "attributes"};
+		for(String seg : paths) {
+			dest = (Map<String, Object>) dest.get(seg);
+		}
+		List<Map<String, Object>> embeddedArray = (List<Map<String, Object>>) dest.get(propertyName);
+		if (embeddedArray.size() != ids.length) {
+			throw new RuntimeException("id number not equal to embeded objects.");
+		}
+		for(int i=0; i< embeddedArray.size(); i++) {
+			embeddedArray.get(i).put("id", ids[i]);
+		}
+		return objectMapper.writeValueAsString(m);
+	}
 
 
 	
@@ -328,7 +395,6 @@ public abstract class KatharsisBase extends Tbase {
 		} else {
 			return (String) dest.get("related");
 		}
-		
 	}
 	
 	protected String getRelationshipsSelf(String content, String resoureName) throws JsonParseException, JsonMappingException, IOException {

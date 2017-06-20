@@ -42,11 +42,11 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
     private List<PostDto> posts;
     
-    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY)
-    private List<UserDto> follow2me;
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="befollowed")
+    private List<FollowRelationDto> follow2me;
     
-    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY)
-    private List<UserDto> ifollow2;
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite = "follower")
+    private List<FollowRelationDto> ifollow2;
     
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
     private List<MediumDto> media;
@@ -60,19 +60,21 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 		this.posts = posts;
 	}
 
-	public List<UserDto> getFollow2me() {
+
+
+	public List<FollowRelationDto> getFollow2me() {
 		return follow2me;
 	}
 
-	public void setFollow2me(List<UserDto> follow2me) {
+	public void setFollow2me(List<FollowRelationDto> follow2me) {
 		this.follow2me = follow2me;
 	}
 
-	public List<UserDto> getIfollow2() {
+	public List<FollowRelationDto> getIfollow2() {
 		return ifollow2;
 	}
 
-	public void setIfollow2(List<UserDto> ifollow2) {
+	public void setIfollow2(List<FollowRelationDto> ifollow2) {
 		this.ifollow2 = ifollow2;
 	}
 

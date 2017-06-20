@@ -8,11 +8,20 @@ import com.jianglibo.wx.katharsis.dto.FollowRelationDto;
 
 public interface FollowRelationFacadeRepository extends FacadeRepositoryBase<FollowRelation, FollowRelationDto> {
 	
-	List<FollowRelation> whosFollowedMe(long userId, long offset, Long limit, SortBroker...sortBrokers);
+	/**
+	 * find by followed mean the follow target is me. So the result is all I follower.
+	 */
+	List<FollowRelation> findByFollowed(long userId, long offset, Long limit, SortBroker...sortBrokers);
 	
-	long countWhosFollowedMe(long userId, long offset, Long limit, SortBroker...sortBrokers);
+	long countByFollowed(long userId, long offset, Long limit, SortBroker...sortBrokers);
 	
-	List<FollowRelation> whosIFollowedTo(long userId, long offset, Long limit, SortBroker...sortBrokers);
 	
-	long countWhosIFollowedTo(long userId, long offset, Long limit, SortBroker...sortBrokers);
+	/**
+	 * find by follower mean the follower is me. So the result is all I followed.
+	 */
+	List<FollowRelation> findByFollower(long userId, long offset, Long limit, SortBroker...sortBrokers);
+	
+	long countByFollower(long userId, long offset, Long limit, SortBroker...sortBrokers);
+	
+	
 }

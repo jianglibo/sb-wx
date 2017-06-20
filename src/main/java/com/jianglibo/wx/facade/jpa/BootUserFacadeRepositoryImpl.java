@@ -1,14 +1,21 @@
 package com.jianglibo.wx.facade.jpa;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
+import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
+import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
+import com.jianglibo.wx.facade.SimplePageable;
+import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.BootUserRepository;
 import com.jianglibo.wx.util.SecurityUtil;
@@ -26,6 +33,9 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	public BootUserFacadeRepositoryImpl(BootUserRepository jpaRepo) {
 		super(jpaRepo);
 	}
+	
+	@Autowired
+	private BootGroupFacadeRepository groupRepo;
 	
 	@Override
     @PreAuthorize("hasRole('ADMINISTRATOR') and (#id != principal.id)")
@@ -94,5 +104,17 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	@Override
 	public BootUser newByDto(UserDto dto) {
 		return null;
+	}
+
+	@Override
+	public List<BootUser> findAllByGroup(long groupId, long offset, Long limit, SortBroker... sortBrokers) {
+		BootGroup bg = groupRepo.findOne(groupId);
+		return getRepository().findAllByBootGroupsIn(Arrays.asList(bg), new SimplePageable(offset, limit, sortBrokers));
+	}
+
+	@Override
+	public long countByGroup(long groupId, long offset, Long limit, SortBroker... sortBrokers) {
+		BootGroup bg = groupRepo.findOne(groupId);
+		return getRepository().countByBootGroupsIn(Arrays.asList(bg));
 	}
 }

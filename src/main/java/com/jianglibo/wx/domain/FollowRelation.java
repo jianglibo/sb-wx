@@ -8,7 +8,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "followrelation", uniqueConstraints = { @UniqueConstraint(columnNames = {"follower_id", "befollowed_id"})})
+@Table(name = "followrelation", uniqueConstraints = { @UniqueConstraint(columnNames = {"follower_id", "followed_id"})})
 public class FollowRelation extends BaseEntity {
 
 	/**
@@ -19,9 +19,9 @@ public class FollowRelation extends BaseEntity {
 	public FollowRelation() {
 	}
 	
-	public FollowRelation(BootUser follower, BootUser befollowed) {
+	public FollowRelation(BootUser follower, BootUser followed) {
 		this.follower = follower;
-		this.befollowed = befollowed;
+		this.followed = followed;
 	}
 	
 	
@@ -32,8 +32,8 @@ public class FollowRelation extends BaseEntity {
 	
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "befollowed_id")
-	private BootUser befollowed;
+	@JoinColumn(name = "followed_id")
+	private BootUser followed;
 	
 
 	public BootUser getFollower() {
@@ -42,13 +42,12 @@ public class FollowRelation extends BaseEntity {
 	public void setFollower(BootUser follower) {
 		this.follower = follower;
 	}
-	public BootUser getBefollowed() {
-		return befollowed;
-	}
-	public void setBefollowed(BootUser befollowed) {
-		this.befollowed = befollowed;
-	}
-	
-	
 
+	public BootUser getFollowed() {
+		return followed;
+	}
+
+	public void setFollowed(BootUser followed) {
+		this.followed = followed;
+	}
 }

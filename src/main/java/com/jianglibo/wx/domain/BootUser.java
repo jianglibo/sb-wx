@@ -85,19 +85,17 @@ public class BootUser extends BaseEntity {
     
     private String province;
     
-	/**
-	 * From current user's perspective.
-	 * When someone follow to me, add me as befollowed.
-	 */
+    @ManyToMany(mappedBy="bootUser")
+    private List<GroupUserRelation> bootGroups = new ArrayList<>();
     
-    @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="befollowed")
-    private List<FollowRelation> follow2me = new ArrayList<>();
+    @OneToMany(mappedBy="creator", fetch=FetchType.LAZY)
+    private List<BootGroup> ownedGroups = new ArrayList<>();
     
-    /**
-     * When I follow someone, add me as follower, and add other user as befollowed.
-     */
+    @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="followed")
+    private List<FollowRelation> followers = new ArrayList<>();
+    
     @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="follower")
-    private List<FollowRelation> ifollow2 = new ArrayList<>();
+    private List<FollowRelation> followeds = new ArrayList<>();
     
     @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="post")
     private List<Medium> media = new ArrayList<>();
@@ -304,20 +302,36 @@ public class BootUser extends BaseEntity {
 		this.posts = posts;
 	}
 
-	public List<FollowRelation> getFollow2me() {
-		return follow2me;
+	public List<FollowRelation> getFollowers() {
+		return followers;
 	}
 
-	public void setFollow2me(List<FollowRelation> follow2me) {
-		this.follow2me = follow2me;
+	public void setFollowers(List<FollowRelation> followers) {
+		this.followers = followers;
 	}
 
-	public List<FollowRelation> getIfollow2() {
-		return ifollow2;
+	public List<FollowRelation> getFolloweds() {
+		return followeds;
 	}
 
-	public void setIfollow2(List<FollowRelation> ifollow2) {
-		this.ifollow2 = ifollow2;
+	public void setFolloweds(List<FollowRelation> followeds) {
+		this.followeds = followeds;
+	}
+
+	public List<GroupUserRelation> getBootGroups() {
+		return bootGroups;
+	}
+
+	public void setBootGroups(List<GroupUserRelation> bootGroups) {
+		this.bootGroups = bootGroups;
+	}
+
+	public List<BootGroup> getOwnedGroups() {
+		return ownedGroups;
+	}
+
+	public void setOwnedGroups(List<BootGroup> ownedGroups) {
+		this.ownedGroups = ownedGroups;
 	}
 
 	public static enum Gender {

@@ -4,6 +4,7 @@ public class JsonApiResourceNames {
 
 	public static final String LOGIN_ATTEMPT = "loginAttempts";
 	public static final String BOOT_USER = "users";
+	public static final String BOOT_GROUP = "groups";
 	public static final String ROLE = "roles";
 	
 	public static final String POST = "posts";
@@ -16,8 +17,6 @@ public class JsonApiResourceNames {
 	public static final String MY_SITE = "mysites";
 	
 	public static final String FOLLOW_RELATION = "followrelations";
-	
-	
 	
 	public static final String RECEIVED_MESSAGE = "receivedmessage";
 }

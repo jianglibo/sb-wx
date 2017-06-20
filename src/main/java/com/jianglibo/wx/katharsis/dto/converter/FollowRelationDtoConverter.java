@@ -24,7 +24,7 @@ public class FollowRelationDtoConverter implements DtoConverter<FollowRelation, 
 	public FollowRelationDto entity2Dto(FollowRelation entity) {
 		FollowRelationDto dto = new FollowRelationDto();
 		dto.setFollower(userConverter.entity2Dto(entity.getFollower()));
-		dto.setBefollowed(userConverter.entity2Dto(entity.getBefollowed()));
+		dto.setBefollowed(userConverter.entity2Dto(entity.getFollowed()));
 		return dto;
 	}
 }

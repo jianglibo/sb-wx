@@ -9,9 +9,9 @@ import com.jianglibo.wx.domain.FollowRelation;
 
 public interface FollowRelationRepository extends RepositoryBase<FollowRelation> {
 
-	List<FollowRelation> findAllByBefollowed(BootUser followTarget, Pageable pageable);
+	List<FollowRelation> findAllByFollowed(BootUser followTarget, Pageable pageable);
 	
-	long countByBefollowed(BootUser followTarget);
+	long countByFollowed(BootUser followTarget);
 	
 	List<FollowRelation> findAllByFollower(BootUser followTarget, Pageable pageable);
 	

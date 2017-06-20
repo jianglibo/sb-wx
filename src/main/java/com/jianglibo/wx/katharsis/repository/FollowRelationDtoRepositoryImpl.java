@@ -37,12 +37,12 @@ public class FollowRelationDtoRepositoryImpl  extends DtoRepositoryBase<FollowRe
 	@Override
 	protected FollowRelationDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("befollowed".equals(rq.getRelationName())) {
-			List<FollowRelation> follow2me = getRepository().whosFollowedMe(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = getRepository().countWhosFollowedMe(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			List<FollowRelation> follow2me = getRepository().findByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = getRepository().countByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			return convertToResourceList(follow2me, count);
 		} else if ("follower".equals(rq.getRelationName())) {
-			List<FollowRelation> follow2me = getRepository().whosIFollowedTo(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = getRepository().countWhosIFollowedTo(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			List<FollowRelation> follow2me = getRepository().findByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = getRepository().countByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			return convertToResourceList(follow2me, count);
 		}
 		return null;

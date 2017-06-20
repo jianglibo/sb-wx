@@ -27,6 +27,8 @@ import com.jianglibo.wx.config.ApplicationConfig;
 import com.jianglibo.wx.config.userdetail.BootUserDetailManager;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Role;
+import com.jianglibo.wx.facade.BootGroupFacadeRepository;
+import com.jianglibo.wx.repository.BootGroupRepository;
 import com.jianglibo.wx.repository.BootUserRepository;
 import com.jianglibo.wx.repository.MediumRepository;
 import com.jianglibo.wx.repository.PostRepository;
@@ -73,7 +75,9 @@ public abstract class Tbase extends M3958TsBase {
     
     @Autowired
     protected PostRepository postRepo;
-
+    
+	@Autowired
+	protected BootGroupRepository groupRepo;
 
     @Autowired
     protected RoleRepository roleRepo;

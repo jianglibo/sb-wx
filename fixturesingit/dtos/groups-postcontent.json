@@ -1,0 +1,9 @@
+{
+    "data": {
+        "type": "groups",
+        "attributes": {
+            "name": "agroup",
+            "members": []
+        }
+    }
+}

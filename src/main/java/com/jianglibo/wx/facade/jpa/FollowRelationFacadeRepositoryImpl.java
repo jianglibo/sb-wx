@@ -47,27 +47,29 @@ public class FollowRelationFacadeRepositoryImpl extends FacadeRepositoryBaseImpl
 		return null;
 	}
 
+
 	@Override
 	@PreAuthorize("hasRole('ADMINISTRATOR') or (#id == principal.id)")
-	public List<FollowRelation> whosFollowedMe(@P("id") long userId, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().findAllByBefollowed(userRepo.findOne(userId), new SimplePageable(offset, limit, sortBrokers));
+	public List<FollowRelation> findByFollowed(@P("id") long userId, long offset, Long limit, SortBroker... sortBrokers) {
+		return getRepository().findAllByFollowed(userRepo.findOne(userId), new SimplePageable(offset, limit, sortBrokers));
 	}
 
 	@Override
 	@PreAuthorize("hasRole('ADMINISTRATOR') or (#id == principal.id)")
-	public long countWhosFollowedMe(@P("id")long userId, long offset, Long limit, SortBroker... sortBrokers) {		return getRepository().countByBefollowed(userRepo.findOne(userId));
-
+	public long countByFollower(@P("id")long userId, long offset, Long limit, SortBroker... sortBrokers) {
+		return getRepository().countByFollowed(userRepo.findOne(userId));
 	}
 
 	@Override
 	@PreAuthorize("hasRole('ADMINISTRATOR') or (#id == principal.id)")
-	public List<FollowRelation> whosIFollowedTo(@P("id")long userId, long offset, Long limit, SortBroker... sortBrokers) {
+	public List<FollowRelation> findByFollower(@P("id")long userId, long offset, Long limit, SortBroker... sortBrokers) {
 		return getRepository().findAllByFollower(userRepo.findOne(userId), new SimplePageable(offset, limit, sortBrokers));
 	}
 
+
 	@Override
 	@PreAuthorize("hasRole('ADMINISTRATOR') or (#id == principal.id)")
-	public long countWhosIFollowedTo(@P("id")long userId, long offset, Long limit, SortBroker... sortBrokers) {
+	public long countByFollowed(@P("id")long userId, long offset, Long limit, SortBroker... sortBrokers) {
 		return getRepository().countByFollower(userRepo.findOne(userId));
 	}
 }

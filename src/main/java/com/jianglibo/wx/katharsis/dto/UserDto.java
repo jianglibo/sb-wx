@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jianglibo.wx.annotation.DtoToEntity;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
@@ -42,15 +43,25 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
     private List<PostDto> posts;
     
-    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="befollowed")
-    private List<FollowRelationDto> follow2me;
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="followedsOp")
+    private List<UserDto> followeds = new ArrayList<>();
     
-    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite = "follower")
-    private List<FollowRelationDto> ifollow2;
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite = "followersOp")
+    private List<UserDto> followers = new ArrayList<>();
+    
+    @JsonIgnore
+    private UserDto followersOp;
+    @JsonIgnore
+    private UserDto followedsOp;
     
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
     private List<MediumDto> media;
     
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="members")
+    private List<GroupDto> bootGroups;
+
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
+    private List<GroupDto> ownedGroups;
     
     public List<PostDto> getPosts() {
 		return posts;
@@ -61,21 +72,20 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 	}
 
 
-
-	public List<FollowRelationDto> getFollow2me() {
-		return follow2me;
+	public List<UserDto> getFolloweds() {
+		return followeds;
 	}
 
-	public void setFollow2me(List<FollowRelationDto> follow2me) {
-		this.follow2me = follow2me;
+	public void setFolloweds(List<UserDto> followeds) {
+		this.followeds = followeds;
 	}
 
-	public List<FollowRelationDto> getIfollow2() {
-		return ifollow2;
+	public List<UserDto> getFollowers() {
+		return followers;
 	}
 
-	public void setIfollow2(List<FollowRelationDto> ifollow2) {
-		this.ifollow2 = ifollow2;
+	public void setFollowers(List<UserDto> followers) {
+		this.followers = followers;
 	}
 
 	public List<MediumDto> getMedia() {
@@ -250,35 +260,13 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 		this.enabled = enabled;
 	}
 
-//	@Override
-//	public BootUser patch(BootUser entity) {
-//		entity.setAccountNonExpired(isAccountNonExpired());
-//		entity.setAccountNonLocked(isAccountNonLocked());
-//		entity.setCredentialsNonExpired(isCredentialsNonExpired());
-//		entity.setEmailVerified(isEmailVerified());
-//		entity.setMobileVerified(isMobileVerified());
-//		entity.setEnabled(isEnabled());
-//		
-//		entity.setAvatar(getAvatar());
-//		entity.setDisplayName(getDisplayName());
-//		entity.setEmail(getEmail());
-//		entity.setGender(getGender());
-//		entity.setId(getId());
-//		entity.setMobile(getMobile());
-//		entity.setName(getName());
-//		return entity;
-//	}
-//	
-//	public BootUser patchLeaveStatusUnChanged(BootUser entity) {
-//		entity.setAvatar(getAvatar());
-//		entity.setDisplayName(getDisplayName());
-//		entity.setEmail(getEmail());
-//		entity.setGender(getGender());
-//		entity.setId(getId());
-//		entity.setMobile(getMobile());
-//		entity.setName(getName());
-//		return entity;
-//	}
+	public List<GroupDto> getBootGroups() {
+		return bootGroups;
+	}
+
+	public void setBootGroups(List<GroupDto> bootGroups) {
+		this.bootGroups = bootGroups;
+	}
 
 	public String getOpenId() {
 		return openId;
@@ -286,5 +274,29 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 
 	public void setOpenId(String openId) {
 		this.openId = openId;
+	}
+
+	public List<GroupDto> getOwnedGroups() {
+		return ownedGroups;
+	}
+
+	public void setOwnedGroups(List<GroupDto> ownedGroups) {
+		this.ownedGroups = ownedGroups;
+	}
+
+	public UserDto getFollowersOp() {
+		return followersOp;
+	}
+
+	public void setFollowersOp(UserDto followersOp) {
+		this.followersOp = followersOp;
+	}
+
+	public UserDto getFollowedsOp() {
+		return followedsOp;
+	}
+
+	public void setFollowedsOp(UserDto followedsOp) {
+		this.followedsOp = followedsOp;
 	}
 }

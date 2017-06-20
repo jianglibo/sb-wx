@@ -43,6 +43,7 @@ import com.jianglibo.wx.config.StatelessCSRFFilter;
 import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
+import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.vo.RoleNames;
 import com.jianglibo.wx.webapp.authorization.FileUploadFilter.FileUploadResponse;
 
@@ -76,7 +77,6 @@ public abstract class KatharsisBase extends Tbase {
 	@Autowired
 	protected KatharsisBoot kboot;
 	
-
 	@Autowired
 	protected KatharsisClient katharsisClient;
 	
@@ -171,6 +171,10 @@ public abstract class KatharsisBase extends Tbase {
 	public void deleteAllPost() {
 		mediumRepo.deleteAll();
 		postRepo.deleteAll();
+	}
+	
+	public void delteAllGroups() {
+		groupRepo.deleteAll();
 	}
 	
 	public void writeDto(String content, String resourceName, String action) {

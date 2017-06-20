@@ -21,7 +21,6 @@ import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.domain.Post;
-import com.jianglibo.wx.katharsis.dto.FollowRelationDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.BootUserRepository;
@@ -82,26 +81,26 @@ public class TestUserApi  extends KatharsisBase {
 		FollowRelation fr = new FollowRelation(follower, bu);
 		fr = frRepo.save(fr);
 		
-		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/follow2me");
+		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/followers");
 		writeDto(response, JsonApiResourceNames.BOOT_USER, "getfollow2mesrelations-related");
-		List<FollowRelationDto> frdtos = getList(response, FollowRelationDto.class);
+		List<UserDto> frdtos = getList(response, UserDto.class);
 		assertThat(frdtos.size(), equalTo(1));
 		
-		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/ifollow2");
+		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/followeds");
 		writeDto(response, JsonApiResourceNames.BOOT_USER, "getfollow2mesrelations-related");
-		frdtos = getList(response, FollowRelationDto.class);
+		frdtos = getList(response, UserDto.class);
 		assertThat(frdtos.size(), equalTo(0));
 		
 		
-		response = requestForBody(jwtToken, getItemUrl(follower.getId()) + "/follow2me");
+		response = requestForBody(jwtToken, getItemUrl(follower.getId()) + "/followers");
 		writeDto(response, JsonApiResourceNames.BOOT_USER, "getfollow2mesrelations-related");
-		frdtos = getList(response, FollowRelationDto.class);
+		frdtos = getList(response, UserDto.class);
 		assertThat(frdtos.size(), equalTo(0));
 
 		
-		response = requestForBody(jwtToken, getItemUrl(follower.getId()) + "/ifollow2");
+		response = requestForBody(jwtToken, getItemUrl(follower.getId()) + "/followeds");
 		writeDto(response, JsonApiResourceNames.BOOT_USER, "getfollow2mesrelations-related");
-		frdtos = getList(response, FollowRelationDto.class);
+		frdtos = getList(response, UserDto.class);
 		assertThat(frdtos.size(), equalTo(1));
 
 	}

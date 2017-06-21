@@ -3,6 +3,7 @@ package com.jianglibo.wx.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,6 +35,13 @@ public class Post extends BaseEntity {
 	
 	@OneToMany(mappedBy="post", fetch=FetchType.EAGER)
 	private List<Medium> media = new ArrayList<>();
+	
+	@OneToMany(mappedBy="post", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
+	private List<PostShare> postShares = new ArrayList<>();
+	
+	@OneToMany(mappedBy="post", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
+	private List<PostUnRead> postUnread = new ArrayList<>(); 
+
 
 	public String getTitle() {
 		return title;
@@ -65,5 +73,21 @@ public class Post extends BaseEntity {
 
 	public void setCreator(BootUser creator) {
 		this.creator = creator;
+	}
+
+	public List<PostShare> getPostShares() {
+		return postShares;
+	}
+
+	public void setPostShares(List<PostShare> postShares) {
+		this.postShares = postShares;
+	}
+
+	public List<PostUnRead> getPostUnread() {
+		return postUnread;
+	}
+
+	public void setPostUnread(List<PostUnRead> postUnread) {
+		this.postUnread = postUnread;
 	}
 }

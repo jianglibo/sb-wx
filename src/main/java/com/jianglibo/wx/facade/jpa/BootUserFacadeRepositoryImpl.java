@@ -1,8 +1,8 @@
 package com.jianglibo.wx.facade.jpa;
 
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
@@ -10,11 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
-import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
-import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
-import com.jianglibo.wx.facade.SimplePageable;
+import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
 import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.BootUserRepository;
@@ -28,19 +26,18 @@ import com.jianglibo.wx.vo.RoleNames;
 @Component
 public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootUser, UserDto, BootUserRepository> implements BootUserFacadeRepository {
 	
+	@Autowired
+	private GroupUserRelationFacadeRepository gurRepo;
 
 	@Autowired
 	public BootUserFacadeRepositoryImpl(BootUserRepository jpaRepo) {
 		super(jpaRepo);
 	}
 	
-	@Autowired
-	private BootGroupFacadeRepository groupRepo;
-	
 	@Override
-    @PreAuthorize("hasRole('ADMINISTRATOR') and (#id != principal.id)")
-	public void delete(@P("id") Long id) {
-		super.delete(id);
+    @PreAuthorize("hasRole('ADMINISTRATOR') and (#entity.id != principal.id)")
+	public void delete(@P("entity") BootUser entity) {
+		super.delete(entity);
 	}
 
 
@@ -108,13 +105,12 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 
 	@Override
 	public List<BootUser> findAllByGroup(long groupId, long offset, Long limit, SortBroker... sortBrokers) {
-		BootGroup bg = groupRepo.findOne(groupId);
-		return getRepository().findAllByBootGroupsIn(Arrays.asList(bg), new SimplePageable(offset, limit, sortBrokers));
+		return gurRepo.findByBootGroup(groupId,offset,limit,sortBrokers).stream().map(gur -> gur.getBootUser()).collect(Collectors.toList());
 	}
 
 	@Override
-	public long countByGroup(long groupId, long offset, Long limit, SortBroker... sortBrokers) {
-		BootGroup bg = groupRepo.findOne(groupId);
-		return getRepository().countByBootGroupsIn(Arrays.asList(bg));
+	public long countByGroup(long groupId) {
+		return gurRepo.countByBootGroup(groupId);
 	}
+
 }

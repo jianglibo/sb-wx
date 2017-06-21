@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,7 @@ import com.jianglibo.wx.config.StatelessCSRFFilter;
 import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
-import com.jianglibo.wx.facade.BootGroupFacadeRepository;
+import com.jianglibo.wx.katharsis.dto.Dto;
 import com.jianglibo.wx.vo.RoleNames;
 import com.jianglibo.wx.webapp.authorization.FileUploadFilter.FileUploadResponse;
 
@@ -200,9 +201,21 @@ public abstract class KatharsisBase extends Tbase {
 		        HttpMethod.GET, request, String.class);
 	}
 	
-	public ResponseEntity<String> addRelation(String fixtureName,String relationName,Long itemId, String jwtToken) throws IOException {
+	public ResponseEntity<String> addRelationWithFixture(String fixtureName,String relationName,Long itemId, String jwtToken) throws IOException {
 		HttpEntity<String> request = new HttpEntity<String>(getFixtureWithExplicitName(fixtureName), getAuthorizationHaders(jwtToken));
 		return restTemplate.postForEntity(getItemUrl(itemId) + "/relationships/" + relationName, request, String.class);
+	}
+
+	public ResponseEntity<String> addRelationWithContent(String content,String relationName,Long itemId, String jwtToken) throws IOException {
+		HttpEntity<String> request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
+		return restTemplate.postForEntity(getItemUrl(itemId) + "/relationships/" + relationName, request, String.class);
+	}
+	
+	public ResponseEntity<String> deleteRelationWithContent(String content,String relationName,Long itemId, String jwtToken) throws IOException {
+		HttpEntity<String> request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
+		return restTemplate.exchange(
+				getItemUrl(itemId) + "/relationships/" + relationName,
+		        HttpMethod.DELETE, request, String.class);
 	}
 
 	
@@ -387,7 +400,7 @@ public abstract class KatharsisBase extends Tbase {
 		return objectMapper.readValue(replaceRelationshipLinkIdReturnString(origin, relationName, myType, value), Document.class);
 	}
 	
-	private String getRelationships(String content, String resoureName, boolean self) throws JsonParseException, JsonMappingException, IOException {
+	private String getRelationshipUrl(String content, String resoureName, boolean self) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(content, Map.class);
 		Map<String, Object> dest = m;
 		String[] paths = new String[]{"data", "relationships", resoureName, "links"};
@@ -401,11 +414,11 @@ public abstract class KatharsisBase extends Tbase {
 		}
 	}
 	
-	protected String getRelationshipsSelf(String content, String resoureName) throws JsonParseException, JsonMappingException, IOException {
-		return getRelationships(content, resoureName, true);
+	protected String getRelationshipUrlSelf(String content, String resoureName) throws JsonParseException, JsonMappingException, IOException {
+		return getRelationshipUrl(content, resoureName, true);
 	}
-	protected String getRelationshipsRelated(String content, String resoureName) throws JsonParseException, JsonMappingException, IOException {
-		return getRelationships(content, resoureName, false);
+	protected String getRelationshipUrlRelated(String content, String resoureName) throws JsonParseException, JsonMappingException, IOException {
+		return getRelationshipUrl(content, resoureName, false);
 	}
 	
 	protected String replaceRelationshipLinkIdReturnString(String origin,String relationName, String myType, Long value) throws JsonParseException, JsonMappingException, IOException {
@@ -509,5 +522,71 @@ public abstract class KatharsisBase extends Tbase {
 		}
 		assertTrue("should contains key: " + key, dest.containsKey(key));
 	}
+	
+	public static class JsonApiBodyWrapper {
+		private List<JsonApiObItem> data;
+		
+		public JsonApiBodyWrapper() {
+		}
+		
+		public JsonApiBodyWrapper(String type, List<? extends Dto> dtos) {
+			this.data = new ArrayList<>();
+			for(Dto dto : dtos) {
+				this.data.add(new JsonApiObItem(type,dto.getId()));
+			}
+		}
 
+		
+		public JsonApiBodyWrapper(String type, long...ids) {
+			this.data = new ArrayList<>();
+			for(long id : ids) {
+				this.data.add(new JsonApiObItem(type,id));
+			}
+		}
+		
+		public JsonApiBodyWrapper(String type, String...ids) {
+			this.data = new ArrayList<>();
+			for(String id : ids) {
+				this.data.add(new JsonApiObItem(type,id));
+			}
+		}
+
+
+		public List<JsonApiObItem> getData() {
+			return data;
+		}
+
+		public void setData(List<JsonApiObItem> data) {
+			this.data = data;
+		}
+	}
+	
+	public static class JsonApiObItem {
+		private String type;
+		private String id;
+		
+		public JsonApiObItem(){}
+		public JsonApiObItem(String type, long id){
+			this.type = type;
+			this.id = String.valueOf(id);
+		}
+		public JsonApiObItem(String type, String id){
+			this.type = type;
+			this.id = id;
+		}
+		
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
+		}
+		public String getId() {
+			return id;
+		}
+		public void setId(String id) {
+			this.id = id;
+		}
+	}
+	
 }

@@ -7,7 +7,7 @@ import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
 
 @Component
-public class BootGroupDtoConverter implements DtoConverter<BootGroup, GroupDto> {
+public class GroupDtoConverter implements DtoConverter<BootGroup, GroupDto> {
 
 //	@Override
 //	public BootGroup dto2Entity(BootGroupDto dto) {

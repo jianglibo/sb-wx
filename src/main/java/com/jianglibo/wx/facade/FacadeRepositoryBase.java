@@ -10,6 +10,8 @@ public interface FacadeRepositoryBase<E, D> {
 	
 	E save(E entity);
 	
+	void delete(E entity);
+	
 	void delete(Long id);
 	
 	E patch(E entity, D dto);

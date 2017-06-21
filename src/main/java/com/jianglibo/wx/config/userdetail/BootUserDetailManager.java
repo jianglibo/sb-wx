@@ -131,7 +131,7 @@ public class BootUserDetailManager implements UserDetailsManager {
     @Override
     public void deleteUser(String username) {
     	BootUser bootUser = userRepo.findByName(username);
-        userRepo.delete(bootUser.getId());
+        userRepo.delete(bootUser);
     }
 
     @Override

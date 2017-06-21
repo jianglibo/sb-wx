@@ -8,38 +8,39 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "groupuser", uniqueConstraints = { @UniqueConstraint(columnNames = {"group_id", "user_id"})})
-public class GroupUserRelation extends BaseEntity {
+@Table(name = "postshare", uniqueConstraints = { @UniqueConstraint(columnNames = {"post_id", "user_id"})})
+public class PostShare extends BaseEntity {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5610224553913163277L;
+	private static final long serialVersionUID = 1L;
 
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="group_id")
-	private BootGroup bootGroup;
+	@JoinColumn(name="post_id")
+	private Post post;
 	
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private BootUser bootUser;
 	
-	public GroupUserRelation() {
+	public PostShare() {
 	}
 	
-	public GroupUserRelation(BootGroup group, BootUser user) {
-		this.bootGroup = group;
+	public PostShare(Post post, BootUser user) {
+		this.post = post;
 		this.bootUser = user;
 	}
 
-	public BootGroup getBootGroup() {
-		return bootGroup;
+
+	public Post getPost() {
+		return post;
 	}
 
-	public void setBootGroup(BootGroup bootGroup) {
-		this.bootGroup = bootGroup;
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
 	public BootUser getBootUser() {
@@ -49,6 +50,5 @@ public class GroupUserRelation extends BaseEntity {
 	public void setBootUser(BootUser bootUser) {
 		this.bootUser = bootUser;
 	}
-	
 	
 }

@@ -56,7 +56,7 @@ public class FollowRelationFacadeRepositoryImpl extends FacadeRepositoryBaseImpl
 
 	@Override
 	@PreAuthorize("hasRole('ADMINISTRATOR') or (#id == principal.id)")
-	public long countByFollower(@P("id")long userId, long offset, Long limit, SortBroker... sortBrokers) {
+	public long countByFollower(@P("id")long userId) {
 		return getRepository().countByFollowed(userRepo.findOne(userId));
 	}
 
@@ -69,7 +69,7 @@ public class FollowRelationFacadeRepositoryImpl extends FacadeRepositoryBaseImpl
 
 	@Override
 	@PreAuthorize("hasRole('ADMINISTRATOR') or (#id == principal.id)")
-	public long countByFollowed(@P("id")long userId, long offset, Long limit, SortBroker... sortBrokers) {
+	public long countByFollowed(@P("id")long userId) {
 		return getRepository().countByFollower(userRepo.findOne(userId));
 	}
 }

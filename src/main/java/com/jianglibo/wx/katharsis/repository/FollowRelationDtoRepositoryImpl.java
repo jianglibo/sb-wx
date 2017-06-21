@@ -38,11 +38,11 @@ public class FollowRelationDtoRepositoryImpl  extends DtoRepositoryBase<FollowRe
 	protected FollowRelationDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("befollowed".equals(rq.getRelationName())) {
 			List<FollowRelation> follow2me = getRepository().findByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = getRepository().countByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = getRepository().countByFollowed(rq.getRelationIds().get(0));
 			return convertToResourceList(follow2me, count);
 		} else if ("follower".equals(rq.getRelationName())) {
 			List<FollowRelation> follow2me = getRepository().findByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = getRepository().countByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = getRepository().countByFollower(rq.getRelationIds().get(0));
 			return convertToResourceList(follow2me, count);
 		}
 		return null;

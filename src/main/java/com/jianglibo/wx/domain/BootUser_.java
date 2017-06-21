@@ -7,7 +7,7 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2017-06-20T09:03:57.301+0800")
+@Generated(value="Dali", date="2017-06-21T16:48:05.077+0800")
 @StaticMetamodel(BootUser.class)
 public class BootUser_ extends BaseEntity_ {
 	public static volatile SingularAttribute<BootUser, String> displayName;
@@ -29,8 +29,12 @@ public class BootUser_ extends BaseEntity_ {
 	public static volatile SingularAttribute<BootUser, String> country;
 	public static volatile SingularAttribute<BootUser, String> language;
 	public static volatile SingularAttribute<BootUser, String> province;
-	public static volatile ListAttribute<BootUser, FollowRelation> follow2me;
-	public static volatile ListAttribute<BootUser, FollowRelation> ifollow2;
+	public static volatile ListAttribute<BootUser, GroupUserRelation> bootGroups;
+	public static volatile ListAttribute<BootUser, BootGroup> ownedGroups;
+	public static volatile ListAttribute<BootUser, FollowRelation> followers;
+	public static volatile ListAttribute<BootUser, FollowRelation> followeds;
 	public static volatile ListAttribute<BootUser, Medium> media;
 	public static volatile SetAttribute<BootUser, Role> roles;
+	public static volatile ListAttribute<BootUser, PostShare> postShares;
+	public static volatile ListAttribute<BootUser, PostUnRead> postUnread;
 }

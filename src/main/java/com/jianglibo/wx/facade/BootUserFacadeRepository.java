@@ -20,5 +20,6 @@ public interface BootUserFacadeRepository extends FacadeRepositoryBase<BootUser,
 	BootUser findByOpenId(String openId);
 	
 	List<BootUser> findAllByGroup(long groupId, long offset, Long limit, SortBroker...sortBrokers);
-	long countByGroup(long groupId, long offset, Long limit, SortBroker...sortBrokers);
+	
+	long countByGroup(long groupId);
 }

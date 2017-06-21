@@ -39,6 +39,11 @@ public abstract class FacadeRepositoryBaseImpl<T, D, R extends RepositoryBase<T>
 	}
 
 	@Override
+	public void delete(T entity) {
+		jpaRepo.delete(entity);
+	}
+	
+	@Override
 	public void delete(Long id) {
 		jpaRepo.delete(id);
 	}

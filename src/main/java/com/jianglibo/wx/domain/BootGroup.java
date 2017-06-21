@@ -3,7 +3,9 @@ package com.jianglibo.wx.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,6 +24,10 @@ public class BootGroup extends BaseEntity {
 	@NotNull
 	private String name;
 	
+	private String description;
+	
+	private String thumbUrl;
+	
 	public BootGroup() {
 	}
 	
@@ -32,7 +38,7 @@ public class BootGroup extends BaseEntity {
 	@ManyToOne
 	private BootUser creator;
 	
-	@OneToMany(mappedBy="bootGroup")
+	@OneToMany(mappedBy="bootGroup", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
 	private List<GroupUserRelation> members = new ArrayList<>();
 
 	public String getName() {
@@ -57,5 +63,21 @@ public class BootGroup extends BaseEntity {
 
 	public void setCreator(BootUser creator) {
 		this.creator = creator;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getThumbUrl() {
+		return thumbUrl;
+	}
+
+	public void setThumbUrl(String thumbUrl) {
+		this.thumbUrl = thumbUrl;
 	}
 }

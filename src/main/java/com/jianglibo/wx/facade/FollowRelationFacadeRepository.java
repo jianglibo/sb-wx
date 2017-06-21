@@ -13,7 +13,7 @@ public interface FollowRelationFacadeRepository extends FacadeRepositoryBase<Fol
 	 */
 	List<FollowRelation> findByFollowed(long userId, long offset, Long limit, SortBroker...sortBrokers);
 	
-	long countByFollowed(long userId, long offset, Long limit, SortBroker...sortBrokers);
+	long countByFollowed(long userId);
 	
 	
 	/**
@@ -21,7 +21,7 @@ public interface FollowRelationFacadeRepository extends FacadeRepositoryBase<Fol
 	 */
 	List<FollowRelation> findByFollower(long userId, long offset, Long limit, SortBroker...sortBrokers);
 	
-	long countByFollower(long userId, long offset, Long limit, SortBroker...sortBrokers);
+	long countByFollower(long userId);
 	
 	
 }

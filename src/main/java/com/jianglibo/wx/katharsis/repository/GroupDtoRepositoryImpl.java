@@ -9,17 +9,17 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
-import com.jianglibo.wx.katharsis.dto.converter.BootGroupDtoConverter;
-import com.jianglibo.wx.katharsis.repository.BootGroupDtoRepository.BootGroupDtoList;
+import com.jianglibo.wx.katharsis.dto.converter.GroupDtoConverter;
+import com.jianglibo.wx.katharsis.repository.GroupDtoRepository.BootGroupDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 
 import io.katharsis.queryspec.QuerySpec;
 
 @Component
-public class BootGroupDtoRepositoryImpl  extends DtoRepositoryBase<GroupDto, BootGroupDtoList, BootGroup, BootGroupFacadeRepository> implements BootGroupDtoRepository {
+public class GroupDtoRepositoryImpl  extends DtoRepositoryBase<GroupDto, BootGroupDtoList, BootGroup, BootGroupFacadeRepository> implements GroupDtoRepository {
 	
 	@Autowired
-	public BootGroupDtoRepositoryImpl(BootGroupFacadeRepository repository, BootGroupDtoConverter converter) {
+	public GroupDtoRepositoryImpl(BootGroupFacadeRepository repository, GroupDtoConverter converter) {
 		super(GroupDto.class, BootGroupDtoList.class, BootGroup.class, repository, converter);
 	}
 
@@ -30,13 +30,11 @@ public class BootGroupDtoRepositoryImpl  extends DtoRepositoryBase<GroupDto, Boo
 
 	@Override
 	protected List<String> checkAllSortableFieldAllowed(QuerySpec querySpec) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected BootGroupDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

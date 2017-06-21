@@ -49,6 +49,12 @@ public class BootUser extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender = Gender.FEMALE;
     
+    @OneToMany(mappedBy="bootUser", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
+    private List<PostShare> postShares = new ArrayList<>();
+    
+    @OneToMany(mappedBy="bootUser", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
+    private List<PostUnRead> postUnread = new ArrayList<>();
+    
     @NotNull
     @Column(nullable = false)
     private String name;
@@ -85,7 +91,7 @@ public class BootUser extends BaseEntity {
     
     private String province;
     
-    @ManyToMany(mappedBy="bootUser")
+    @OneToMany(mappedBy="bootUser", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
     private List<GroupUserRelation> bootGroups = new ArrayList<>();
     
     @OneToMany(mappedBy="creator", fetch=FetchType.LAZY)
@@ -333,6 +339,24 @@ public class BootUser extends BaseEntity {
 	public void setOwnedGroups(List<BootGroup> ownedGroups) {
 		this.ownedGroups = ownedGroups;
 	}
+
+	public List<PostShare> getPostShares() {
+		return postShares;
+	}
+
+	public void setPostShares(List<PostShare> postShares) {
+		this.postShares = postShares;
+	}
+
+	public List<PostUnRead> getPostUnread() {
+		return postUnread;
+	}
+
+	public void setPostUnread(List<PostUnRead> postUnread) {
+		this.postUnread = postUnread;
+	}
+
+
 
 	public static enum Gender {
         MALE, FEMALE

@@ -1,5 +1,6 @@
 package com.jianglibo.wx.katharsis.repository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
+import com.jianglibo.wx.katharsis.dto.GroupDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.UserDto.OnCreateGroup;
 import com.jianglibo.wx.katharsis.dto.converter.UserDtoConverter;
@@ -83,25 +85,42 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 		UserDto udt = new UserDto();
 		udt.setId(rq.getRelationIds().get(0));
 		if ("bootGroups".equals(rq.getRelationName())) {
-			List<BootUser> posts = getRepository().findAllByGroup(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = getRepository().countByGroup(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			return convertToResourceList(posts, count);
+			GroupDto gdo = new GroupDto();
+			gdo.setId(rq.getRelationIds().get(0));
+			List<BootUser> users = getRepository().findAllByGroup(gdo.getId(), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = getRepository().countByGroup(rq.getRelationIds().get(0));
+			return convertToResourceList(users, count, gdo);
 		} else if ("followersOp".equals(rq.getRelationName())) {
 			List<FollowRelation> followers = followRelationDtoRepository.findByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = followRelationDtoRepository.countByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = followRelationDtoRepository.countByFollowed(rq.getRelationIds().get(0));
 			List<BootUser> users = followers.stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
 			return convertToResourceList(users, count, udt);
 		} else if ("followedsOp".equals(rq.getRelationName())) {
 			List<FollowRelation> followers = followRelationDtoRepository.findByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = followRelationDtoRepository.countByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = followRelationDtoRepository.countByFollower(rq.getRelationIds().get(0));
 			List<BootUser> users = followers.stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
 			return convertToResourceList(users, count, udt);
 		}
 		return null;
 	}
 	
+	protected UserDtoList convertToResourceList(List<BootUser> entities, long count, GroupDto gdo) {
+		final List<GroupDto> gdos = Arrays.asList(gdo);
+		List<UserDto> list = entities.stream().map(entity -> {
+				UserDto ud = getConverter().entity2Dto(entity);
+				ud.setBootGroups(gdos);
+				return ud;
+			}).collect(Collectors.toList());		
+		UserDtoList listOb = null;
+		listOb = new UserDtoList();
+		listOb.setMeta(new DtoListMeta(count));
+		listOb.setLinks(new DtoListLinks());
+		listOb.addAll(list);
+		return listOb;
+	}
+	
 	/**
-	 * treat katharsis framework.
+	 * cheat katharsis framework.
 	 * 
 	 * @param entities
 	 * @param count

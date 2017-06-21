@@ -1,0 +1,77 @@
+{
+  "data" : [ {
+    "id" : "2",
+    "type" : "users",
+    "attributes" : {
+      "country" : null,
+      "gender" : "FEMALE",
+      "city" : null,
+      "displayName" : null,
+      "openId" : "aaa",
+      "roles" : [ {
+        "id" : 1,
+        "createdAt" : 1498008992609,
+        "dtoApplyTo" : null,
+        "dtoAction" : null,
+        "name" : "ROLE_USER"
+      } ],
+      "credentialsNonExpired" : true,
+      "mobile" : "aaa",
+      "mobileVerified" : false,
+      "language" : null,
+      "avatar" : null,
+      "enabled" : true,
+      "dtoApplyTo" : null,
+      "createdAt" : 1498008996582,
+      "emailVerified" : false,
+      "password" : null,
+      "province" : null,
+      "name" : "aaa",
+      "accountNonExpired" : true,
+      "email" : "aaam3958.com",
+      "dtoAction" : null,
+      "accountNonLocked" : true
+    },
+    "relationships" : {
+      "followers" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/2/relationships/followers",
+          "related" : "http://localhost/jsonapi/users/2/followers"
+        }
+      },
+      "ownedGroups" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/2/relationships/ownedGroups",
+          "related" : "http://localhost/jsonapi/users/2/ownedGroups"
+        }
+      },
+      "followeds" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/2/relationships/followeds",
+          "related" : "http://localhost/jsonapi/users/2/followeds"
+        }
+      },
+      "bootGroups" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/2/relationships/bootGroups",
+          "related" : "http://localhost/jsonapi/users/2/bootGroups"
+        }
+      },
+      "media" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/2/relationships/media",
+          "related" : "http://localhost/jsonapi/users/2/media"
+        }
+      },
+      "posts" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/2/relationships/posts",
+          "related" : "http://localhost/jsonapi/users/2/posts"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/users/2"
+    }
+  } ]
+}

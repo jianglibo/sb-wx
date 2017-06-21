@@ -16,4 +16,6 @@ public interface FollowRelationRepository extends RepositoryBase<FollowRelation>
 	List<FollowRelation> findAllByFollower(BootUser followTarget, Pageable pageable);
 	
 	long countByFollower(BootUser followTarget);
+
+	FollowRelation findByFollowedAndFollower(BootUser befollowed, BootUser follower);
 }

@@ -2,17 +2,13 @@ package com.jianglibo.wx.facade.jpa;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
-import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
+import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
-import com.jianglibo.wx.facade.BootGroupFacadeRepository;
-import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.facade.SimplePageable;
 import com.jianglibo.wx.facade.SortBroker;
@@ -30,12 +26,6 @@ public class PostShareFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post
 		super(jpaRepo);
 	}
 	
-	@Autowired
-	private BootUserFacadeRepository userRepo;
-	
-	@Autowired
-	private BootGroupFacadeRepository groupRepo;
-	
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
 	public PostShare save(PostShare entity) {
@@ -52,32 +42,28 @@ public class PostShareFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post
 		return null;
 	}
 
-
 	@Override
-	public List<PostShare> findByBootGroup(@P("id") long groupId, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().findAllByBootGroup(groupRepo.findOne(groupId), new SimplePageable(offset, limit, sortBrokers));
+	public List<PostShare> findByBootUser(BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
+		return getRepository().findAllByBootUser(user, new SimplePageable(offset, limit, sortBrokers));
 	}
 
 	@Override
-	public long countByBootGroup(@P("id")long groupId) {
-		return getRepository().countByBootGroup(groupRepo.findOne(groupId));
+	public long countByBootUser(BootUser user) {
+		return getRepository().countByBootUser(user);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ADMINISTRATOR') or (#id == principal.id)")
-	public List<PostShare> findByBootUser(@P("id")long userId, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().findAllByBootUser(userRepo.findOne(userId), new SimplePageable(offset, limit, sortBrokers));
-	}
-
-
-	@Override
-	@PreAuthorize("hasRole('ADMINISTRATOR') or (#id == principal.id)")
-	public long countByBootUser(@P("id")long userId) {
-		return getRepository().countByBootUser(userRepo.findOne(userId));
+	public List<PostShare> findByPost(Post post, long offset, Long limit, SortBroker... sortBrokers) {
+		return getRepository().findAllByPost(post, new SimplePageable(offset, limit, sortBrokers));
 	}
 
 	@Override
-	public PostShare findByBootGroupAndBootUser(BootGroup group, BootUser user) {
-		return getRepository().findByBootGroupAndBootUser(group, user);
+	public long countByPost(Post post) {
+		return getRepository().countByPost(post);
+	}
+
+	@Override
+	public PostShare findByPostAndBootUser(Post post, BootUser user) {
+		return getRepository().findByPostAndBootUser(post, user);
 	}
 }

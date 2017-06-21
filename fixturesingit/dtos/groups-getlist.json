@@ -1,9 +1,9 @@
 {
   "data" : [ {
-    "id" : "688129",
+    "id" : "2",
     "type" : "groups",
     "attributes" : {
-      "createdAt" : 1498029470748,
+      "createdAt" : 1498047374898,
       "name" : "agroup",
       "dtoAction" : null,
       "dtoApplyTo" : null
@@ -11,24 +11,24 @@
     "relationships" : {
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/groups/688129/relationships/creator",
-          "related" : "http://localhost/jsonapi/groups/688129/creator"
+          "self" : "http://localhost:88/jsonapi/groups/2/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/groups/2/creator"
         }
       },
       "members" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/groups/688129/relationships/members",
-          "related" : "http://localhost/jsonapi/groups/688129/members"
+          "self" : "http://localhost:88/jsonapi/groups/2/relationships/members",
+          "related" : "http://localhost:88/jsonapi/groups/2/members"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/groups/688129"
+      "self" : "http://localhost:88/jsonapi/groups/2"
     }
   } ],
   "links" : {
-    "first" : "http://localhost/jsonapi/groups/?page[limit]=20",
-    "last" : "http://localhost/jsonapi/groups/?page[limit]=20",
+    "first" : "http://localhost:88/jsonapi/groups/?page[limit]=20",
+    "last" : "http://localhost:88/jsonapi/groups/?page[limit]=20",
     "next" : null,
     "prev" : null
   },

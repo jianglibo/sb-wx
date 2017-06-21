@@ -146,13 +146,13 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 		} else {
 			RelationQuery rq = QuerySpecUtil.findRelationQuery(querySpec); 
 			if (rq != null) {
-				return findWithRelationAdnSpec(rq, querySpec);
+				return findWithRelationAndSpec(rq, querySpec);
 			}
 			return findAllWithQuerySpec(querySpec);
 		}
 	}
 	
-	protected abstract L findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec);
+	protected abstract L findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec);
 
 	protected abstract List<String> checkAllSortableFieldAllowed(QuerySpec querySpec);
 

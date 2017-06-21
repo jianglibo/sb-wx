@@ -35,7 +35,7 @@ public class MediumDtoRepositoryImpl  extends DtoRepositoryBase<MediumDto, Mediu
 	}
 
 	@Override
-	protected MediumDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
+	protected MediumDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		// TODO Auto-generated method stub
 		return null;
 	}

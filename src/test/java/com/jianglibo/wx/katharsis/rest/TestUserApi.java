@@ -23,17 +23,11 @@ import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
-import com.jianglibo.wx.repository.BootUserRepository;
 import com.jianglibo.wx.repository.FollowRelationRepository;
 
 public class TestUserApi  extends KatharsisBase {
 	
 	private static final String USER_T1 = "USER_T1";
-	
-	private String jwtToken;
-	
-	@Autowired
-	private BootUserRepository userRepository;
 	
 	@Autowired
 	private FollowRelationRepository frRepo;
@@ -46,7 +40,7 @@ public class TestUserApi  extends KatharsisBase {
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		long c= userRepository.count();
+		long c= bootUserRepo.count();
 		assertThat(c, equalTo(1L));
 		ResponseEntity<String> response = postItem(jwtToken);
 		writeDto(response, getResourceName(), ActionNames.POST_RESULT);
@@ -58,7 +52,7 @@ public class TestUserApi  extends KatharsisBase {
 		response = requestForBody(jwtToken, getItemUrl(newUser.getId()));
 		writeDto(response, getResourceName(), ActionNames.GET_ONE);
 		response = deleteByExchange(jwtToken, getItemUrl(newUser.getId()));
-		assertThat(userRepository.count(), equalTo(c));
+		assertThat(bootUserRepo.count(), equalTo(c));
 	}
 	
 	@Test
@@ -69,7 +63,7 @@ public class TestUserApi  extends KatharsisBase {
 	
 	@Test
 	public void tDeleteSelf() throws JsonParseException, JsonMappingException, IOException {
-		BootUser bu = userRepository.findByName("admin");
+		BootUser bu = bootUserRepo.findByName("admin");
 		ResponseEntity<String> response = deleteByExchange(jwtToken, getItemUrl(bu.getId()));
 		getErrors(response);
 	}
@@ -102,7 +96,6 @@ public class TestUserApi  extends KatharsisBase {
 		writeDto(response, JsonApiResourceNames.BOOT_USER, "getfollow2mesrelations-related");
 		frdtos = getList(response, UserDto.class);
 		assertThat(frdtos.size(), equalTo(1));
-
 	}
 	
 	@Test

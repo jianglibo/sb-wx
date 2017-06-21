@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
+import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
@@ -71,5 +72,10 @@ public class FollowRelationFacadeRepositoryImpl extends FacadeRepositoryBaseImpl
 	@PreAuthorize("hasRole('ADMINISTRATOR') or (#id == principal.id)")
 	public long countByFollowed(@P("id")long userId) {
 		return getRepository().countByFollower(userRepo.findOne(userId));
+	}
+
+	@Override
+	public FollowRelation findByFollowedAndFollower(BootUser befollowed, BootUser follower) {
+		return getRepository().findByFollowedAndFollower(befollowed, follower);
 	}
 }

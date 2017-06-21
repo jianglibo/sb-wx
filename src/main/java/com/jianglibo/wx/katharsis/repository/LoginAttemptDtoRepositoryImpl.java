@@ -86,7 +86,7 @@ public class LoginAttemptDtoRepositoryImpl  extends DtoRepositoryBase<LoginAttem
 	}
 
 	@Override
-	protected LoginAttemptDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
+	protected LoginAttemptDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		return null;
 	}
 	

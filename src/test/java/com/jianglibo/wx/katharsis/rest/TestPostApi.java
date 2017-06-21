@@ -58,5 +58,4 @@ public class TestPostApi  extends KatharsisBase {
 	protected String getResourceName() {
 		return JsonApiResourceNames.POST;
 	}
-
 }

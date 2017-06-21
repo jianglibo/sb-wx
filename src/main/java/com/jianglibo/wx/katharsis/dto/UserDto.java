@@ -63,7 +63,8 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
     private List<GroupDto> ownedGroups;
     
-    
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="sharedUsers")
+    private List<PostDto> sharedPosts;
     
     public List<PostDto> getPosts() {
 		return posts;
@@ -299,5 +300,13 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 
 	public void setFollowedsOp(UserDto followedsOp) {
 		this.followedsOp = followedsOp;
+	}
+
+	public List<PostDto> getSharedPosts() {
+		return sharedPosts;
+	}
+
+	public void setSharedPosts(List<PostDto> sharedPosts) {
+		this.sharedPosts = sharedPosts;
 	}
 }

@@ -45,6 +45,7 @@ import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.katharsis.dto.Dto;
+import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.vo.RoleNames;
 import com.jianglibo.wx.webapp.authorization.FileUploadFilter.FileUploadResponse;
 
@@ -58,6 +59,8 @@ public abstract class KatharsisBase extends Tbase {
 	private static String mt = "application/vnd.api+json;charset=UTF-8";
 	
 	private static Path dtosPath = Paths.get("fixturesingit", "dtos");
+	
+	protected String jwtToken;
 	
 	protected static class ActionNames {
 		public static String POST_RESULT = "postresult";
@@ -132,6 +135,15 @@ public abstract class KatharsisBase extends Tbase {
 	public void assertAccessDenied(ResponseEntity<String> response) throws JsonParseException, JsonMappingException, IOException {
 		ErrorData ed = getErrorSingle(response);
 		assertThat(ed.getCode(), equalTo(AppErrorCodes.ACCESS_DENIED));
+	}
+	
+	public <T> void assertItemNumber(ResponseEntity<String> response, Class<T> clazz, int expectedNumber) throws JsonParseException, JsonMappingException, IOException {
+		List<T>  items = getList(response, clazz);
+		assertThat(items.size(), equalTo(expectedNumber));
+	}
+	
+	public void assertResponseCode(ResponseEntity<String> response, int code) {
+		assertThat(response.getStatusCodeValue(), equalTo(code));
 	}
 	
 	public void assertData(ResponseEntity<String> response) throws JsonParseException, JsonMappingException, IOException {

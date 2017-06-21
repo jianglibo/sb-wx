@@ -1,17 +1,17 @@
 {
   "data" : [ {
-    "id" : "196608",
+    "id" : "294912",
     "type" : "posts",
     "attributes" : {
-      "createdAt" : 1497948284519,
+      "createdAt" : 1498050861084,
       "media" : [ {
-        "id" : 294912,
-        "createdAt" : 1497948284423,
+        "id" : 1,
+        "createdAt" : 1498050861019,
         "dtoApplyTo" : null,
         "dtoAction" : null,
-        "url" : "http://localhost:80/uploaded/62f1348580db4273b6cb6f489b6e41a9.js",
+        "url" : "http://localhost:88/uploaded/409614c46e944fc39b7e1ca2803636f8.js",
         "contentType" : "application/octet-stream",
-        "localPath" : "62f1348580db4273b6cb6f489b6e41a9.js",
+        "localPath" : "409614c46e944fc39b7e1ca2803636f8.js",
         "size" : 61,
         "orignName" : "v.js",
         "creator" : null
@@ -22,20 +22,26 @@
       "dtoApplyTo" : null
     },
     "relationships" : {
+      "sharedUsers" : {
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/posts/294912/relationships/sharedUsers",
+          "related" : "http://localhost:88/jsonapi/posts/294912/sharedUsers"
+        }
+      },
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/196608/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/196608/creator"
+          "self" : "http://localhost:88/jsonapi/posts/294912/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/posts/294912/creator"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/posts/196608"
+      "self" : "http://localhost:88/jsonapi/posts/294912"
     }
   } ],
   "links" : {
-    "first" : "http://localhost/jsonapi/posts/?page[limit]=20",
-    "last" : "http://localhost/jsonapi/posts/?page[limit]=20",
+    "first" : "http://localhost:88/jsonapi/posts/?page[limit]=20",
+    "last" : "http://localhost:88/jsonapi/posts/?page[limit]=20",
     "next" : null,
     "prev" : null
   },

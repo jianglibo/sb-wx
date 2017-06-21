@@ -40,7 +40,7 @@ public class Post extends BaseEntity {
 	private List<PostShare> postShares = new ArrayList<>();
 	
 	@OneToMany(mappedBy="post", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
-	private List<PostUnRead> postUnread = new ArrayList<>(); 
+	private List<PostUnRead> postUnreads = new ArrayList<>(); 
 
 
 	public String getTitle() {
@@ -83,11 +83,11 @@ public class Post extends BaseEntity {
 		this.postShares = postShares;
 	}
 
-	public List<PostUnRead> getPostUnread() {
-		return postUnread;
+	public List<PostUnRead> getPostUnreads() {
+		return postUnreads;
 	}
 
-	public void setPostUnread(List<PostUnRead> postUnread) {
-		this.postUnread = postUnread;
+	public void setPostUnreads(List<PostUnRead> postUnreads) {
+		this.postUnreads = postUnreads;
 	}
 }

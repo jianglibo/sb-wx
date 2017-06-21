@@ -34,7 +34,7 @@ public class PostShareDtoRepositoryImpl  extends DtoRepositoryBase<PostShareDto,
 	}
 
 	@Override
-	protected PostShareDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
+	protected PostShareDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		return null;
 	}
 }

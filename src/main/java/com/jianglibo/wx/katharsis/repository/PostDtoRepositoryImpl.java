@@ -35,7 +35,7 @@ public class PostDtoRepositoryImpl  extends DtoRepositoryBase<PostDto, PostDtoLi
 	}
 
 	@Override
-	protected PostDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
+	protected PostDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("creator".equals(rq.getRelationName())) {
 			List<Post> posts = getRepository().findMine(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = getRepository().countMine(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));

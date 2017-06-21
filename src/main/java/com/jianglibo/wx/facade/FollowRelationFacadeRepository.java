@@ -2,6 +2,7 @@ package com.jianglibo.wx.facade;
 
 import java.util.List;
 
+import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.katharsis.dto.FollowRelationDto;
 
@@ -22,6 +23,8 @@ public interface FollowRelationFacadeRepository extends FacadeRepositoryBase<Fol
 	List<FollowRelation> findByFollower(long userId, long offset, Long limit, SortBroker...sortBrokers);
 	
 	long countByFollower(long userId);
+
+	FollowRelation findByFollowedAndFollower(BootUser befollowed, BootUser follower);
 	
 	
 }

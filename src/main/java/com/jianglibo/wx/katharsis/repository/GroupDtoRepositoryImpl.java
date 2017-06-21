@@ -34,7 +34,7 @@ public class GroupDtoRepositoryImpl  extends DtoRepositoryBase<GroupDto, BootGro
 	}
 
 	@Override
-	protected BootGroupDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
+	protected BootGroupDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		return null;
 	}
 }

@@ -26,8 +26,10 @@ public class PostDto extends DtoBase<PostDto, Post>{
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="posts")
 	private UserDto creator;
 	
-	
 	private List<MediumDto> media = new ArrayList<>();
+	
+	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="sharedPosts")
+	private List<UserDto> sharedUsers = new ArrayList<>();
 	
 	@Override
 	public String toString() {
@@ -64,5 +66,13 @@ public class PostDto extends DtoBase<PostDto, Post>{
 
 	public void setMedia(List<MediumDto> media) {
 		this.media = media;
+	}
+
+	public List<UserDto> getSharedUsers() {
+		return sharedUsers;
+	}
+
+	public void setSharedUsers(List<UserDto> sharedUsers) {
+		this.sharedUsers = sharedUsers;
 	}
 }

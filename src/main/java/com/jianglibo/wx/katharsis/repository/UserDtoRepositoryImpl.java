@@ -13,16 +13,20 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.config.userdetail.BootUserDetailManager;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.FollowRelation;
+import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
+import com.jianglibo.wx.facade.PostFacadeRepository;
+import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
+import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.UserDto.OnCreateGroup;
 import com.jianglibo.wx.katharsis.dto.converter.UserDtoConverter;
 import com.jianglibo.wx.katharsis.repository.UserDtoRepository.UserDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil;
-import com.jianglibo.wx.util.UuidUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
+import com.jianglibo.wx.util.UuidUtil;
 import com.jianglibo.wx.vo.BootUserPrincipal;
 
 import io.katharsis.queryspec.QuerySpec;
@@ -37,6 +41,12 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
     
     @Autowired
     private FollowRelationFacadeRepository followRelationDtoRepository;
+    
+    @Autowired
+    private PostFacadeRepository postRepo;
+    
+    @Autowired
+    private PostShareFacadeRepository psRepo;
     
     @Autowired
 	public UserDtoRepositoryImpl(BootUserFacadeRepository bootUserRepository, BootUserDetailManager bootUserDetailManager, UserDtoConverter converter) {
@@ -81,9 +91,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 	}
 
 	@Override
-	protected UserDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
-		UserDto udt = new UserDto();
-		udt.setId(rq.getRelationIds().get(0));
+	protected UserDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("bootGroups".equals(rq.getRelationName())) {
 			GroupDto gdo = new GroupDto();
 			gdo.setId(rq.getRelationIds().get(0));
@@ -91,19 +99,44 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			long count = getRepository().countByGroup(rq.getRelationIds().get(0));
 			return convertToResourceList(users, count, gdo);
 		} else if ("followersOp".equals(rq.getRelationName())) {
+			UserDto udt = new UserDto();
+			udt.setId(rq.getRelationIds().get(0));
 			List<FollowRelation> followers = followRelationDtoRepository.findByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = followRelationDtoRepository.countByFollowed(rq.getRelationIds().get(0));
 			List<BootUser> users = followers.stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
 			return convertToResourceList(users, count, udt);
 		} else if ("followedsOp".equals(rq.getRelationName())) {
+			UserDto udt = new UserDto();
+			udt.setId(rq.getRelationIds().get(0));
 			List<FollowRelation> followers = followRelationDtoRepository.findByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = followRelationDtoRepository.countByFollower(rq.getRelationIds().get(0));
 			List<BootUser> users = followers.stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
 			return convertToResourceList(users, count, udt);
+		} else if ("sharedPosts".equals(rq.getRelationName())) {
+			PostDto pd = new PostDto();
+			pd.setId(rq.getRelationIds().get(0));
+			List<PostShare> pss = psRepo.findByPost(postRepo.findOne(pd.getId()), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = psRepo.countByPost(postRepo.findOne(pd.getId()));
+			return convertToResourceList(pss.stream().map(ps -> ps.getBootUser()).collect(Collectors.toList()), count, pd);
 		}
 		return null;
 	}
 	
+	private UserDtoList convertToResourceList(List<BootUser> entities, long count, PostDto pd) {
+		final List<PostDto> posts = Arrays.asList(pd);
+		List<UserDto> list = entities.stream().map(entity -> {
+				UserDto ud = getConverter().entity2Dto(entity);
+				ud.setSharedPosts(posts);
+				return ud;
+			}).collect(Collectors.toList());		
+		UserDtoList listOb = null;
+		listOb = new UserDtoList();
+		listOb.setMeta(new DtoListMeta(count));
+		listOb.setLinks(new DtoListLinks());
+		listOb.addAll(list);
+		return listOb;
+	}
+
 	protected UserDtoList convertToResourceList(List<BootUser> entities, long count, GroupDto gdo) {
 		final List<GroupDto> gdos = Arrays.asList(gdo);
 		List<UserDto> list = entities.stream().map(entity -> {

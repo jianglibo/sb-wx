@@ -37,7 +37,7 @@ public class RoleDtoRepositoryImpl  extends DtoRepositoryBase<RoleDto, RoleDtoLi
 	}
 
 	@Override
-	protected RoleDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
+	protected RoleDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		// TODO Auto-generated method stub
 		return null;
 	}

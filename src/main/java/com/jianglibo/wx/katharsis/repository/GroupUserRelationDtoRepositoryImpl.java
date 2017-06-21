@@ -34,7 +34,7 @@ public class GroupUserRelationDtoRepositoryImpl  extends DtoRepositoryBase<Group
 	}
 
 	@Override
-	protected GroupUserRelationDtoList findWithRelationAdnSpec(RelationQuery rq, QuerySpec querySpec) {
+	protected GroupUserRelationDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		return null;
 	}
 }

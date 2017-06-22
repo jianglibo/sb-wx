@@ -10,19 +10,13 @@ import com.jianglibo.wx.katharsis.dto.GroupUserRelationDto;
 
 public interface GroupUserRelationFacadeRepository extends FacadeRepositoryBase<GroupUserRelation, GroupUserRelationDto> {
 	
-	/**
-	 * find by followed mean the follow target is me. So the result is all I follower.
-	 */
-	List<GroupUserRelation> findByBootGroup(long groupId, long offset, Long limit, SortBroker...sortBrokers);
+	List<GroupUserRelation> findByBootGroup(BootGroup group, long offset, Long limit, SortBroker...sortBrokers);
 	
-	long countByBootGroup(long groupId);
+	long countByBootGroup(BootGroup group);
 	
-	/**
-	 * find by follower mean the follower is me. So the result is all I followed.
-	 */
-	List<GroupUserRelation> findByBootUser(long userId, long offset, Long limit, SortBroker...sortBrokers);
+	List<GroupUserRelation> findByBootUser(BootUser user, long offset, Long limit, SortBroker...sortBrokers);
 	
-	long countByBootUser(long userId);
+	long countByBootUser(BootUser user);
 
 	GroupUserRelation findByBootGroupAndBootUser(BootGroup gp, BootUser findOne);
 	

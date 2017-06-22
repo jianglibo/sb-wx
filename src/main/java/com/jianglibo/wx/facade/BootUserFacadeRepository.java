@@ -2,6 +2,7 @@ package com.jianglibo.wx.facade;
 
 import java.util.List;
 
+import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 
@@ -19,7 +20,7 @@ public interface BootUserFacadeRepository extends FacadeRepositoryBase<BootUser,
 	
 	BootUser findByOpenId(String openId);
 	
-	List<BootUser> findAllByGroup(long groupId, long offset, Long limit, SortBroker...sortBrokers);
+	List<BootUser> findAllByGroup(BootGroup group, long offset, Long limit, SortBroker...sortBrokers);
 	
-	long countByGroup(long groupId);
+	long countByGroup(BootGroup group);
 }

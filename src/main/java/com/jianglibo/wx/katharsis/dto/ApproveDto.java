@@ -1,5 +1,7 @@
 package com.jianglibo.wx.katharsis.dto;
 
+import javax.validation.constraints.NotNull;
+
 import com.jianglibo.wx.annotation.DtoToEntity;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.Approve;
@@ -15,13 +17,17 @@ import io.katharsis.resource.annotations.SerializeType;
 public class ApproveDto extends DtoBase<ApproveDto, Approve> {
 
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="sentApproves")
+	@NotNull
 	private UserDto requester;
 	
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="receivedApproves")
+	@NotNull
 	private UserDto receiver;
 	
+	@NotNull
 	private String targetType;
 	
+	@NotNull
 	private Long targetId;
 	
 	private ApproveState state;

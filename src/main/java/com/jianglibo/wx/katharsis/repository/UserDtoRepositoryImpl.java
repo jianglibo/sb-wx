@@ -11,9 +11,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.config.userdetail.BootUserDetailManager;
+import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.domain.PostShare;
+import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
 import com.jianglibo.wx.facade.PostFacadeRepository;
@@ -50,6 +52,9 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
     
     @Autowired
     private BootUserFacadeRepository userRepo;
+    
+    @Autowired
+    private BootGroupFacadeRepository groupRepo;
     
     @Autowired
 	public UserDtoRepositoryImpl(BootUserFacadeRepository bootUserRepository, BootUserDetailManager bootUserDetailManager, UserDtoConverter converter) {
@@ -98,8 +103,9 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 		if ("bootGroups".equals(rq.getRelationName())) {
 			GroupDto gdo = new GroupDto();
 			gdo.setId(rq.getRelationIds().get(0));
-			List<BootUser> users = getRepository().findAllByGroup(gdo.getId(), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = getRepository().countByGroup(rq.getRelationIds().get(0));
+			BootGroup bg = groupRepo.findOne(gdo.getId());
+			List<BootUser> users = getRepository().findAllByGroup(bg, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
+			long count = getRepository().countByGroup(bg);
 			UserDtoList udl = convertToResourceList(users, count);
 			List<GroupDto> groups = Arrays.asList(gdo);
 			udl.forEach(u -> u.setBootGroups(groups));

@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
+import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
@@ -109,13 +110,13 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	}
 
 	@Override
-	public List<BootUser> findAllByGroup(long groupId, long offset, Long limit, SortBroker... sortBrokers) {
-		return gurRepo.findByBootGroup(groupId,offset,limit,sortBrokers).stream().map(gur -> gur.getBootUser()).collect(Collectors.toList());
+	public List<BootUser> findAllByGroup(BootGroup group, long offset, Long limit, SortBroker... sortBrokers) {
+		return gurRepo.findByBootGroup(group,offset,limit,sortBrokers).stream().map(gur -> gur.getBootUser()).collect(Collectors.toList());
 	}
 
 	@Override
-	public long countByGroup(long groupId) {
-		return gurRepo.countByBootGroup(groupId);
+	public long countByGroup(BootGroup group) {
+		return gurRepo.countByBootGroup(group);
 	}
 
 }

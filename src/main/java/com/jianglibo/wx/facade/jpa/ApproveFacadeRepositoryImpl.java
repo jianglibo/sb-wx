@@ -7,6 +7,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,8 @@ import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Approve;
 import com.jianglibo.wx.domain.Approve_;
 import com.jianglibo.wx.facade.ApproveFacadeRepository;
+import com.jianglibo.wx.facade.BootUserFacadeRepository;
+import com.jianglibo.wx.facade.SimplePageable;
 import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.repository.ApproveRepository;
 import com.jianglibo.wx.katharsis.dto.ApproveDto;
@@ -26,6 +30,9 @@ import com.jianglibo.wx.katharsis.dto.ApproveDto;
  */
 @Component
 public class ApproveFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Approve,ApproveDto, ApproveRepository> implements ApproveFacadeRepository {
+	
+	@Autowired
+	private BootUserFacadeRepository userRepo;
 	
 	public ApproveFacadeRepositoryImpl(ApproveRepository jpaRepo) {
 		super(jpaRepo);
@@ -57,26 +64,29 @@ public class ApproveFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Approv
 	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
 	public Approve newByDto(ApproveDto dto) {
 		Approve entity = new Approve();
+		BeanUtils.copyProperties(dto, entity, "receiver", "requester", "state");
+		entity.setReceiver(userRepo.findOne(dto.getReceiver().getId()));
+		entity.setRequester(userRepo.findOne(dto.getRequester().getId()));
 		return entity;
 	}
 
 	@Override
 	public List<Approve> findSent(BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
-		return null;
+		return getRepository().findAllByRequester(user, new SimplePageable(offset, limit, sortBrokers));
 	}
 
 	@Override
 	public long countSend(BootUser user) {
-		return 0;
+		return getRepository().countByRequester(user);
 	}
 
 	@Override
 	public List<Approve> findReceived(BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
-		return null;
+		return getRepository().findAllByReceiver(user, new SimplePageable(offset, limit, sortBrokers));
 	}
 
 	@Override
 	public long countReceived(BootUser user) {
-		return 0;
+		return getRepository().countByReceiver(user);
 	}
 }

@@ -1,25 +1,40 @@
 {
   "data" : [ {
-    "id" : "262144",
+    "id" : "327680",
     "type" : "posts",
     "attributes" : {
-      "createdAt" : 1498047355257,
+      "createdAt" : 1498101142126,
       "media" : [ ],
-      "title" : "title-1655462754",
-      "content" : "content-2092700619",
+      "title" : "title--499214549",
+      "content" : "content-1420257737",
       "dtoAction" : null,
       "dtoApplyTo" : null
     },
     "relationships" : {
+      "sharedUsers" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/327680/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/327680/sharedUsers"
+        }
+      },
       "creator" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/posts/262144/relationships/creator",
-          "related" : "http://localhost:88/jsonapi/posts/262144/creator"
+          "self" : "http://localhost/jsonapi/posts/327680/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/327680/creator"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/posts/262144"
+      "self" : "http://localhost/jsonapi/posts/327680"
     }
-  } ]
+  } ],
+  "links" : {
+    "first" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=20&filter[posts][creator][id][EQ]=425984",
+    "last" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=20&filter[posts][creator][id][EQ]=425984",
+    "next" : null,
+    "prev" : null
+  },
+  "meta" : {
+    "totalResourceCount" : 1
+  }
 }

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.jianglibo.wx.JsonApiListBodyWrapper;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
@@ -25,7 +26,7 @@ public class TestFollowUnFollow  extends KatharsisBase {
 		BootUser bu = loginAsAdmin();
 		BootUser follower = createBootUser("hello", "hello");
 		
-		JsonApiBodyWrapper jbw = new JsonApiBodyWrapper("users", follower.getId());
+		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", follower.getId());
 		response = addRelationWithContent(indentOm.writeValueAsString(jbw), "followers", bu.getId(), jwtToken);
 		assertResponseCode(response, 204);
 		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/followers");

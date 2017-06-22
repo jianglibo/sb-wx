@@ -11,10 +11,8 @@ import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 
-import io.katharsis.repository.RelationshipRepositoryBase;
-
 @Component
-public class PostToUserRepositoryImpl extends RelationshipRepositoryBase<PostDto, Long, UserDto, Long> {
+public class PostToUserRepositoryImpl extends RelationshipRepositoryBaseMine<PostDto, UserDto> {
 	
 	@Autowired
 	private PostFacadeRepository postRepo;

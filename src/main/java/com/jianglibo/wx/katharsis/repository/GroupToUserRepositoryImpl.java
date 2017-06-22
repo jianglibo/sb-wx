@@ -11,10 +11,8 @@ import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
 
-import io.katharsis.repository.RelationshipRepositoryBase;
-
 @Component
-public class GroupToUserRepositoryImpl extends RelationshipRepositoryBase<GroupDto, Long, UserDto, Long> {
+public class GroupToUserRepositoryImpl extends RelationshipRepositoryBaseMine<GroupDto, UserDto> {
 
 	@Autowired
 	private BootUserFacadeRepository userRepo;

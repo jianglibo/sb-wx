@@ -13,7 +13,7 @@ public interface BootUserFacadeRepository extends FacadeRepositoryBase<BootUser,
 
 	BootUser findByName(String emailOrMobile);
 	
-	BootUser updatePassword(Long id, String encodedPassword);
+	BootUser updatePassword(BootUser user, String encodedPassword);
 	
 	BootUser patch(BootUser user, UserDto userDto);
 	

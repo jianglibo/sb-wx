@@ -7,8 +7,8 @@ $arr_result['user_info']->openId = $result->openId
 ## new resource creating steps.
 * new entity domain.
 * new dto
+* new convertor
 * new facaderepository.
 * new jpa facade implementation.
 * new repostory
-* new convertor
 * new dto repository

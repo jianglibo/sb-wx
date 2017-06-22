@@ -1,6 +1,8 @@
 package com.jianglibo.wx.katharsis.dto;
 
-public interface Dto<T, E> {
+import com.jianglibo.wx.domain.BaseEntity;
+
+public interface Dto<T, E extends BaseEntity> {
 
 	Long getId();
 	

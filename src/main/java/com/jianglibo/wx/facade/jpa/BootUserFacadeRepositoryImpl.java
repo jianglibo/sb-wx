@@ -63,11 +63,10 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	}
 
 	@Override
-	@PreAuthorize(PreAuthorizeExpression.ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE)
-	public BootUser updatePassword(@P("id") Long id, String encodedPassword) {
-		BootUser entity = getRepository().findOne(id);
-		entity.setPassword(encodedPassword);
-		return getRepository().save(entity);
+	@PreAuthorize(PreAuthorizeExpression.ENTITY_ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE)
+	public BootUser updatePassword(@P("entity") BootUser user, String encodedPassword) {
+		user.setPassword(encodedPassword);
+		return getRepository().save(user);
 	}
 
 	@Override

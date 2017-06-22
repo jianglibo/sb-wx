@@ -5,10 +5,8 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.katharsis.dto.FollowRelationDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 
-import io.katharsis.repository.RelationshipRepositoryBase;
-
 @Component
-public class UserToFollowRelationRepositoryImpl extends RelationshipRepositoryBase<UserDto, Long, FollowRelationDto, Long> {
+public class UserToFollowRelationRepositoryImpl extends RelationshipRepositoryBaseMine<UserDto, FollowRelationDto> {
 
 	protected UserToFollowRelationRepositoryImpl() {
 		super(UserDto.class, FollowRelationDto.class);

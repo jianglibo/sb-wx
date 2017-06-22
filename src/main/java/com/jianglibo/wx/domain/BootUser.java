@@ -55,7 +55,13 @@ public class BootUser extends BaseEntity {
     @OneToMany(mappedBy="bootUser", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
     private List<PostUnRead> postUnread = new ArrayList<>();
     
-    @NotNull
+    @OneToMany(mappedBy="requester", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
+    private List<Approve> sentApproves = new ArrayList<>();
+    
+    @OneToMany(mappedBy="receiver", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
+    private List<Approve> receivedApproves = new ArrayList<>();
+    
+	@NotNull
     @Column(nullable = false)
     private String name;
 
@@ -356,7 +362,21 @@ public class BootUser extends BaseEntity {
 		this.postUnread = postUnread;
 	}
 
+	public List<Approve> getSentApproves() {
+		return sentApproves;
+	}
 
+	public void setSentApproves(List<Approve> sentApproves) {
+		this.sentApproves = sentApproves;
+	}
+
+	public List<Approve> getReceivedApproves() {
+		return receivedApproves;
+	}
+
+	public void setReceivedApproves(List<Approve> receivedApproves) {
+		this.receivedApproves = receivedApproves;
+	}
 
 	public static enum Gender {
         MALE, FEMALE

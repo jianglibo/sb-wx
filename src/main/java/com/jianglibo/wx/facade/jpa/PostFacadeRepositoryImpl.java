@@ -15,7 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
-import com.jianglibo.wx.domain.BootUser_;
+import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Medium;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.Post_;
@@ -59,21 +59,21 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 	}
 	
 	@Override
-	@PreAuthorize(PreAuthorizeExpression.ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE)
-	public List<Post> findMine(@P("id") long userId, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().findAll(creatorEq(userId), new SimplePageable(offset, limit, sortBrokers)).getContent();
+	@PreAuthorize(PreAuthorizeExpression.ENTITY_ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE)
+	public List<Post> findMine(@P("entity") BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
+		return getRepository().findAll(creatorEq(user), new SimplePageable(offset, limit, sortBrokers)).getContent();
 	}
 
 	@Override
-	public long countMine(@P("id") long userId, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().count(creatorEq(userId));
+	public long countMine(@P("entity") BootUser user) {
+		return getRepository().count(creatorEq(user));
 	}
 	
-	public Specification<Post> creatorEq(long userId) {
+	public Specification<Post> creatorEq(BootUser user) {
 		return new Specification<Post>() {
 			public Predicate toPredicate(Root<Post> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				query.distinct(true);
-				return builder.equal(root.get(Post_.creator).get(BootUser_.id), userId);
+				return builder.equal(root.get(Post_.creator), user);
 			}
 		};
 	}

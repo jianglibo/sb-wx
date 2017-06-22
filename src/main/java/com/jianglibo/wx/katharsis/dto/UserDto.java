@@ -40,6 +40,14 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     private String language;
     private String province;
     
+    public UserDto() {
+	}
+    
+    public UserDto(Long id) {
+    	this.setId(id);
+	}
+
+    
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
     private List<PostDto> posts;
     
@@ -64,7 +72,13 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     private List<GroupDto> ownedGroups;
     
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="sharedUsers")
-    private List<PostDto> sharedPosts;
+    private List<PostDto> receivedPosts;
+    
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="receiver")
+    private List<ApproveDto> receivedApproves;
+
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="requester")
+    private List<ApproveDto> sentApproves;
     
     public List<PostDto> getPosts() {
 		return posts;
@@ -302,11 +316,27 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 		this.followedsOp = followedsOp;
 	}
 
-	public List<PostDto> getSharedPosts() {
-		return sharedPosts;
+	public List<PostDto> getReceivedPosts() {
+		return receivedPosts;
 	}
 
-	public void setSharedPosts(List<PostDto> sharedPosts) {
-		this.sharedPosts = sharedPosts;
+	public void setReceivedPosts(List<PostDto> receivedPosts) {
+		this.receivedPosts = receivedPosts;
+	}
+
+	public List<ApproveDto> getSentApproves() {
+		return sentApproves;
+	}
+
+	public void setSentApproves(List<ApproveDto> sentApproves) {
+		this.sentApproves = sentApproves;
+	}
+
+	public List<ApproveDto> getReceivedApproves() {
+		return receivedApproves;
+	}
+
+	public void setReceivedApproves(List<ApproveDto> receivedApproves) {
+		this.receivedApproves = receivedApproves;
 	}
 }

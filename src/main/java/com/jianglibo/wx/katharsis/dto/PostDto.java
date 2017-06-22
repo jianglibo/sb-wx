@@ -28,7 +28,7 @@ public class PostDto extends DtoBase<PostDto, Post>{
 	
 	private List<MediumDto> media = new ArrayList<>();
 	
-	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="sharedPosts")
+	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="receivedPosts")
 	private List<UserDto> sharedUsers = new ArrayList<>();
 	
 	@Override

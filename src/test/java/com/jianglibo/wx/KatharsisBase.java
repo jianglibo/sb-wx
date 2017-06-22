@@ -35,6 +35,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -344,6 +345,10 @@ public abstract class KatharsisBase extends Tbase {
 	protected String getItemUrl(String id) {
 		return getBaseURI() + "/" + id;
 	}
+	
+	protected String getItemUrl(String resourceName, long id) {
+		return getBaseURI(resourceName) + "/" + id;
+	}
 
 	
 	public String getFixtureWithExplicitName(String fname) throws IOException {
@@ -535,69 +540,53 @@ public abstract class KatharsisBase extends Tbase {
 		assertTrue("should contains key: " + key, dest.containsKey(key));
 	}
 	
-	public static class JsonApiBodyWrapper {
-		private List<JsonApiObItem> data;
-		
-		public JsonApiBodyWrapper() {
-		}
-		
-		public JsonApiBodyWrapper(String type, List<? extends Dto> dtos) {
-			this.data = new ArrayList<>();
-			for(Dto dto : dtos) {
-				this.data.add(new JsonApiObItem(type,dto.getId()));
-			}
-		}
-
-		
-		public JsonApiBodyWrapper(String type, long...ids) {
-			this.data = new ArrayList<>();
-			for(long id : ids) {
-				this.data.add(new JsonApiObItem(type,id));
-			}
-		}
-		
-		public JsonApiBodyWrapper(String type, String...ids) {
-			this.data = new ArrayList<>();
-			for(String id : ids) {
-				this.data.add(new JsonApiObItem(type,id));
-			}
-		}
-
-
-		public List<JsonApiObItem> getData() {
-			return data;
-		}
-
-		public void setData(List<JsonApiObItem> data) {
-			this.data = data;
-		}
-	}
 	
-	public static class JsonApiObItem {
-		private String type;
-		private String id;
+	public static class SparseFieldBuilder {
+		private StringBuilder fieldsb = new StringBuilder();
+		private StringBuilder includesb = new StringBuilder();
 		
-		public JsonApiObItem(){}
-		public JsonApiObItem(String type, long id){
-			this.type = type;
-			this.id = String.valueOf(id);
-		}
-		public JsonApiObItem(String type, String id){
-			this.type = type;
-			this.id = id;
+		private String groupPrefix = "";
+		
+		private String prepend;
+		
+		public SparseFieldBuilder(String prepend) {
+			this.prepend = prepend;
 		}
 		
-		public String getType() {
-			return type;
+		public SparseFieldBuilder includes(String...resourceNames) {
+			includesb = new StringBuilder();
+			includesb.append("include=");
+			String prefix = "";
+			for(String rn : resourceNames) {
+				includesb.append(prefix);
+				prefix = ",";
+				includesb.append(rn);
+			}
+			return this;
 		}
-		public void setType(String type) {
-			this.type = type;
+		
+		public SparseFieldBuilder resouceFields(String resourceName, String...fieldNames) {
+			fieldsb.append(groupPrefix);
+			groupPrefix = "&";
+			fieldsb.append("fields[")
+			.append(resourceName)
+			.append("]=");
+			String prefix = "";
+			for(String fn : fieldNames) {
+				fieldsb.append(prefix);
+				prefix = ",";
+				fieldsb.append(fn);
+			}
+			return this;
 		}
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
+		
+		public String build() {
+			if (includesb.length() > 0) {
+				return includesb.insert(0, prepend).append("&").append(fieldsb).toString();
+			} else {
+				return includesb.insert(0, prepend).append(fieldsb).toString();
+			}
+			
 		}
 	}
 	

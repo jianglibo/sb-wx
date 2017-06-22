@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.jianglibo.wx.JsonApiListBodyWrapper;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootGroup;
@@ -73,7 +74,7 @@ public class TestBootGrouptApi  extends KatharsisBase {
 		assertThat(users.size(), equalTo(3));
 		
 		BootUser du = createBootUser("ddd", "1234");
-		JsonApiBodyWrapper jbw = new JsonApiBodyWrapper("users", du.getId());
+		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", du.getId());
 		// add relation.
 		response = addRelationWithContent(indentOm.writeValueAsString(jbw), "members", gp.getId(), jwtToken);
 		assertThat(response.getStatusCodeValue(), equalTo(204));

@@ -9,10 +9,8 @@ import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 
-import io.katharsis.repository.RelationshipRepositoryBase;
-
 @Component
-public class UserToUserRepositoryImpl extends RelationshipRepositoryBase<UserDto, Long, UserDto, Long> {
+public class UserToUserRepositoryImpl extends RelationshipRepositoryBaseMine<UserDto, UserDto> {
 	
 	@Autowired
 	private FollowRelationFacadeRepository frfRepo;

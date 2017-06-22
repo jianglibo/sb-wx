@@ -2,9 +2,11 @@ package com.jianglibo.wx.katharsis.dto;
 
 import java.util.Date;
 
+import com.jianglibo.wx.domain.BaseEntity;
+
 import io.katharsis.resource.annotations.JsonApiId;
 
-public abstract class DtoBase<T, E> implements Dto<T, E> {
+public abstract class DtoBase<T, E extends BaseEntity> implements Dto<T, E> {
 
 	@JsonApiId
 	private Long id;
@@ -46,5 +48,4 @@ public abstract class DtoBase<T, E> implements Dto<T, E> {
 	public void setDtoAction(String dtoAction) {
 		this.dtoAction = dtoAction;
 	}
-
 }

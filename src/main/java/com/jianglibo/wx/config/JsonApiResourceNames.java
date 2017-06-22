@@ -9,6 +9,8 @@ public class JsonApiResourceNames {
 	
 	public static final String POST = "posts";
 	
+	public static final String APPROVE = "approves";
+	
 	public static final String MEDIUM = "medium";
 	
 	public static final String CRAWL_CAT = "crawlCats";

@@ -1,6 +1,6 @@
 {
   "data" : [ {
-    "id" : "917504",
+    "id" : "2",
     "type" : "users",
     "attributes" : {
       "country" : null,
@@ -10,7 +10,7 @@
       "openId" : "aaa",
       "roles" : [ {
         "id" : 1,
-        "createdAt" : 1497966978625,
+        "createdAt" : 1498008992609,
         "dtoApplyTo" : null,
         "dtoAction" : null,
         "name" : "ROLE_USER"
@@ -22,7 +22,7 @@
       "avatar" : null,
       "enabled" : true,
       "dtoApplyTo" : null,
-      "createdAt" : 1498047373902,
+      "createdAt" : 1498008996582,
       "emailVerified" : false,
       "password" : null,
       "province" : null,
@@ -35,43 +35,58 @@
     "relationships" : {
       "followers" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/917504/relationships/followers",
-          "related" : "http://localhost:88/jsonapi/users/917504/followers"
+          "self" : "http://localhost/jsonapi/users/2/relationships/followers",
+          "related" : "http://localhost/jsonapi/users/2/followers"
         }
       },
       "ownedGroups" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/917504/relationships/ownedGroups",
-          "related" : "http://localhost:88/jsonapi/users/917504/ownedGroups"
+          "self" : "http://localhost/jsonapi/users/2/relationships/ownedGroups",
+          "related" : "http://localhost/jsonapi/users/2/ownedGroups"
         }
       },
       "followeds" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/917504/relationships/followeds",
-          "related" : "http://localhost:88/jsonapi/users/917504/followeds"
+          "self" : "http://localhost/jsonapi/users/2/relationships/followeds",
+          "related" : "http://localhost/jsonapi/users/2/followeds"
+        }
+      },
+      "sharedPosts" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/2/relationships/sharedPosts",
+          "related" : "http://localhost/jsonapi/users/2/sharedPosts"
         }
       },
       "bootGroups" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/917504/relationships/bootGroups",
-          "related" : "http://localhost:88/jsonapi/users/917504/bootGroups"
+          "self" : "http://localhost/jsonapi/users/2/relationships/bootGroups",
+          "related" : "http://localhost/jsonapi/users/2/bootGroups"
         }
       },
       "media" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/917504/relationships/media",
-          "related" : "http://localhost:88/jsonapi/users/917504/media"
+          "self" : "http://localhost/jsonapi/users/2/relationships/media",
+          "related" : "http://localhost/jsonapi/users/2/media"
         }
       },
       "posts" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/917504/relationships/posts",
-          "related" : "http://localhost:88/jsonapi/users/917504/posts"
+          "self" : "http://localhost/jsonapi/users/2/relationships/posts",
+          "related" : "http://localhost/jsonapi/users/2/posts"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/users/917504"
+      "self" : "http://localhost/jsonapi/users/2"
     }
-  } ]
+  } ],
+  "links" : {
+    "first" : "http://localhost/jsonapi/users/?page[limit]=1&filter[users][bootGroups][id][EQ]=720896&include[users]=bootGroups",
+    "last" : "http://localhost/jsonapi/users/?page[limit]=1&page[offset]=2&filter[users][bootGroups][id][EQ]=720896&include[users]=bootGroups",
+    "next" : "http://localhost/jsonapi/users/?page[limit]=1&page[offset]=1&filter[users][bootGroups][id][EQ]=720896&include[users]=bootGroups",
+    "prev" : null
+  },
+  "meta" : {
+    "totalResourceCount" : 3
+  }
 }

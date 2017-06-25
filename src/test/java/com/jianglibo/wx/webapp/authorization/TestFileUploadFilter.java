@@ -16,18 +16,18 @@ public class TestFileUploadFilter {
 	@Test
 	public void t() {
 		
-		Path destPath = FileUploadFilter.getDestPath(destFolder, "abc.txt");
+		Path destPath = FileItemProcessor.getDestPath(destFolder, "abc.txt");
 		ast(destPath);
 		
 		assertTrue(destPath.toAbsolutePath().toString().length() > 50);
 		
-		destPath = FileUploadFilter.getDestPath(destFolder, "c:\\a\\b\\c\\abc.txt");
+		destPath = FileItemProcessor.getDestPath(destFolder, "c:\\a\\b\\c\\abc.txt");
 		ast(destPath);
 		
-		destPath = FileUploadFilter.getDestPath(destFolder, "c:\\a\\b\\c\\abc");
+		destPath = FileItemProcessor.getDestPath(destFolder, "c:\\a\\b\\c\\abc");
 		ast(destPath);
 		
-		destPath = FileUploadFilter.getDestPath(destFolder, "c:/a/b/c/abc");
+		destPath = FileItemProcessor.getDestPath(destFolder, "c:/a/b/c/abc");
 		ast(destPath);
 		
 		Path a = Paths.get("c:/a");

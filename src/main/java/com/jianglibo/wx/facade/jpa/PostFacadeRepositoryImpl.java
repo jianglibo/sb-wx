@@ -89,10 +89,12 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 		entity = getRepository().save(entity);
 		
 		List<Medium> media = new ArrayList<>();
-		for(MediumDto mdto : dto.getMedia()) {
-			Medium m = mediumRepo.findOne(mdto.getId());
-			m.setPost(entity);
-			media.add(mediumRepo.save(m));
+		if (dto.getMedia() != null) {
+			for(MediumDto mdto : dto.getMedia()) {
+				Medium m = mediumRepo.findOne(mdto.getId());
+				m.setPost(entity);
+				media.add(mediumRepo.save(m));
+			}
 		}
 		entity.setMedia(media);
 		return entity;

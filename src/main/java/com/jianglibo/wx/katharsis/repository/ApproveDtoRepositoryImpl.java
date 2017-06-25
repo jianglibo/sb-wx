@@ -13,6 +13,7 @@ import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.ApproveDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.converter.ApproveDtoConverter;
+import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.repository.ApproveDtoRepository.ApproveDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
@@ -48,7 +49,7 @@ public class ApproveDtoRepositoryImpl  extends DtoRepositoryBase<ApproveDto, App
 			BootUser bu = userRepo.findOne(userDto.getId());
 			List<Approve> approves =  getRepository().findReceived(bu, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = getRepository().countReceived(bu);
-			ApproveDtoList adl = convertToResourceList(approves, count);
+			ApproveDtoList adl = convertToResourceList(approves, count, Scenario.RELATION_LIST);
 			adl.forEach(a -> a.setReceiver(userDto));
 			return adl;
 		} else if ("requester".equals(rq.getRelationName())) {
@@ -57,7 +58,7 @@ public class ApproveDtoRepositoryImpl  extends DtoRepositoryBase<ApproveDto, App
 			BootUser bu = userRepo.findOne(userDto.getId());
 			List<Approve> approves =  getRepository().findSent(bu, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = getRepository().countSend(bu);
-			ApproveDtoList adl = convertToResourceList(approves, count);
+			ApproveDtoList adl = convertToResourceList(approves, count, Scenario.RELATION_LIST);
 			adl.forEach(a -> a.setReceiver(userDto));
 			return adl;
 		}

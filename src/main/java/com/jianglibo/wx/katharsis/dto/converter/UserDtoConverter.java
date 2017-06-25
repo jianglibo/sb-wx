@@ -21,11 +21,11 @@ public class UserDtoConverter implements DtoConverter<BootUser, UserDto> {
 //	}
 
 	@Override
-	public UserDto entity2Dto(BootUser entity) {
+	public UserDto entity2Dto(BootUser entity, Scenario scenario) {
 		// 18 fields.
 		UserDto dto = new UserDto();
 		BeanUtils.copyProperties(entity, dto, "password", "roles", "followers", "followeds", "media", "posts", "bootGroups", "ownedGroups", "receivedPosts", "sentApproves", "receivedApproves");
-    	dto.setRoles(entity.getRoles().stream().map(r -> roleConverter.entity2Dto(r)).collect(Collectors.toList()));
+    	dto.setRoles(entity.getRoles().stream().map(r -> roleConverter.entity2Dto(r, scenario)).collect(Collectors.toList()));
     	return dto;
 	}
 

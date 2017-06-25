@@ -1,10 +1,17 @@
 {
-    "data": {
-        "type": "posts",
-        "attributes": {
-            "title": "title",
-            "content": "content",
-            "media": [{"id": 55}]
+  "data" : {
+    "type" : "posts",
+    "attributes" : {
+      "title" : "title",
+      "content" : "content"
+    },
+    "relationships" : {
+      "media" : {
+        "data" : {
+          "id" : "1376256",
+          "type" : "medium"
         }
+      }
     }
+  }
 }

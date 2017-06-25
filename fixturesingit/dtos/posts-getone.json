@@ -1,53 +1,34 @@
 {
   "data" : {
-    "id" : "294912",
+    "id" : "589824",
     "type" : "posts",
     "attributes" : {
-      "createdAt" : 1498050861084,
-      "media" : [ {
-        "id" : 1,
-        "createdAt" : 1498050861019,
-        "dtoApplyTo" : null,
-        "dtoAction" : null,
-        "url" : "http://localhost:88/uploaded/409614c46e944fc39b7e1ca2803636f8.js",
-        "contentType" : "application/octet-stream",
-        "localPath" : "409614c46e944fc39b7e1ca2803636f8.js",
-        "size" : 61,
-        "orignName" : "v.js",
-        "creator" : null
-      }, {
-        "id" : 1,
-        "createdAt" : 1498050861019,
-        "dtoApplyTo" : null,
-        "dtoAction" : null,
-        "url" : "http://localhost:88/uploaded/409614c46e944fc39b7e1ca2803636f8.js",
-        "contentType" : "application/octet-stream",
-        "localPath" : "409614c46e944fc39b7e1ca2803636f8.js",
-        "size" : 61,
-        "orignName" : "v.js",
-        "creator" : null
-      } ],
+      "createdAt" : 1498378571173,
       "title" : "title",
-      "content" : "content",
-      "dtoAction" : null,
-      "dtoApplyTo" : null
+      "content" : "content"
     },
     "relationships" : {
       "sharedUsers" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/posts/294912/relationships/sharedUsers",
-          "related" : "http://localhost:88/jsonapi/posts/294912/sharedUsers"
+          "self" : "http://localhost/jsonapi/posts/589824/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/589824/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/posts/294912/relationships/creator",
-          "related" : "http://localhost:88/jsonapi/posts/294912/creator"
+          "self" : "http://localhost/jsonapi/posts/589824/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/589824/creator"
+        }
+      },
+      "media" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/589824/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/589824/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/posts/294912"
+      "self" : "http://localhost/jsonapi/posts/589824"
     }
   }
 }

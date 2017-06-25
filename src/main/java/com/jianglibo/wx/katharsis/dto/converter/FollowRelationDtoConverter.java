@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.katharsis.dto.FollowRelationDto;
+import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 
 @Component
 public class FollowRelationDtoConverter implements DtoConverter<FollowRelation, FollowRelationDto> {
@@ -21,10 +22,10 @@ public class FollowRelationDtoConverter implements DtoConverter<FollowRelation, 
 //	}
 
 	@Override
-	public FollowRelationDto entity2Dto(FollowRelation entity) {
+	public FollowRelationDto entity2Dto(FollowRelation entity, Scenario scenario) {
 		FollowRelationDto dto = new FollowRelationDto();
-		dto.setFollower(userConverter.entity2Dto(entity.getFollower()));
-		dto.setBefollowed(userConverter.entity2Dto(entity.getFollowed()));
+		dto.setFollower(userConverter.entity2Dto(entity.getFollower(), scenario));
+		dto.setBefollowed(userConverter.entity2Dto(entity.getFollowed(), scenario));
 		return dto;
 	}
 }

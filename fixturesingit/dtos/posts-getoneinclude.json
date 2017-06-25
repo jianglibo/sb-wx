@@ -24,6 +24,9 @@
         "data" : [ {
           "id" : "1376256",
           "type" : "medium"
+        }, {
+          "id" : "1376256",
+          "type" : "medium"
         } ],
         "links" : {
           "self" : "http://localhost/jsonapi/posts/589824/relationships/media",
@@ -34,5 +37,33 @@
     "links" : {
       "self" : "http://localhost/jsonapi/posts/589824"
     }
-  }
+  },
+  "included" : [ {
+    "id" : "1376256",
+    "type" : "medium",
+    "attributes" : {
+      "createdAt" : 1498378571029,
+      "size" : 61,
+      "contentType" : "application/octet-stream",
+      "url" : "http://localhost:80/uploaded/931e56bf5c144cb782a3e773aa13a8e1.js",
+      "orignName" : "v.js"
+    },
+    "relationships" : {
+      "creator" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/medium/1376256/relationships/creator",
+          "related" : "http://localhost/jsonapi/medium/1376256/creator"
+        }
+      },
+      "post" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/medium/1376256/relationships/post",
+          "related" : "http://localhost/jsonapi/medium/1376256/post"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/medium/1376256"
+    }
+  } ]
 }

@@ -2,6 +2,7 @@ package com.jianglibo.wx.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,10 +51,14 @@ public class QuerySpecUtil {
 		List<Long> ids = new ArrayList<>();
 		Optional<FilterSpec> fs =  spec.getFilters().stream().filter(f -> f.getOperator() == FilterOperator.EQ && f.getAttributePath().size() == 1 && "id".equals(f.getAttributePath().get(0))).findAny();
 		if (fs.isPresent()) {
-			return (List<Long>) fs.get().getValue();
-		} else {
-			return new ArrayList<>();
+			Object v = fs.get().getValue();
+			if (v instanceof Collection) {
+				ids.addAll((Collection<? extends Long>) v);
+			} else {
+				ids.add((Long) v);
+			}
 		}
+		return ids;
 	}
 	
 	public static RelationQuery findRelationQuery(QuerySpec spec) {

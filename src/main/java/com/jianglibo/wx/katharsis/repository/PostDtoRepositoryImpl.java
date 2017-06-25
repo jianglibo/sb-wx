@@ -16,6 +16,7 @@ import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
+import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.dto.converter.PostDtoConverter;
 import com.jianglibo.wx.katharsis.repository.PostDtoRepository.PostDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil;
@@ -52,12 +53,12 @@ public class PostDtoRepositoryImpl  extends DtoRepositoryBase<PostDto, PostDtoLi
 		if ("creator".equals(rq.getRelationName())) {
 			List<Post> posts = getRepository().findMine(userRepo.findOne(rq.getRelationIds().get(0)), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = getRepository().countMine(userRepo.findOne(rq.getRelationIds().get(0)));
-			return convertToResourceList(posts, count);
+			return convertToResourceList(posts, count, Scenario.RELATION_LIST);
 		} else if ("sharedUsers".equals(rq.getRelationName())) {
 			BootUser user = userRepo.findOne(rq.getRelationIds().get(0));
 			List<PostShare> pss = psRepo.findByBootUser(user, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = psRepo.countByBootUser(user);
-			PostDtoList pdl = convertToResourceList(pss.stream().map(ps -> ps.getPost()).collect(Collectors.toList()), count);
+			PostDtoList pdl = convertToResourceList(pss.stream().map(ps -> ps.getPost()).collect(Collectors.toList()), count, Scenario.RELATION_LIST);
 			List<UserDto> users = Arrays.asList(new UserDto(user.getId()));
 			pdl.forEach(p -> p.setSharedUsers(users));
 			return pdl;

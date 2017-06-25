@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
+import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 
 @Component
 public class GroupDtoConverter implements DtoConverter<BootGroup, GroupDto> {
@@ -17,7 +18,7 @@ public class GroupDtoConverter implements DtoConverter<BootGroup, GroupDto> {
 //	}
 
 	@Override
-	public GroupDto entity2Dto(BootGroup entity) {
+	public GroupDto entity2Dto(BootGroup entity, Scenario scenario) {
 		GroupDto dto = new GroupDto();
 		BeanUtils.copyProperties(entity, dto);
 		return dto;

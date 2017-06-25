@@ -9,6 +9,7 @@ import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.jwt.JwtUtil;
 import com.jianglibo.wx.katharsis.dto.LoginAttemptDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
+import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.vo.BootUserPrincipal;
 
 @Component
@@ -29,7 +30,7 @@ public class LoginAttemptDtoConverter implements DtoConverter<LoginAttempt, Logi
 //	}
 
 	@Override
-	public LoginAttemptDto entity2Dto(LoginAttempt entity) {
+	public LoginAttemptDto entity2Dto(LoginAttempt entity, Scenario scenario) {
 		LoginAttemptDto dto = new LoginAttemptDto();
 		dto.setId(entity.getId());
 		dto.setPassword(entity.getPassword());
@@ -47,7 +48,7 @@ public class LoginAttemptDtoConverter implements DtoConverter<LoginAttempt, Logi
 		dto.setPassword("");
 		dto.setJwtToken(jwtUtil.issuePrincipalToken(pricipal));
 		BootUser bu = userRepository.findOne(pricipal.getId(), true);
-		UserDto udto = userConverter.entity2Dto(bu);
+		UserDto udto = userConverter.entity2Dto(bu, Scenario.IN_RELATION);
 		dto.setUser(udto);
 		return dto;
 	}

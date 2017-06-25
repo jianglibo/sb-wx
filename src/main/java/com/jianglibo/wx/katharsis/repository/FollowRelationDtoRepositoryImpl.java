@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.FollowRelationDto;
+import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.dto.converter.FollowRelationDtoConverter;
 import com.jianglibo.wx.katharsis.repository.FollowRelationDtoRepository.FollowRelationDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil;
@@ -39,11 +40,11 @@ public class FollowRelationDtoRepositoryImpl  extends DtoRepositoryBase<FollowRe
 		if ("befollowed".equals(rq.getRelationName())) {
 			List<FollowRelation> follow2me = getRepository().findByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = getRepository().countByFollowed(rq.getRelationIds().get(0));
-			return convertToResourceList(follow2me, count);
+			return convertToResourceList(follow2me, count, Scenario.RELATION_LIST);
 		} else if ("follower".equals(rq.getRelationName())) {
 			List<FollowRelation> follow2me = getRepository().findByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = getRepository().countByFollower(rq.getRelationIds().get(0));
-			return convertToResourceList(follow2me, count);
+			return convertToResourceList(follow2me, count, Scenario.RELATION_LIST);
 		}
 		return null;
 	}

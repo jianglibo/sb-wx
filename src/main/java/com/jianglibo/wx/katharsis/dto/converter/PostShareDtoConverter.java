@@ -17,10 +17,10 @@ public class PostShareDtoConverter implements DtoConverter<PostShare, PostShareD
 
 
 	@Override
-	public PostShareDto entity2Dto(PostShare entity) {
+	public PostShareDto entity2Dto(PostShare entity,Scenario scenario) {
 		PostShareDto dto = new PostShareDto();
-		dto.setBootUser(userConverter.entity2Dto(entity.getBootUser()));
-		dto.setPost(postConverter.entity2Dto(entity.getPost()));
+		dto.setBootUser(userConverter.entity2Dto(entity.getBootUser(), scenario));
+		dto.setPost(postConverter.entity2Dto(entity.getPost(), scenario));
 		return dto;
 	}
 }

@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import javax.annotation.Priority;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,28 @@ import org.springframework.stereotype.Component;
 @Priority(1)
 public class ApplicationConfig implements InitializingBean {
 	
+	@Value("${katharsis.pathPrefix}")
+	private String katharsisPrefix;
+	
+	public String getKatharsisPrefix() {
+		return katharsisPrefix;
+	}
+
+	public void setKatharsisPrefix(String katharsisPrefix) {
+		this.katharsisPrefix = katharsisPrefix;
+	}
+	
+	public String getOutUrlResouceBase(String resourceName) {
+		String s = getKatharsisPrefix();
+		if (s.startsWith("/")) {
+			s = s.substring(1);
+		}
+		if (!s.endsWith("/")) {
+			s = s + "/";
+		}
+		return s + resourceName;
+	}
+
 	private String dataWriteSourcePath;
 	
 	private String templateRoot;
@@ -348,6 +371,10 @@ public class ApplicationConfig implements InitializingBean {
 		this.uploadSecret = uploadSecret;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getOutUrlBase() {
 		return outUrlBase;
 	}

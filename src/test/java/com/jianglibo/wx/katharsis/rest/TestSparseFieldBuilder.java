@@ -5,22 +5,22 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.jianglibo.wx.KatharsisBase.SparseFieldBuilder;
+import com.jianglibo.wx.util.MyJsonApiUrlBuilder;
 
 public class TestSparseFieldBuilder {
 
 	@Test
 	public void t() {
-		SparseFieldBuilder sfb = new SparseFieldBuilder("?");
+		MyJsonApiUrlBuilder sfb = new MyJsonApiUrlBuilder("?");
 		String s = sfb.resouceFields("users", "id", "email").resouceFields("posts", "id").build();
 		assertThat(s, equalTo("?fields[users]=id,email&fields[posts]=id"));
 		
 		
-		sfb = new SparseFieldBuilder("?");
+		sfb = new MyJsonApiUrlBuilder("?");
 		s = sfb.resouceFields("users", "id", "email").resouceFields("posts", "id").includes("users", "abc").build();
 		assertThat(s, equalTo("?include=users,abc&fields[users]=id,email&fields[posts]=id"));
 		
-		s = new SparseFieldBuilder("?").includes("requester","receiver").resouceFields("users", "id").build();
+		s = new MyJsonApiUrlBuilder("?").includes("requester","receiver").resouceFields("users", "id").build();
 		System.out.print(s);
 
 	}

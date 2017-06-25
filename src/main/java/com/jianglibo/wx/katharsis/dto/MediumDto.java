@@ -1,5 +1,6 @@
 package com.jianglibo.wx.katharsis.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jianglibo.wx.annotation.DtoToEntity;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.Medium;
@@ -15,10 +16,16 @@ public class MediumDto extends DtoBase<MediumDto, Medium>{
 	
 	private String url;
 	private String contentType;
+	
+	@JsonIgnore
 	private String localPath;
+	
 	private long size;
 	
 	private String orignName;
+	
+	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="media")
+	private PostDto post;
 	
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="media")
 	private UserDto creator;
@@ -86,6 +93,16 @@ public class MediumDto extends DtoBase<MediumDto, Medium>{
 
 	public void setCreator(UserDto creator) {
 		this.creator = creator;
+	}
+
+
+	public PostDto getPost() {
+		return post;
+	}
+
+
+	public void setPost(PostDto post) {
+		this.post = post;
 	}
 
 }

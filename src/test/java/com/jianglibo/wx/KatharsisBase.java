@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -47,6 +48,7 @@ import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.katharsis.dto.Dto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
+import com.jianglibo.wx.util.UuidUtil;
 import com.jianglibo.wx.vo.RoleNames;
 import com.jianglibo.wx.webapp.authorization.FileUploadFilter.FileUploadResponse;
 
@@ -95,18 +97,21 @@ public abstract class KatharsisBase extends Tbase {
 	private String pageSize;
 	
 	
-	protected FileUploadResponse uploadFile(Path fp) throws IOException {
+	protected HttpResponse uploadFile(String jwtToken, Path...fps) throws IOException {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
-		String jwtToken = getAdminJwtToken();
-		File file = fp.toFile();
+
 		HttpPost post = new HttpPost(applicationConfig.getOutUrlBase() + "/fileupload");
-		FileBody fileBody = new FileBody(file, ContentType.DEFAULT_BINARY);
+		
 		StringBody stringBody1 = new StringBody("Message 1", ContentType.MULTIPART_FORM_DATA);
 		StringBody stringBody2 = new StringBody("Message 2", ContentType.MULTIPART_FORM_DATA);
 		// 
 		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-		builder.addPart("upfile", fileBody);
+		for(Path fp : fps) {
+			File file = fp.toFile();
+			FileBody fileBody = new FileBody(file, ContentType.DEFAULT_BINARY);
+			builder.addPart("upfile-" + UuidUtil.uuidNoDash(), fileBody);
+		}
 		builder.addPart("text1", stringBody1);
 		builder.addPart("text2", stringBody2);
 		org.apache.http.HttpEntity entity = builder.build();
@@ -115,12 +120,12 @@ public abstract class KatharsisBase extends Tbase {
 		//
 		post.setEntity(entity);
 		HttpResponse response = httpclient.execute(post);
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		response.getEntity().writeTo(os);
-		String c = new String(os.toByteArray());
-		
-		FileUploadResponse m = indentOm.readValue(c, FileUploadResponse.class);
-		return m;
+//		ByteArrayOutputStream os = new ByteArrayOutputStream();
+//		response.getEntity().writeTo(os);
+//		String c = new String(os.toByteArray());
+//		
+//		FileUploadResponse m = indentOm.readValue(c, FileUploadResponse.class);
+		return response;
 	}
 	
 	public List<ErrorData> getErrors(ResponseEntity<String> response) throws JsonParseException, JsonMappingException, IOException {
@@ -541,53 +546,6 @@ public abstract class KatharsisBase extends Tbase {
 	}
 	
 	
-	public static class SparseFieldBuilder {
-		private StringBuilder fieldsb = new StringBuilder();
-		private StringBuilder includesb = new StringBuilder();
-		
-		private String groupPrefix = "";
-		
-		private String prepend;
-		
-		public SparseFieldBuilder(String prepend) {
-			this.prepend = prepend;
-		}
-		
-		public SparseFieldBuilder includes(String...resourceNames) {
-			includesb = new StringBuilder();
-			includesb.append("include=");
-			String prefix = "";
-			for(String rn : resourceNames) {
-				includesb.append(prefix);
-				prefix = ",";
-				includesb.append(rn);
-			}
-			return this;
-		}
-		
-		public SparseFieldBuilder resouceFields(String resourceName, String...fieldNames) {
-			fieldsb.append(groupPrefix);
-			groupPrefix = "&";
-			fieldsb.append("fields[")
-			.append(resourceName)
-			.append("]=");
-			String prefix = "";
-			for(String fn : fieldNames) {
-				fieldsb.append(prefix);
-				prefix = ",";
-				fieldsb.append(fn);
-			}
-			return this;
-		}
-		
-		public String build() {
-			if (includesb.length() > 0) {
-				return includesb.insert(0, prepend).append("&").append(fieldsb).toString();
-			} else {
-				return includesb.insert(0, prepend).append(fieldsb).toString();
-			}
-			
-		}
-	}
+
 	
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.domain.GroupUserRelation;
 import com.jianglibo.wx.katharsis.dto.GroupUserRelationDto;
+import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 
 @Component
 public class GroupUserRelationDtoConverter implements DtoConverter<GroupUserRelation, GroupUserRelationDto> {
@@ -17,10 +18,10 @@ public class GroupUserRelationDtoConverter implements DtoConverter<GroupUserRela
 
 
 	@Override
-	public GroupUserRelationDto entity2Dto(GroupUserRelation entity) {
+	public GroupUserRelationDto entity2Dto(GroupUserRelation entity, Scenario scenario) {
 		GroupUserRelationDto dto = new GroupUserRelationDto();
-		dto.setBootUser(userConverter.entity2Dto(entity.getBootUser()));
-		dto.setBootGroup(groupConverter.entity2Dto(entity.getBootGroup()));
+		dto.setBootUser(userConverter.entity2Dto(entity.getBootUser(), scenario));
+		dto.setBootGroup(groupConverter.entity2Dto(entity.getBootGroup(), scenario));
 		return dto;
 	}
 }

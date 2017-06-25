@@ -18,6 +18,7 @@ import com.jianglibo.wx.domain.BaseEntity;
 import com.jianglibo.wx.facade.FacadeRepositoryBase;
 import com.jianglibo.wx.katharsis.dto.Dto;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter;
+import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.exception.AppException;
 import com.jianglibo.wx.katharsis.exception.UnsortableException;
 import com.jianglibo.wx.util.QuerySpecUtil;
@@ -79,7 +80,7 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 		validate(dto);
 		E entity = repository.findOne(dto.getId(), false);
 		entity = getRepository().patch(entity, dto);
-		return converter.entity2Dto(saveToBackendRepo(dto, entity));
+		return converter.entity2Dto(saveToBackendRepo(dto, entity), Scenario.MODIFY);
 	}
 	
 	public T createNew(T dto) {
@@ -87,7 +88,7 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 		try {
 			E entity = entityClass.newInstance();
 			entity = getRepository().newByDto(dto);
-			return converter.entity2Dto(saveToBackendRepo(dto, entity));
+			return converter.entity2Dto(saveToBackendRepo(dto, entity), Scenario.NEW);
 		} catch (InstantiationException | IllegalAccessException e) {
 			log.error("instantiationException {}", entityClass.getName());
 			throw new AppException().addError(1000, entityClass.getName(), "cannot instantiation " + entityClass.getName());
@@ -101,7 +102,7 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 	@Override
 	public T findOne(Long id, QuerySpec querySpec) {
 		E entity = repository.findOne(id, false);
-		return converter.entity2Dto(entity);
+		return converter.entity2Dto(entity, Scenario.FIND_ONE);
 	}
 
 	@Override
@@ -113,7 +114,7 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 		L udl;
 		try {
 			udl = resourceListClass.newInstance();
-			udl.addAll(bus.stream().map(entity -> converter.entity2Dto(entity)).collect(Collectors.toList()));
+			udl.addAll(bus.stream().map(entity -> converter.entity2Dto(entity, Scenario.FIND_LIST)).collect(Collectors.toList()));
 			return udl;
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
@@ -131,7 +132,7 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 		List<E> entities = new ArrayList<>();
 		if (ids.size() > 0) {
 			entities = ids.stream().map(id -> repository.findOne(id, true)).filter(ne -> ne != null).collect(Collectors.toList());
-			return convertToResourceList(entities, entities.size());
+			return convertToResourceList(entities, entities.size(), Scenario.FIND_LIST);
 		}
 		
 		List<String> unsported = checkAllSortableFieldAllowed(querySpec); 
@@ -142,7 +143,7 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 		if (querySpec.getFilters().isEmpty()) {
 			entities = repository.findRange(querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = repository.count();
-			return convertToResourceList(entities, count);
+			return convertToResourceList(entities, count, Scenario.FIND_LIST);
 		} else {
 			RelationQuery rq = QuerySpecUtil.findRelationQuery(querySpec); 
 			if (rq != null) {
@@ -158,8 +159,8 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 
 	protected abstract L findAllWithQuerySpec(QuerySpec querySpec);
 
-	protected L convertToResourceList(List<E> entities, long count) {
-		List<T> list = entities.stream().map(entity -> converter.entity2Dto(entity)).collect(Collectors.toList());		
+	protected L convertToResourceList(List<E> entities, long count, Scenario scenario) {
+		List<T> list = entities.stream().map(entity -> converter.entity2Dto(entity, scenario)).collect(Collectors.toList());		
 		L listOb = null;
 		try {
 			listOb = resourceListClass.newInstance();

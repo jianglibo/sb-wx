@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Priority;
 import javax.servlet.Filter;
@@ -30,8 +31,10 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.config.ApplicationConfig;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.Medium;
+import com.jianglibo.wx.domain.Post;
+import com.jianglibo.wx.facade.MediumFacadeRepository;
+import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.katharsis.exception.NotMultipartContentException;
-import com.jianglibo.wx.util.MyJsonApiUrlBuilder;
 import com.jianglibo.wx.util.SecurityUtil;
 import com.jianglibo.wx.vo.RoleNames;
 
@@ -44,16 +47,23 @@ import com.jianglibo.wx.vo.RoleNames;
  */
 @Component
 @Priority(20)
-public class FileUploadFilter implements Filter {
+public class PostPostFilter implements Filter {
 
-	private static Logger logger = LoggerFactory.getLogger(FileUploadFilter.class);
+	private static Logger logger = LoggerFactory.getLogger(PostPostFilter.class);
 	
 	private static String keyName = "uploadSecret";
 	
-	private static String catchUrl = "/fileupload";
-	
 	@Autowired
 	private ApplicationConfig appConfig;
+	
+	private static String catchUrl = "/postpost";
+	
+	
+	@Autowired
+	private MediumFacadeRepository mediumRepo;
+	
+	@Autowired
+	private PostFacadeRepository postRepo;
 	
 	@Autowired
 	private FileItemProcessor fileItemProcessor;
@@ -69,33 +79,49 @@ public class FileUploadFilter implements Filter {
 					fileItemProcessor.writeErrotToResponse(response, new AccessDeniedException("not login."));
 					return;
 				}
+				if ("".equalsIgnoreCase(request.getMethod())) {
+					
+				}
 				if (ServletFileUpload.isMultipartContent(request)) {
 					// Create a new file upload handler
 					ServletFileUpload upload = new ServletFileUpload();
 					// Parse the request
 					try {
 						FileItemIterator iter = upload.getItemIterator(request);
-						String keyValue = null;
+						String title = null;
+						String content = null;
+						List<Long> mediaIds = new ArrayList<>();
 						List<Medium> media = new ArrayList<>();
 						while (iter.hasNext()) {
 						    FileItemStream item = iter.next();
 						    String name = item.getFieldName();
 						    if (item.isFormField()) {
 						    	InputStream stream = item.openStream();
-						    	if (keyName.equals(name)) {
-						    		keyValue = Streams.asString(stream);
+						    	if ("title".equals(name)) {
+						    		title = Streams.asString(stream);
+						    	} else if ("content".equals(name)) {
+						    		content = Streams.asString(stream);
+						    	} else if ("media".equals(name)) {
+						    		mediaIds.add(Long.valueOf(Streams.asString(stream)));
 						    	}
 						    } else {
 						    	media.add(fileItemProcessor.processFileItem(item));
 						    }
 						}
-//						r.setMedia(mediumDtos);
-//						if (appConfig.getUploadSecret().equals(keyValue)) {
-//							writeUploadResult(response, r);
-//						} else {
-//							writeUploadResult(response, new FileUploadResponse("GuessWrong", ""));
-//						}
-						response.sendRedirect(getMediaRedirectUrl(media));
+						Post post = new Post();
+						post.setTitle(title);
+						post.setContent(content);
+						post = postRepo.save(post);
+						final Post finalPost = post;
+						mediaIds.addAll(media.stream().map(dto -> dto.getId()).collect(Collectors.toList()));
+						List<Medium> ms = mediaIds.stream().map(id -> {
+							Medium m = mediumRepo.findOne(id);
+							m.setPost(finalPost);
+							return mediumRepo.save(m);
+							}).collect(Collectors.toList());
+						post.setMedia(ms);
+						postRepo.save(post);
+						response.sendRedirect(getPostRedirectUrl(post));
 					} catch (FileUploadException e) {
 						fileItemProcessor.writeErrotToResponse(response, e);
 					}
@@ -108,14 +134,10 @@ public class FileUploadFilter implements Filter {
 			}
 		}
 	}
+	
 
-	private String getMediaRedirectUrl(List<Medium> media) {
-		MyJsonApiUrlBuilder b = new MyJsonApiUrlBuilder("?");
-		for(Medium m : media) {
-			b.filters("id", m.getId());
-		}
-		String url = b.build();
-		return appConfig.getOutUrlResouceBase(JsonApiResourceNames.MEDIUM) + url;
+	private String getPostRedirectUrl(Post post) {
+		return appConfig.getOutUrlResouceBase(JsonApiResourceNames.POST) + "/" + post.getId();
 	}
 
 	@Override
@@ -125,4 +147,5 @@ public class FileUploadFilter implements Filter {
 	@Override
 	public void destroy() {
 	}
+	
 }

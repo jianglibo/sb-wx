@@ -1,5 +1,7 @@
 package com.jianglibo.wx.webapp.authorization;
 
+import static org.hamcrest.Matchers.instanceOf;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -7,19 +9,30 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jianglibo.wx.config.ApplicationConfig;
+import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.Medium;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.MediumFacadeRepository;
 import com.jianglibo.wx.util.SecurityUtil;
 import com.jianglibo.wx.util.UuidUtil;
+
+import io.katharsis.errorhandling.ErrorData;
+import io.katharsis.errorhandling.ErrorResponse;
 
 @Component
 public class FileItemProcessor {
@@ -34,6 +47,9 @@ public class FileItemProcessor {
 	
 	@Autowired
 	private BootUserFacadeRepository userRepository;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 	
 	private Path destFolder = null;
 	
@@ -67,6 +83,32 @@ public class FileItemProcessor {
 	
 	protected String getOriginName(String name) {
 		return Paths.get(name).getFileName().toString();
+	}
+	
+	public ErrorResponse toErrorResponse(Exception e, String errorCode) {
+		ErrorData ed = ErrorData
+				.builder()
+				.setTitle(AccessDeniedException.class.getName())
+				.setCode(errorCode)
+				.setDetail(e.getMessage())
+				.build();
+		return ErrorResponse.builder().setStatus(HttpStatus.BAD_REQUEST.value())
+		.setSingleErrorData(ed).build();
+	}
+	
+
+	public void writeErrotToResponse(HttpServletResponse response, Exception exp) throws JsonGenerationException, JsonMappingException, IOException {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		String ec;
+		if (exp instanceof AccessDeniedException) {
+			ec = AppErrorCodes.ACCESS_DENIED;
+		} else if (exp instanceof FileUploadException) {
+			ec = AppErrorCodes.FILE_UPLOAD;
+		} else {
+			ec = AppErrorCodes.UNKNOWN;
+		}
+		objectMapper.writeValue(response.getWriter(), toErrorResponse(exp, ec));
 	}
 
 

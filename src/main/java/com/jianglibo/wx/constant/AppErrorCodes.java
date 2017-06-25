@@ -8,5 +8,9 @@ public class AppErrorCodes {
 	public static String ACCESS_DENIED = "E4001001";
 	
 	public static String UNSORTABLE = "E4001002";
+	
+	public static String FILE_UPLOAD = "E4001003";
+	
+	public static String UNKNOWN = "E4001999";
 
 }

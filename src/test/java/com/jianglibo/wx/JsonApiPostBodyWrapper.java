@@ -54,7 +54,7 @@ public class JsonApiPostBodyWrapper {
 			
 		}
 		
-		public IdTypeWrapper(String resourceName, long...ids) {
+		public IdTypeWrapper(String resourceName, Long...ids) {
 			for(Long id : ids) {
 				this.data.add(new IdType(resourceName, id));
 			}

@@ -9,6 +9,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.jianglibo.wx.annotation.DtoToEntity;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
@@ -32,6 +34,8 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
+    
+    @JsonProperty(access=Access.WRITE_ONLY)
     private String openId;
     private boolean enabled;
     private Gender gender;
@@ -79,6 +83,9 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="requester")
     private List<ApproveDto> sentApproves;
+    
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_ALWAYS,serialize=SerializeType.LAZY, opposite="users")
+    private List<RoleDto> roles = new ArrayList<>();
     
     public List<PostDto> getPosts() {
 		return posts;
@@ -161,8 +168,6 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 	public void setProvince(String province) {
 		this.province = province;
 	}
-
-    private List<RoleDto> roles = new ArrayList<>();
     
     public List<RoleDto> getRoles() {
 		return roles;
@@ -284,6 +289,7 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 		this.bootGroups = bootGroups;
 	}
 
+	@JsonIgnore
 	public String getOpenId() {
 		return openId;
 	}

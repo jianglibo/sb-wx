@@ -1,95 +1,92 @@
 {
   "data" : {
-    "id" : "262151",
+    "id" : "2359304",
     "type" : "users",
     "attributes" : {
       "country" : null,
       "gender" : "FEMALE",
       "city" : null,
-      "displayName" : "admin1",
-      "openId" : "3caa49294f724294b08a8287f1f93994",
-      "roles" : [ {
-        "id" : 32768,
-        "createdAt" : 1498458797656,
-        "name" : "ROLE_ABC"
-      }, {
-        "id" : 1,
-        "createdAt" : 1498113686803,
-        "name" : "ROLE_USER"
-      } ],
-      "credentialsNonExpired" : true,
-      "mobile" : "1234567890121",
+      "displayName" : null,
+      "credentialsNonExpired" : false,
+      "mobile" : "13777777777",
       "mobileVerified" : false,
       "language" : null,
       "avatar" : null,
-      "enabled" : true,
-      "createdAt" : 1498458797857,
-      "emailVerified" : true,
+      "enabled" : false,
+      "createdAt" : 1498481054600,
+      "emailVerified" : false,
       "password" : null,
       "province" : null,
-      "name" : "USER_T1",
-      "accountNonExpired" : true,
-      "email" : "admin@localhost.com1",
-      "accountNonLocked" : true
+      "name" : "name1334",
+      "accountNonExpired" : false,
+      "email" : "ab@c.com",
+      "accountNonLocked" : false
     },
     "relationships" : {
       "followers" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/users/262151/relationships/followers",
-          "related" : "http://localhost/jsonapi/users/262151/followers"
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/followers",
+          "related" : "http://localhost:88/jsonapi/users/2359304/followers"
         }
       },
       "ownedGroups" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/users/262151/relationships/ownedGroups",
-          "related" : "http://localhost/jsonapi/users/262151/ownedGroups"
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/ownedGroups",
+          "related" : "http://localhost:88/jsonapi/users/2359304/ownedGroups"
         }
       },
       "followeds" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/users/262151/relationships/followeds",
-          "related" : "http://localhost/jsonapi/users/262151/followeds"
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/followeds",
+          "related" : "http://localhost:88/jsonapi/users/2359304/followeds"
         }
       },
       "sentApproves" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/users/262151/relationships/sentApproves",
-          "related" : "http://localhost/jsonapi/users/262151/sentApproves"
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/sentApproves",
+          "related" : "http://localhost:88/jsonapi/users/2359304/sentApproves"
         }
       },
       "bootGroups" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/users/262151/relationships/bootGroups",
-          "related" : "http://localhost/jsonapi/users/262151/bootGroups"
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/bootGroups",
+          "related" : "http://localhost:88/jsonapi/users/2359304/bootGroups"
+        }
+      },
+      "roles" : {
+        "data" : [ ],
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/roles",
+          "related" : "http://localhost:88/jsonapi/users/2359304/roles"
         }
       },
       "receivedPosts" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/users/262151/relationships/receivedPosts",
-          "related" : "http://localhost/jsonapi/users/262151/receivedPosts"
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/receivedPosts",
+          "related" : "http://localhost:88/jsonapi/users/2359304/receivedPosts"
         }
       },
       "media" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/users/262151/relationships/media",
-          "related" : "http://localhost/jsonapi/users/262151/media"
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/media",
+          "related" : "http://localhost:88/jsonapi/users/2359304/media"
         }
       },
       "posts" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/users/262151/relationships/posts",
-          "related" : "http://localhost/jsonapi/users/262151/posts"
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/posts",
+          "related" : "http://localhost:88/jsonapi/users/2359304/posts"
         }
       },
       "receivedApproves" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/users/262151/relationships/receivedApproves",
-          "related" : "http://localhost/jsonapi/users/262151/receivedApproves"
+          "self" : "http://localhost:88/jsonapi/users/2359304/relationships/receivedApproves",
+          "related" : "http://localhost:88/jsonapi/users/2359304/receivedApproves"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/users/262151"
+      "self" : "http://localhost:88/jsonapi/users/2359304"
     }
   }
 }

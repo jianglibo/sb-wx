@@ -69,8 +69,9 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 		if (dto.getOpenId() == null || dto.getOpenId().isEmpty()) {
 			dto.setOpenId(UuidUtil.uuidNoDash());
 		}
-		BootUserPrincipal bu = new BootUserPrincipal(dto);
-		return getConverter().entity2Dto(bootUserDetailManager.createUserAndReturn(bu), Scenario.NEW);
+		BootUserPrincipal bup = new BootUserPrincipal(dto);
+		BootUser bu = bootUserDetailManager.createUserAndReturn(bup);
+		return getConverter().entity2Dto(bu, Scenario.NEW);
 	}
 	
 	@Override

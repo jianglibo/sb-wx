@@ -31,6 +31,9 @@ public class RoleFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Role,Role
 
 	@Override
 	public Role findByName(String rn) {
+		if (!(rn.startsWith("role_") || rn.startsWith("ROLE_"))) {
+			rn = ("role_" + rn).toUpperCase();
+		}
 		return getRepository().findByName(rn);
 	}
 

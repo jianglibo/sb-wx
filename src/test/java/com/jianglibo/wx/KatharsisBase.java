@@ -14,9 +14,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -91,13 +93,10 @@ public abstract class KatharsisBase extends Tbase {
 	private String pageSize;
 	
 	
-	protected HttpResponse uploadFile(String jwtToken, Path...fps) throws IOException {
+	private HttpResponse postForm(String jwtToken,Map<String, String> fieldPairs,String url ,Path...fps) throws IOException {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 
-		HttpPost post = new HttpPost(applicationConfig.getOutUrlBase() + "/fileupload");
-		
-		StringBody stringBody1 = new StringBody("Message 1", ContentType.MULTIPART_FORM_DATA);
-		StringBody stringBody2 = new StringBody("Message 2", ContentType.MULTIPART_FORM_DATA);
+		HttpPost post = new HttpPost(applicationConfig.getOutUrlBase() + url);
 		// 
 		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -106,21 +105,31 @@ public abstract class KatharsisBase extends Tbase {
 			FileBody fileBody = new FileBody(file, ContentType.DEFAULT_BINARY);
 			builder.addPart("upfile-" + UuidUtil.uuidNoDash(), fileBody);
 		}
-		builder.addPart("text1", stringBody1);
-		builder.addPart("text2", stringBody2);
+		fieldPairs.entrySet().stream().forEach(es -> {
+			StringBody sbody = new StringBody(es.getValue(), ContentType.MULTIPART_FORM_DATA);
+			builder.addPart(es.getKey(), sbody);
+		});
 		org.apache.http.HttpEntity entity = builder.build();
 		post.setHeader("Authorization", "Bearer " + jwtToken);
-		
-		//
+
 		post.setEntity(entity);
 		HttpResponse response = httpclient.execute(post);
-//		ByteArrayOutputStream os = new ByteArrayOutputStream();
-//		response.getEntity().writeTo(os);
-//		String c = new String(os.toByteArray());
-//		
-//		FileUploadResponse m = indentOm.readValue(c, FileUploadResponse.class);
 		return response;
 	}
+	
+	protected HttpResponse uploadFile(String jwtToken ,Path...fps) throws IOException {
+		return postForm(jwtToken, new HashMap<>(), "/fileupload", fps);
+	}
+	
+	protected HttpResponse postPost(String jwtToken,String title, String content,List<Long> mediaIds, List<Long> userIds, Path...fps) throws IOException {
+		Map<String, String> m = new HashMap<>();
+		m.put("title", title);
+		m.put("content", content);
+		m.put("media", mediaIds.stream().map(l -> String.valueOf(l)).collect(Collectors.joining(",")));
+		m.put("sharedUsers", userIds.stream().map(l -> String.valueOf(l)).collect(Collectors.joining(",")));
+		return postForm(jwtToken, m , "/postpost", fps);
+	}
+	
 	
 	public List<ErrorData> getErrors(ResponseEntity<String> response) throws JsonParseException, JsonMappingException, IOException {
 		Document d = toDocument(response.getBody());
@@ -229,6 +238,13 @@ public abstract class KatharsisBase extends Tbase {
 				getItemUrl(itemId) + "/relationships/" + relationName,
 		        HttpMethod.DELETE, request, String.class);
 	}
+	
+	public ResponseEntity<String> replaceRelationWithContent(String content,String relationName,Long itemId, String jwtToken) throws IOException {
+		HttpEntity<String> request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
+		return restTemplate.exchange(
+				getItemUrl(itemId) + "/relationships/" + relationName,
+		        HttpMethod.PATCH, request, String.class);
+	}
 
 	
 	public ResponseEntity<String> postItemWithExplicitFixtures(String fixtureName, String jwtToken) throws IOException {
@@ -250,6 +266,12 @@ public abstract class KatharsisBase extends Tbase {
 		HttpEntity<String> request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
 		return restTemplate.postForEntity(getBaseURI(), request, String.class);
 	}
+	
+	public ResponseEntity<String> postItemWithContent(String content, String jwtToken, String url) throws IOException {
+		HttpEntity<String> request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
+		return restTemplate.postForEntity(url, request, String.class);
+	}
+
 
 	
 	public HttpHeaders getCsrfHeader() {

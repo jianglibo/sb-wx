@@ -32,6 +32,13 @@ public class JsonApiListBodyWrapper {
 			this.data.add(new JsonApiObItem(type,id));
 		}
 	}
+	
+//	public JsonApiListBodyWrapper emptyListToNull() {
+//		if (getData().isEmpty()) {
+//			setData(null);
+//		}
+//		return this;
+//	}
 
 	public List<JsonApiObItem> getData() {
 		return data;

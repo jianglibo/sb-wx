@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Priority;
 import javax.servlet.Filter;
@@ -30,10 +31,15 @@ import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.config.ApplicationConfig;
 import com.jianglibo.wx.config.JsonApiResourceNames;
+import com.jianglibo.wx.constant.UrlConstants;
+import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Medium;
 import com.jianglibo.wx.domain.Post;
+import com.jianglibo.wx.domain.PostShare;
+import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.MediumFacadeRepository;
 import com.jianglibo.wx.facade.PostFacadeRepository;
+import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.exception.NotMultipartContentException;
 import com.jianglibo.wx.util.SecurityUtil;
 import com.jianglibo.wx.vo.RoleNames;
@@ -56,14 +62,18 @@ public class PostPostFilter implements Filter {
 	@Autowired
 	private ApplicationConfig appConfig;
 	
-	private static String catchUrl = "/postpost";
-	
 	
 	@Autowired
 	private MediumFacadeRepository mediumRepo;
 	
 	@Autowired
 	private PostFacadeRepository postRepo;
+	
+	@Autowired
+	private BootUserFacadeRepository userRepository;
+	
+	@Autowired
+	private PostShareFacadeRepository psRepo;
 	
 	@Autowired
 	private FileItemProcessor fileItemProcessor;
@@ -74,7 +84,7 @@ public class PostPostFilter implements Filter {
 		if (req instanceof HttpServletRequest && res instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;
-			if (catchUrl.equals(request.getRequestURI())) {
+			if (UrlConstants.POSTFORM_ENDPOINT.equals(request.getRequestURI())) {
 				if (!SecurityUtil.hasRole(RoleNames.USER)) {
 					fileItemProcessor.writeErrotToResponse(response, new AccessDeniedException("not login."));
 					return;
@@ -92,6 +102,8 @@ public class PostPostFilter implements Filter {
 						String content = null;
 						List<Long> mediaIds = new ArrayList<>();
 						List<Medium> media = new ArrayList<>();
+						List<Long> sharedUserIds = new ArrayList<>();
+						
 						while (iter.hasNext()) {
 						    FileItemStream item = iter.next();
 						    String name = item.getFieldName();
@@ -102,7 +114,11 @@ public class PostPostFilter implements Filter {
 						    	} else if ("content".equals(name)) {
 						    		content = Streams.asString(stream);
 						    	} else if ("media".equals(name)) {
-						    		mediaIds.add(Long.valueOf(Streams.asString(stream)));
+						    		String commaStr = Streams.asString(stream);
+						    		mediaIds = Stream.of(commaStr.split(",")).map(s -> Long.valueOf(s)).collect(Collectors.toList());
+						    	} else if ("sharedUsers".equals(name)) {
+						    		String commaStr = Streams.asString(stream);
+						    		sharedUserIds = Stream.of(commaStr.split(",")).map(s -> Long.valueOf(s)).collect(Collectors.toList());
 						    	}
 						    } else {
 						    	media.add(fileItemProcessor.processFileItem(item));
@@ -111,6 +127,7 @@ public class PostPostFilter implements Filter {
 						Post post = new Post();
 						post.setTitle(title);
 						post.setContent(content);
+						post.setCreator(userRepository.findOne(SecurityUtil.getLoginUserId(), false));
 						post = postRepo.save(post);
 						final Post finalPost = post;
 						mediaIds.addAll(media.stream().map(dto -> dto.getId()).collect(Collectors.toList()));
@@ -121,6 +138,10 @@ public class PostPostFilter implements Filter {
 							}).collect(Collectors.toList());
 						post.setMedia(ms);
 						postRepo.save(post);
+						
+						final Post p = post;
+						sharedUserIds.stream().map(uid -> new PostShare(p, userRepository.findOne(uid))).forEach(ps -> psRepo.save(ps));
+						
 						response.sendRedirect(getPostRedirectUrl(post));
 					} catch (FileUploadException e) {
 						fileItemProcessor.writeErrotToResponse(response, e);

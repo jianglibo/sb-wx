@@ -1,5 +1,6 @@
 package com.jianglibo.wx.katharsis.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -28,8 +29,8 @@ public class PostDto extends DtoBase<PostDto, Post>{
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="post")
 	private List<MediumDto> media;
 	
-	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="receivedPosts")
-	private List<UserDto> sharedUsers;
+	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="receivedPosts")
+	private List<UserDto> sharedUsers = new ArrayList<>();
 	
 	public PostDto() {}
 	

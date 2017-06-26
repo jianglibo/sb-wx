@@ -1,7 +1,5 @@
 package com.jianglibo.wx.webapp.authorization;
 
-import static org.hamcrest.Matchers.instanceOf;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;

@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.config.ApplicationConfig;
 import com.jianglibo.wx.config.JsonApiResourceNames;
+import com.jianglibo.wx.constant.UrlConstants;
 import com.jianglibo.wx.domain.Medium;
 import com.jianglibo.wx.katharsis.exception.NotMultipartContentException;
 import com.jianglibo.wx.util.MyJsonApiUrlBuilder;
@@ -50,8 +51,6 @@ public class FileUploadFilter implements Filter {
 	
 	private static String keyName = "uploadSecret";
 	
-	private static String catchUrl = "/fileupload";
-	
 	@Autowired
 	private ApplicationConfig appConfig;
 	
@@ -64,7 +63,7 @@ public class FileUploadFilter implements Filter {
 		if (req instanceof HttpServletRequest && res instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;
-			if (catchUrl.equals(request.getRequestURI())) {
+			if (UrlConstants.UPLOAD_ENDPOINT.equals(request.getRequestURI())) {
 				if (!SecurityUtil.hasRole(RoleNames.USER)) {
 					fileItemProcessor.writeErrotToResponse(response, new AccessDeniedException("not login."));
 					return;

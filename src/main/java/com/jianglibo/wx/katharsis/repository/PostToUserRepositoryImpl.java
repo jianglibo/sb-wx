@@ -1,8 +1,12 @@
 package com.jianglibo.wx.katharsis.repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
@@ -30,9 +34,34 @@ public class PostToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Pos
 	@Override
 	public void addRelations(PostDto source, Iterable<Long> targetIds, String fieldName) {
 		Post p = postRepo.findOne(source.getId());
-		for(Long id : targetIds) {
-			PostShare ps = new PostShare(p, userRepo.findOne(id));
-			psRepo.save(ps);
+		if ("sharedUsers".equals(fieldName)) {
+			for(Long id : targetIds) {
+				PostShare ps = new PostShare(p, userRepo.findOne(id));
+				psRepo.save(ps);
+			}
+		}
+	}
+	
+	@Override
+	public void removeRelations(PostDto source, Iterable<Long> targetIds, String fieldName) {
+		Post p = postRepo.findOne(source.getId());
+		if ("sharedUsers".equals(fieldName)) {
+			for(Long id : targetIds) {
+				PostShare ps = psRepo.findByPostAndBootUser(p, userRepo.findOne(id));
+				psRepo.delete(ps);
+			}
+		}
+	}
+	
+	@Override
+	public void setRelations(PostDto source, Iterable<Long> targetIds, String fieldName) {
+		Post p = postRepo.findOne(source.getId());
+		if ("sharedUsers".equals(fieldName)) {
+			psRepo.findByPost(p, 0L, 10000L).forEach(ps -> psRepo.delete(ps)); 
+			for(Long id : targetIds) {
+				PostShare ps = new PostShare(p, userRepo.findOne(id));
+				psRepo.save(ps);
+			}
 		}
 	}
 }

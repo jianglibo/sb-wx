@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
+import com.jianglibo.wx.constant.UrlConstants;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.jwt.JwtBasicFilter;
@@ -62,7 +63,7 @@ public class WxSessionFilter implements Filter {
 			HttpServletResponse response = (HttpServletResponse) res;
 			if (HttpMethod.POST.matches(request.getMethod()) && JwtBasicFilter.negPathPattern.matcher(request.getRequestURI()).matches()) {
 				chain.doFilter(request, response);
-			} else if (JwtBasicFilter.pathPattern.matcher(request.getRequestURI()).matches() || "/fileupload".equals(request.getRequestURI())) {
+			} else if (JwtBasicFilter.pathPattern.matcher(request.getRequestURI()).matches() || UrlConstants.UPLOAD_ENDPOINT.equals(request.getRequestURI()) || UrlConstants.POSTFORM_ENDPOINT.equals(request.getRequestURI())) {
 				try {
 					invokeSessionVerify(request, response);
 					chain.doFilter(req, res);

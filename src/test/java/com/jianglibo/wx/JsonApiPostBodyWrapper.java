@@ -1,6 +1,8 @@
 package com.jianglibo.wx;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JsonApiPostBodyWrapper {
@@ -29,6 +31,8 @@ public class JsonApiPostBodyWrapper {
 		public void setAttributes(Map<String, Object> attributes) {
 			this.attributes = attributes;
 		}
+		
+		
 
 		public Map<String, IdTypeWrapper> getRelationships() {
 			return relationships;
@@ -41,21 +45,26 @@ public class JsonApiPostBodyWrapper {
 	
 	public static class IdTypeWrapper {
 		
-		private IdType data;
+		private List<IdType> data = new ArrayList<>();
 		
-		public IdTypeWrapper(String resourceName, String id) {
-			this.data = new IdType(resourceName, id);
+		public IdTypeWrapper(String resourceName, String...ids) {
+			for(String id: ids) {
+				this.data.add(new IdType(resourceName, id));
+			}
+			
 		}
 		
-		public IdTypeWrapper(String resourceName, long id) {
-			this.data = new IdType(resourceName, id);
+		public IdTypeWrapper(String resourceName, long...ids) {
+			for(Long id : ids) {
+				this.data.add(new IdType(resourceName, id));
+			}
 		}
 
-		public IdType getData() {
+		public List<IdType> getData() {
 			return data;
 		}
 
-		public void setData(IdType data) {
+		public void setData(List<IdType> data) {
 			this.data = data;
 		}
 	}

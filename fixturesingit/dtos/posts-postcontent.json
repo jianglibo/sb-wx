@@ -6,11 +6,20 @@
       "content" : "content"
     },
     "relationships" : {
+      "sharedUsers" : {
+        "data" : [ {
+          "id" : "196609",
+          "type" : "users"
+        }, {
+          "id" : "229376",
+          "type" : "users"
+        } ]
+      },
       "media" : {
-        "data" : {
-          "id" : "1376256",
+        "data" : [ {
+          "id" : "1933314",
           "type" : "medium"
-        }
+        } ]
       }
     }
   }

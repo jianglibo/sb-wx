@@ -17,16 +17,12 @@ public class JsonApiPostBodyWrapperBuilder {
 	}
 	
 	public JsonApiPostBodyWrapperBuilder addRelation(String relationName, String resourceName, String...ids) {
-		for(String id: ids) {
-			body.getData().getRelationships().put(relationName, new IdTypeWrapper(resourceName, id));
-		}
+		body.getData().getRelationships().put(relationName, new IdTypeWrapper(resourceName, ids));
 		return this;
 	}
 	
 	public JsonApiPostBodyWrapperBuilder addRelation(String relationName, String resourceName, long...ids) {
-		for(long id: ids) {
-			body.getData().getRelationships().put(relationName, new IdTypeWrapper(resourceName, id));
-		}
+		body.getData().getRelationships().put(relationName, new IdTypeWrapper(resourceName, ids));
 		return this;
 	}
 	

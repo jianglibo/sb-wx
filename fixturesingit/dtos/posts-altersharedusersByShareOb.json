@@ -1,0 +1,20 @@
+{
+  "data" : {
+    "type" : "postshares",
+    "attributes" : { },
+    "relationships" : {
+      "post" : {
+        "data" : {
+          "id" : "819201",
+          "type" : "posts"
+        }
+      },
+      "bootUser" : {
+        "data" : {
+          "id" : "196609",
+          "type" : "users"
+        }
+      }
+    }
+  }
+}

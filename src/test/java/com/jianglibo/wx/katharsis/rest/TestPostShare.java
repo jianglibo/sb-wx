@@ -1,6 +1,7 @@
 package com.jianglibo.wx.katharsis.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jianglibo.wx.JsonApiListBodyWrapper;
+import com.jianglibo.wx.JsonApiPostBodyWrapper;
+import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
@@ -29,8 +32,36 @@ public class TestPostShare  extends KatharsisBase {
 		jwtToken = getAdminJwtToken();
 	}
 	
+//	/**
+//	 * not recommended.
+//	 * @throws JsonParseException
+//	 * @throws JsonMappingException
+//	 * @throws IOException
+//	 */
+//	@Test
+//	public void tShareByShareOb() throws JsonParseException, JsonMappingException, IOException {
+//		BootUser bu = bootUserRepo.findByName("admin");
+//		
+//		Post post = new Post();
+//		post.setTitle("title");
+//		post.setContent("content");
+//		post.setCreator(bu);
+//		postRepo.save(post);
+//		BootUser b1 = createBootUser("b1", "123");
+//		
+//		JsonApiPostBodyWrapper japbb = new JsonApiPostBodyWrapperBuilder(JsonApiResourceNames.POST_SHARE).addRelation("bootUser", JsonApiResourceNames.BOOT_USER, b1.getId())
+//				.addRelation("post", JsonApiResourceNames.POST, post.getId()).build();
+//
+//		String body = indentOm.writeValueAsString(japbb);
+//		writeDto(body, getResourceName(), "altersharedusersByShareOb");
+//		response = postItemWithContent(body, jwtToken, getBaseURI(JsonApiResourceNames.POST_SHARE));
+//		
+//		response = requestForBody(jwtToken, getItemUrl(post.getId()) + "/sharedUsers");
+//		assertItemNumber(response, UserDto.class, 1);
+//	}
+	
 	@Test
-	public void tShare() throws JsonParseException, JsonMappingException, IOException {
+	public void tShareByRelation() throws JsonParseException, JsonMappingException, IOException {
 		BootUser bu = bootUserRepo.findByName("admin");
 		
 		Post post = new Post();
@@ -39,13 +70,29 @@ public class TestPostShare  extends KatharsisBase {
 		post.setCreator(bu);
 		postRepo.save(post);
 		BootUser b1 = createBootUser("b1", "123");
+		BootUser b2 = createBootUser("b2", "123");
 		
-		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", b1.getId());
-		response = addRelationWithContent(indentOm.writeValueAsString(jbw), "sharedUsers", post.getId(), jwtToken);
+		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", b1.getId(), b2.getId());
+		String body = indentOm.writeValueAsString(jbw);
+		writeDto(body, getResourceName(), "altersharedusers");
+		response = addRelationWithContent(body, "sharedUsers", post.getId(), jwtToken);
 		assertResponseCode(response, 204);
 		
 		response = requestForBody(jwtToken, getItemUrl(post.getId()) + "/sharedUsers");
+		assertItemNumber(response, UserDto.class, 2);
+		
+		jbw = new JsonApiListBodyWrapper("users", b1.getId());
+		body = indentOm.writeValueAsString(jbw);
+				
+		response = deleteRelationWithContent(body, "sharedUsers", post.getId(), jwtToken);
+		response = requestForBody(jwtToken, getItemUrl(post.getId()) + "/sharedUsers");
 		assertItemNumber(response, UserDto.class, 1);
+		
+		jbw = new JsonApiListBodyWrapper("users", new ArrayList<>());
+		body = indentOm.writeValueAsString(jbw);
+		response = replaceRelationWithContent(body, "sharedUsers", post.getId(), jwtToken);
+		response = requestForBody(jwtToken, getItemUrl(post.getId()) + "/sharedUsers");
+		assertItemNumber(response, UserDto.class, 0);
 	}
 
 

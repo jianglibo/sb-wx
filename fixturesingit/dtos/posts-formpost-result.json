@@ -1,0 +1,34 @@
+{
+  "data" : {
+    "id" : "1441792",
+    "type" : "posts",
+    "attributes" : {
+      "createdAt" : 1498458566037,
+      "title" : "atitle",
+      "content" : "acontent"
+    },
+    "relationships" : {
+      "sharedUsers" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/1441792/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/1441792/sharedUsers"
+        }
+      },
+      "creator" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/1441792/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/1441792/creator"
+        }
+      },
+      "media" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/1441792/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/1441792/media"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/posts/1441792"
+    }
+  }
+}

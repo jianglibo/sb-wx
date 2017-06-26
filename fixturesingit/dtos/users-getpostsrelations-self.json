@@ -1,36 +1,39 @@
 {
   "data" : [ {
-    "id" : "327681",
+    "id" : "1474561",
     "type" : "posts",
     "attributes" : {
-      "createdAt" : 1498101142796,
-      "media" : [ ],
-      "title" : "title-1940437536",
-      "content" : "content--1737528023",
-      "dtoAction" : null,
-      "dtoApplyTo" : null
+      "createdAt" : 1498458795119,
+      "title" : "title--915448257",
+      "content" : "content-1852559304"
     },
     "relationships" : {
       "sharedUsers" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/327681/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/327681/sharedUsers"
+          "self" : "http://localhost/jsonapi/posts/1474561/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/1474561/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/327681/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/327681/creator"
+          "self" : "http://localhost/jsonapi/posts/1474561/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/1474561/creator"
+        }
+      },
+      "media" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/1474561/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/1474561/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/posts/327681"
+      "self" : "http://localhost/jsonapi/posts/1474561"
     }
   } ],
   "links" : {
-    "first" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=1&filter[posts][creator][id][EQ]=425985",
-    "last" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=1&filter[posts][creator][id][EQ]=425985",
+    "first" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=1&filter[posts][creator][id][EQ]=262145",
+    "last" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=1&filter[posts][creator][id][EQ]=262145",
     "next" : null,
     "prev" : null
   },

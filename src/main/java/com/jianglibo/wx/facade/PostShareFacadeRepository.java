@@ -14,11 +14,11 @@ public interface PostShareFacadeRepository extends FacadeRepositoryBase<PostShar
 	/**
 	 * find by follower mean the follower is me. So the result is all I followed.
 	 */
-	List<PostShare> findByBootUser(BootUser user, long offset, Long limit, SortBroker...sortBrokers);
+	List<PostShare> findByBootUser(BootUser user, long offset, long limit, SortBroker...sortBrokers);
 	
 	long countByBootUser(BootUser user);
 	
-	List<PostShare> findByPost(Post post, long offset, Long limit, SortBroker...sortBrokers);
+	List<PostShare> findByPost(Post post, long offset, long limit, SortBroker...sortBrokers);
 	
 	long countByPost(Post post);
 

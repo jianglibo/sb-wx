@@ -43,7 +43,7 @@ public class PostShareFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post
 	}
 
 	@Override
-	public List<PostShare> findByBootUser(BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
+	public List<PostShare> findByBootUser(BootUser user, long offset, long limit, SortBroker... sortBrokers) {
 		return getRepository().findAllByBootUser(user, new SimplePageable(offset, limit, sortBrokers));
 	}
 
@@ -53,7 +53,7 @@ public class PostShareFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post
 	}
 
 	@Override
-	public List<PostShare> findByPost(Post post, long offset, Long limit, SortBroker... sortBrokers) {
+	public List<PostShare> findByPost(Post post, long offset, long limit, SortBroker... sortBrokers) {
 		return getRepository().findAllByPost(post, new SimplePageable(offset, limit, sortBrokers));
 	}
 

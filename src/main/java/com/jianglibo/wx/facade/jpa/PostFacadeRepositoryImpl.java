@@ -18,14 +18,17 @@ import com.jianglibo.wx.constant.PreAuthorizeExpression;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Medium;
 import com.jianglibo.wx.domain.Post;
+import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.domain.Post_;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.MediumFacadeRepository;
 import com.jianglibo.wx.facade.PostFacadeRepository;
+import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.facade.SimplePageable;
 import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.katharsis.dto.MediumDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
+import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.PostRepository;
 import com.jianglibo.wx.util.SecurityUtil;
 
@@ -42,6 +45,9 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 	@Autowired
 	private MediumFacadeRepository mediumRepo;
 	
+	@Autowired
+	private PostShareFacadeRepository psRepo;
+	
 	public PostFacadeRepositoryImpl(PostRepository jpaRepo) {
 		super(jpaRepo);
 	}
@@ -54,7 +60,6 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 
 	@Override
 	public Post patch(Post entity, PostDto dto) {
-//		entity.setName(dto.getName());
 		return entity;
 	}
 	
@@ -97,6 +102,15 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 			}
 		}
 		entity.setMedia(media);
+
+		if (dto.getSharedUsers() != null) {
+			for(UserDto udto : dto.getSharedUsers()) {
+				BootUser bu = userRepo.findOne(udto.getId());
+				PostShare ps = new PostShare(entity, bu);
+				psRepo.save(ps);
+			}
+		}
+		
 		return entity;
 	}
 }

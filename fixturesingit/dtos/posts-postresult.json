@@ -1,38 +1,39 @@
 {
   "data" : {
-    "id" : "589824",
+    "id" : "1441793",
     "type" : "posts",
     "attributes" : {
-      "createdAt" : 1498378571173,
+      "createdAt" : 1498458581268,
       "title" : "title",
       "content" : "content"
     },
     "relationships" : {
       "sharedUsers" : {
+        "data" : [ ],
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/589824/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/589824/sharedUsers"
+          "self" : "http://localhost/jsonapi/posts/1441793/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/1441793/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/589824/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/589824/creator"
+          "self" : "http://localhost/jsonapi/posts/1441793/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/1441793/creator"
         }
       },
       "media" : {
         "data" : [ {
-          "id" : "1376256",
+          "id" : "1933314",
           "type" : "medium"
         } ],
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/589824/relationships/media",
-          "related" : "http://localhost/jsonapi/posts/589824/media"
+          "self" : "http://localhost/jsonapi/posts/1441793/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/1441793/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/posts/589824"
+      "self" : "http://localhost/jsonapi/posts/1441793"
     }
   }
 }

@@ -11,21 +11,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.config.userdetail.BootUserDetailManager;
+import com.jianglibo.wx.domain.Approve;
 import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.domain.PostShare;
+import com.jianglibo.wx.facade.ApproveFacadeRepository;
 import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
+import com.jianglibo.wx.katharsis.dto.ApproveDto;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.UserDto.OnCreateGroup;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.dto.converter.UserDtoConverter;
+import com.jianglibo.wx.katharsis.repository.ApproveDtoRepository.ApproveDtoList;
 import com.jianglibo.wx.katharsis.repository.UserDtoRepository.UserDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
@@ -56,6 +60,9 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
     
     @Autowired
     private BootGroupFacadeRepository groupRepo;
+    
+    @Autowired
+    private ApproveFacadeRepository approveReop;
     
     @Autowired
 	public UserDtoRepositoryImpl(BootUserFacadeRepository bootUserRepository, BootUserDetailManager bootUserDetailManager, UserDtoConverter converter) {
@@ -102,19 +109,17 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 
 	@Override
 	protected UserDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
-		if ("bootGroups".equals(rq.getRelationName())) {
-			GroupDto gdo = new GroupDto();
-			gdo.setId(rq.getRelationIds().get(0));
+		if ("joinedGroups".equals(rq.getRelationName())) {
+			GroupDto gdo = new GroupDto(rq.getRelationIds().get(0));
 			BootGroup bg = groupRepo.findOne(gdo.getId());
 			List<BootUser> users = getRepository().findAllByGroup(bg, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = getRepository().countByGroup(bg);
 			UserDtoList udl = convertToResourceList(users, count, Scenario.RELATION_LIST);
 			List<GroupDto> groups = Arrays.asList(gdo);
-			udl.forEach(u -> u.setBootGroups(groups));
+			udl.forEach(u -> u.setJoinedGroups(groups));
 			return udl;
 		} else if ("followersOp".equals(rq.getRelationName())) {
-			UserDto udt = new UserDto();
-			udt.setId(rq.getRelationIds().get(0));
+			UserDto udt = new UserDto(rq.getRelationIds().get(0));
 			List<FollowRelation> followers = followRelationDtoRepository.findByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = followRelationDtoRepository.countByFollowed(rq.getRelationIds().get(0));
 			List<BootUser> users = followers.stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
@@ -125,8 +130,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			});
 			return udl;
 		} else if ("followedsOp".equals(rq.getRelationName())) {
-			UserDto udt = new UserDto();
-			udt.setId(rq.getRelationIds().get(0));
+			UserDto udt = new UserDto(rq.getRelationIds().get(0));
 			List<FollowRelation> followers = followRelationDtoRepository.findByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = followRelationDtoRepository.countByFollower(rq.getRelationIds().get(0));
 			List<BootUser> users = followers.stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
@@ -137,14 +141,19 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			});
 			return udl;
 		} else if ("receivedPosts".equals(rq.getRelationName())) {
-			PostDto pd = new PostDto();
-			pd.setId(rq.getRelationIds().get(0));
+			PostDto pd = new PostDto(rq.getRelationIds().get(0));
 			List<PostShare> pss = psRepo.findByPost(postRepo.findOne(pd.getId()), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = psRepo.countByPost(postRepo.findOne(pd.getId()));
 			UserDtoList udl = convertToResourceList(pss.stream().map(ps -> ps.getBootUser()).collect(Collectors.toList()), count, Scenario.RELATION_LIST);
 			List<PostDto> posts = Arrays.asList(pd);
 			udl.forEach(u -> u.setReceivedPosts(posts));
 			return udl;
+		} else if ("sentApproves".equals(rq.getRelationName())) {
+			Approve ap = approveReop.findOne(rq.getRelationIds().get(0));
+			BootUser bu = ap.getRequester();
+			UserDtoList udl = convertToResourceList(Arrays.asList(bu), 1, Scenario.RELATION_LIST);
+			return udl;
+
 		}
 		return null;
 	}

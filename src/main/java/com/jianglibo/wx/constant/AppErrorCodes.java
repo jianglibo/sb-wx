@@ -12,6 +12,7 @@ public class AppErrorCodes {
 	public static String FILE_UPLOAD = "E4001003";
 	
 	public static String UNSUPPORTED_REQUEST = "E4001004";
+	public static String UNSUPPORTED_RELATION = "E4001005";
 	
 	public static String UNKNOWN = "E4001999";
 

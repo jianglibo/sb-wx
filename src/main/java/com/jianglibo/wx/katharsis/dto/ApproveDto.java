@@ -33,6 +33,12 @@ public class ApproveDto extends DtoBase<ApproveDto, Approve> {
 	private ApproveState state;
 	
 	private String descriptionTpl;
+	
+	public ApproveDto() {}
+
+	public ApproveDto(Long id) {
+		super(id);
+	}
 
 	public UserDto getRequester() {
 		return requester;

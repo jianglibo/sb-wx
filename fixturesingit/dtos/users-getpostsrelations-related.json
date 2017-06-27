@@ -1,39 +1,39 @@
 {
   "data" : [ {
-    "id" : "1245184",
+    "id" : "1507328",
     "type" : "posts",
     "attributes" : {
-      "createdAt" : 1498481051842,
-      "title" : "title--608922980",
-      "content" : "content--1995659249"
+      "createdAt" : 1498528857683,
+      "title" : "title--1882277244",
+      "content" : "content--34862943"
     },
     "relationships" : {
       "sharedUsers" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/posts/1245184/relationships/sharedUsers",
-          "related" : "http://localhost:88/jsonapi/posts/1245184/sharedUsers"
+          "self" : "http://localhost/jsonapi/posts/1507328/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/1507328/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/posts/1245184/relationships/creator",
-          "related" : "http://localhost:88/jsonapi/posts/1245184/creator"
+          "self" : "http://localhost/jsonapi/posts/1507328/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/1507328/creator"
         }
       },
       "media" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/posts/1245184/relationships/media",
-          "related" : "http://localhost:88/jsonapi/posts/1245184/media"
+          "self" : "http://localhost/jsonapi/posts/1507328/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/1507328/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/posts/1245184"
+      "self" : "http://localhost/jsonapi/posts/1507328"
     }
   } ],
   "links" : {
-    "first" : "http://localhost:88/jsonapi/posts/?include[posts]=creator&page[limit]=20&filter[posts][creator][id][EQ]=2359296",
-    "last" : "http://localhost:88/jsonapi/posts/?include[posts]=creator&page[limit]=20&filter[posts][creator][id][EQ]=2359296",
+    "first" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=20&filter[posts][creator][id][EQ]=294912",
+    "last" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=20&filter[posts][creator][id][EQ]=294912",
     "next" : null,
     "prev" : null
   },

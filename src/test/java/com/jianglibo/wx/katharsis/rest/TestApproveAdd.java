@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,11 +17,13 @@ import com.jianglibo.wx.JsonApiPostBodyWrapper.CreateOneBody;
 import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
+import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
-import com.jianglibo.wx.katharsis.dto.ApproveDto;
 import com.jianglibo.wx.repository.ApproveRepository;
 import com.jianglibo.wx.repository.BootGroupRepository;
+
+import io.katharsis.errorhandling.ErrorData;
 
 public class TestApproveAdd extends KatharsisBase {
 	
@@ -51,22 +54,10 @@ public class TestApproveAdd extends KatharsisBase {
 				.addRelation("receiver", JsonApiResourceNames.BOOT_USER, b1.getId()).build();
 		
 		String s = indentOm.writeValueAsString(jpw);
-		writeDto(s, getResourceName(), "requestjoingroup");
 		response = postItemWithContent(s, jwtToken);
-		assertResponseCode(response, 201);
-		ApproveDto ad = getOne(response, ApproveDto.class);
-		assertThat(ad.getTargetId(), equalTo(bg.getId()));
-		assertThat(ad.getTargetType(), equalTo(BootGroup.class.getName()));
-		
-		response = requestForBody(jwtToken, getItemUrl(JsonApiResourceNames.BOOT_USER, b1.getId()) + "/receivedApproves");
-		ad = getOne(response, ApproveDto.class);
-		assertThat(ad.getTargetId(), equalTo(bg.getId()));
-		assertThat(ad.getTargetType(), equalTo(BootGroup.class.getName()));
-		
-		
-		response = requestForBody(jwtToken, getItemUrl(JsonApiResourceNames.BOOT_USER, bu.getId()) + "/receivedApproves");
-		assertItemNumber(response, ApproveDto.class, 0);
-
+		List<ErrorData> eds = getErrors(response);
+		assertThat(eds.size(), equalTo(1));
+		assertThat(eds.get(0).getCode(), equalTo(AppErrorCodes.UNSUPPORTED_REQUEST));
 	}
 
 	@Override

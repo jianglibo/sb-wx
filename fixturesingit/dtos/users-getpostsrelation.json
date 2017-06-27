@@ -1,0 +1,74 @@
+{
+  "data" : [ {
+    "id" : "1",
+    "type" : "posts",
+    "attributes" : {
+      "createdAt" : 1498543551985,
+      "title" : "title",
+      "content" : "content"
+    },
+    "relationships" : {
+      "sharedUsers" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/1/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/1/sharedUsers"
+        }
+      },
+      "creator" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/1/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/1/creator"
+        }
+      },
+      "media" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/1/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/1/media"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/posts/1"
+    }
+  }, {
+    "id" : "2",
+    "type" : "posts",
+    "attributes" : {
+      "createdAt" : 1498543551985,
+      "title" : "title1",
+      "content" : "content1"
+    },
+    "relationships" : {
+      "sharedUsers" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/2/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/2/sharedUsers"
+        }
+      },
+      "creator" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/2/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/2/creator"
+        }
+      },
+      "media" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/2/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/2/media"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/posts/2"
+    }
+  } ],
+  "links" : {
+    "first" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=20&filter[posts][creator][id][EQ]=4",
+    "last" : "http://localhost/jsonapi/posts/?include[posts]=creator&page[limit]=20&filter[posts][creator][id][EQ]=4",
+    "next" : null,
+    "prev" : null
+  },
+  "meta" : {
+    "totalResourceCount" : 2
+  }
+}

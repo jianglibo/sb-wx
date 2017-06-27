@@ -1,6 +1,7 @@
 package com.jianglibo.wx.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -17,13 +18,13 @@ public class GroupUserRelation extends BaseEntity {
 	private static final long serialVersionUID = -5610224553913163277L;
 
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch= FetchType.EAGER)
 	@JoinColumn(name="group_id")
 	private BootGroup bootGroup;
 	
 	@NotNull
-	@ManyToOne
 	@JoinColumn(name="user_id")
+	@ManyToOne(fetch= FetchType.EAGER)
 	private BootUser bootUser;
 	
 	public GroupUserRelation() {

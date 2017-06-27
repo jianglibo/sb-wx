@@ -24,11 +24,19 @@ public class GroupDto extends DtoBase<GroupDto, BootGroup>{
 	@Size(min=3, max=30)
 	private String name;
 	
-	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="bootGroups")
+	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="joinedGroups")
 	private List<UserDto> members = new ArrayList<>();
 	
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="ownedGroups")
 	private UserDto creator;
+	
+	private boolean openToAll;
+	
+	public GroupDto() {}
+
+	public GroupDto(Long id) {
+		super(id);
+	}
 
 	public String getName() {
 		return name;
@@ -57,5 +65,13 @@ public class GroupDto extends DtoBase<GroupDto, BootGroup>{
 
 	public void setCreator(UserDto creator) {
 		this.creator = creator;
+	}
+
+	public boolean isOpenToAll() {
+		return openToAll;
+	}
+
+	public void setOpenToAll(boolean openToAll) {
+		this.openToAll = openToAll;
 	}
 }

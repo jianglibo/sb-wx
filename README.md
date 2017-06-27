@@ -9,6 +9,6 @@ $arr_result['user_info']->openId = $result->openId
 * new dto
 * new convertor
 * new facaderepository.
-* new jpa facade implementation.
 * new repostory
+* new jpa facade implementation.
 * new dto repository

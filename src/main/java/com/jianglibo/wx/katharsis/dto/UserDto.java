@@ -70,7 +70,7 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     private List<MediumDto> media;
     
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="members")
-    private List<GroupDto> bootGroups;
+    private List<GroupDto> joinedGroups;
 
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="creator")
     private List<GroupDto> ownedGroups;
@@ -86,6 +86,9 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     
     @JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_ALWAYS,serialize=SerializeType.LAZY, opposite="users")
     private List<RoleDto> roles = new ArrayList<>();
+    
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="user")
+    private List<MessageNotifyDto> notifies;
     
     public List<PostDto> getPosts() {
 		return posts;
@@ -281,12 +284,12 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 		this.enabled = enabled;
 	}
 
-	public List<GroupDto> getBootGroups() {
-		return bootGroups;
+	public List<GroupDto> getJoinedGroups() {
+		return joinedGroups;
 	}
 
-	public void setBootGroups(List<GroupDto> bootGroups) {
-		this.bootGroups = bootGroups;
+	public void setJoinedGroups(List<GroupDto> joinedGroups) {
+		this.joinedGroups = joinedGroups;
 	}
 
 	@JsonIgnore
@@ -344,5 +347,13 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 
 	public void setReceivedApproves(List<ApproveDto> receivedApproves) {
 		this.receivedApproves = receivedApproves;
+	}
+
+	public List<MessageNotifyDto> getNotifies() {
+		return notifies;
+	}
+
+	public void setNotifies(List<MessageNotifyDto> notifies) {
+		this.notifies = notifies;
 	}
 }

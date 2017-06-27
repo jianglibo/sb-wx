@@ -20,7 +20,7 @@ public class GroupDtoConverter implements DtoConverter<BootGroup, GroupDto> {
 	@Override
 	public GroupDto entity2Dto(BootGroup entity, Scenario scenario) {
 		GroupDto dto = new GroupDto();
-		BeanUtils.copyProperties(entity, dto);
+		BeanUtils.copyProperties(entity, dto, "members", "creator");
 		return dto;
 	}
 

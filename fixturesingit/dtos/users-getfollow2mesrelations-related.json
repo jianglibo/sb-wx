@@ -1,6 +1,6 @@
 {
   "data" : [ {
-    "id" : "2359299",
+    "id" : "294915",
     "type" : "users",
     "attributes" : {
       "country" : null,
@@ -13,79 +13,80 @@
       "language" : null,
       "avatar" : null,
       "enabled" : true,
-      "createdAt" : 1498481053049,
+      "createdAt" : 1498528859542,
       "emailVerified" : false,
       "password" : null,
       "province" : null,
       "name" : "admin",
       "accountNonExpired" : true,
       "email" : "adminm3958.com",
-      "accountNonLocked" : true
+      "accountNonLocked" : true,
+      "joinedgroups" : null
     },
     "relationships" : {
       "followers" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/followers",
-          "related" : "http://localhost:88/jsonapi/users/2359299/followers"
+          "self" : "http://localhost/jsonapi/users/294915/relationships/followers",
+          "related" : "http://localhost/jsonapi/users/294915/followers"
         }
       },
       "ownedGroups" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/ownedGroups",
-          "related" : "http://localhost:88/jsonapi/users/2359299/ownedGroups"
+          "self" : "http://localhost/jsonapi/users/294915/relationships/ownedGroups",
+          "related" : "http://localhost/jsonapi/users/294915/ownedGroups"
         }
       },
       "followeds" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/followeds",
-          "related" : "http://localhost:88/jsonapi/users/2359299/followeds"
+          "self" : "http://localhost/jsonapi/users/294915/relationships/followeds",
+          "related" : "http://localhost/jsonapi/users/294915/followeds"
         }
       },
       "sentApproves" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/sentApproves",
-          "related" : "http://localhost:88/jsonapi/users/2359299/sentApproves"
-        }
-      },
-      "bootGroups" : {
-        "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/bootGroups",
-          "related" : "http://localhost:88/jsonapi/users/2359299/bootGroups"
+          "self" : "http://localhost/jsonapi/users/294915/relationships/sentApproves",
+          "related" : "http://localhost/jsonapi/users/294915/sentApproves"
         }
       },
       "roles" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/roles",
-          "related" : "http://localhost:88/jsonapi/users/2359299/roles"
+          "self" : "http://localhost/jsonapi/users/294915/relationships/roles",
+          "related" : "http://localhost/jsonapi/users/294915/roles"
         }
       },
       "receivedPosts" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/receivedPosts",
-          "related" : "http://localhost:88/jsonapi/users/2359299/receivedPosts"
+          "self" : "http://localhost/jsonapi/users/294915/relationships/receivedPosts",
+          "related" : "http://localhost/jsonapi/users/294915/receivedPosts"
+        }
+      },
+      "joinedGroups" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/294915/relationships/joinedGroups",
+          "related" : "http://localhost/jsonapi/users/294915/joinedGroups"
         }
       },
       "media" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/media",
-          "related" : "http://localhost:88/jsonapi/users/2359299/media"
+          "self" : "http://localhost/jsonapi/users/294915/relationships/media",
+          "related" : "http://localhost/jsonapi/users/294915/media"
         }
       },
       "posts" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/posts",
-          "related" : "http://localhost:88/jsonapi/users/2359299/posts"
+          "self" : "http://localhost/jsonapi/users/294915/relationships/posts",
+          "related" : "http://localhost/jsonapi/users/294915/posts"
         }
       },
       "receivedApproves" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/users/2359299/relationships/receivedApproves",
-          "related" : "http://localhost:88/jsonapi/users/2359299/receivedApproves"
+          "self" : "http://localhost/jsonapi/users/294915/relationships/receivedApproves",
+          "related" : "http://localhost/jsonapi/users/294915/receivedApproves"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/users/2359299"
+      "self" : "http://localhost/jsonapi/users/294915"
     }
   } ],
   "links" : {

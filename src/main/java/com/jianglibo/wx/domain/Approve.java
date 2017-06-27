@@ -26,7 +26,7 @@ public class Approve extends BaseEntity {
 	private Long targetId;
 	
 	@Enumerated(EnumType.STRING)
-	private ApproveState state = ApproveState.PENDING;
+	private ApproveState state = ApproveState.REQUEST_PENDING;
 	
 	private String forwhat;
 	
@@ -89,7 +89,7 @@ public class Approve extends BaseEntity {
 	}
 
 	public static enum ApproveState {
-		PENDING,REJECT,APPROVED
+		REQUEST_PENDING,REJECT,APPROVED, INVITE_PENDING
 	}
 
 	public static class ApproveBuilder<T extends BaseEntity> {

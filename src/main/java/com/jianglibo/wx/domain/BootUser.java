@@ -61,6 +61,9 @@ public class BootUser extends BaseEntity {
     @OneToMany(mappedBy="receiver", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
     private List<Approve> receivedApproves = new ArrayList<>();
     
+    @OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.REMOVE, mappedBy="bootUser")
+    private List<MessageNotify> notifies = new ArrayList<>();
+    
 	@NotNull
     @Column(nullable = false)
     private String name;
@@ -376,6 +379,14 @@ public class BootUser extends BaseEntity {
 
 	public void setReceivedApproves(List<Approve> receivedApproves) {
 		this.receivedApproves = receivedApproves;
+	}
+
+	public List<MessageNotify> getNotifies() {
+		return notifies;
+	}
+
+	public void setNotifies(List<MessageNotify> notifies) {
+		this.notifies = notifies;
 	}
 
 	public static enum Gender {

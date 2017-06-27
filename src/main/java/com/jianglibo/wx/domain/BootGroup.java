@@ -26,7 +26,15 @@ public class BootGroup extends BaseEntity {
 	
 	private String description;
 	
+	private boolean openToAll;
+	
 	private String thumbUrl;
+	
+	@ManyToOne
+	private BootUser creator;
+	
+	@OneToMany(mappedBy="bootGroup", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
+	private List<GroupUserRelation> members = new ArrayList<>();
 	
 	public BootGroup() {
 	}
@@ -34,12 +42,6 @@ public class BootGroup extends BaseEntity {
 	public BootGroup(String name) {
 		this.name = name;
 	}
-	
-	@ManyToOne
-	private BootUser creator;
-	
-	@OneToMany(mappedBy="bootGroup", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
-	private List<GroupUserRelation> members = new ArrayList<>();
 
 	public String getName() {
 		return name;
@@ -79,5 +81,13 @@ public class BootGroup extends BaseEntity {
 
 	public void setThumbUrl(String thumbUrl) {
 		this.thumbUrl = thumbUrl;
+	}
+
+	public boolean isOpenToAll() {
+		return openToAll;
+	}
+
+	public void setOpenToAll(boolean openToAll) {
+		this.openToAll = openToAll;
 	}
 }

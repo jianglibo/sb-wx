@@ -9,11 +9,11 @@ import io.katharsis.resource.list.ResourceListBase;
 public interface GroupDtoRepository extends ResourceRepositoryV2<GroupDto, Long> {
 
 
-	public class BootGroupDtoList extends ResourceListBase<GroupDto, DtoListMeta, DtoListLinks> {
+	public class GroupDtoList extends ResourceListBase<GroupDto, DtoListMeta, DtoListLinks> {
 
 	}
 
 	@Override
-	public BootGroupDtoList findAll(QuerySpec querySpec);
+	public GroupDtoList findAll(QuerySpec querySpec);
 }
 

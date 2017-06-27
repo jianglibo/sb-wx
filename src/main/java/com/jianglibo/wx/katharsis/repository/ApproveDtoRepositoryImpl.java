@@ -14,6 +14,7 @@ import com.jianglibo.wx.katharsis.dto.ApproveDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.converter.ApproveDtoConverter;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
+import com.jianglibo.wx.katharsis.exception.UnsupportRequestException;
 import com.jianglibo.wx.katharsis.repository.ApproveDtoRepository.ApproveDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
@@ -40,6 +41,11 @@ public class ApproveDtoRepositoryImpl  extends DtoRepositoryBase<ApproveDto, App
 	protected List<String> checkAllSortableFieldAllowed(QuerySpec querySpec) {
 		return null;
 	}
+	
+	@Override
+	public ApproveDto createNew(ApproveDto dto) {
+		throw new UnsupportRequestException("Approve object direct creation is forbiden.");
+	}
 
 	@Override
 	protected ApproveDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
@@ -59,11 +65,9 @@ public class ApproveDtoRepositoryImpl  extends DtoRepositoryBase<ApproveDto, App
 			List<Approve> approves =  getRepository().findSent(bu, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = getRepository().countSend(bu);
 			ApproveDtoList adl = convertToResourceList(approves, count, Scenario.RELATION_LIST);
-			adl.forEach(a -> a.setReceiver(userDto));
+			adl.forEach(a -> a.setRequester(userDto));
 			return adl;
 		}
-		
-		
 		return null;
 	}
 }

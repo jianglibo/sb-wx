@@ -2,19 +2,19 @@
   "data" : {
     "type" : "approves",
     "attributes" : {
-      "targetId" : 851968,
+      "targetId" : 32768,
       "targetType" : "com.jianglibo.wx.domain.BootGroup"
     },
     "relationships" : {
       "requester" : {
         "data" : {
-          "id" : "3178496",
+          "id" : "163840",
           "type" : "users"
         }
       },
       "receiver" : {
         "data" : {
-          "id" : "3178497",
+          "id" : "163841",
           "type" : "users"
         }
       }

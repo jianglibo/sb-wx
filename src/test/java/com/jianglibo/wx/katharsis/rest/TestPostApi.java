@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jianglibo.wx.JsonApiPostBodyWrapper;
 import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
+import com.jianglibo.wx.JsonApiPostBodyWrapper.CreateListBody;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.jwt.JwtUtil;
@@ -70,7 +71,7 @@ public class TestPostApi  extends KatharsisBase {
 		BootUser b1 = createBootUser("b1", "123");
 		BootUser b2 = createBootUser("b2", "123");
 		
-		JsonApiPostBodyWrapper jbw = new JsonApiPostBodyWrapperBuilder(getResourceName())
+		JsonApiPostBodyWrapper<CreateListBody> jbw = JsonApiPostBodyWrapperBuilder.getListRelationBuilder(getResourceName())
 				.addAttributePair("title", "title")
 				.addAttributePair("content", "content")
 				.addRelation("media", JsonApiResourceNames.MEDIUM, m.getId())

@@ -5,11 +5,49 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonApiPostBodyWrapper {
+public class JsonApiPostBodyWrapper<T> {
 	
-	private CreateBody data = new CreateBody();
+	private T data;
 	
-	public static class CreateBody {
+	public JsonApiPostBodyWrapper(T data) {
+		this.data = data;
+	}
+	
+	public static class CreateListBody {
+		private String type;
+		
+		private Map<String, Object> attributes = new HashMap<>();
+		
+		private Map<String, IdTypeListWrapper> relationships = new HashMap<>();
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
+
+		public Map<String, Object> getAttributes() {
+			return attributes;
+		}
+
+		public void setAttributes(Map<String, Object> attributes) {
+			this.attributes = attributes;
+		}
+		
+		
+
+		public Map<String, IdTypeListWrapper> getRelationships() {
+			return relationships;
+		}
+
+		public void setRelationships(Map<String, IdTypeListWrapper> relationships) {
+			this.relationships = relationships;
+		}
+	}
+	
+	public static class CreateOneBody {
 		private String type;
 		
 		private Map<String, Object> attributes = new HashMap<>();
@@ -43,18 +81,18 @@ public class JsonApiPostBodyWrapper {
 		}
 	}
 	
-	public static class IdTypeWrapper {
+	public static class IdTypeListWrapper {
 		
 		private List<IdType> data = new ArrayList<>();
 		
-		public IdTypeWrapper(String resourceName, String...ids) {
+		public IdTypeListWrapper(String resourceName, String...ids) {
 			for(String id: ids) {
 				this.data.add(new IdType(resourceName, id));
 			}
 			
 		}
 		
-		public IdTypeWrapper(String resourceName, Long...ids) {
+		public IdTypeListWrapper(String resourceName, Long...ids) {
 			for(Long id : ids) {
 				this.data.add(new IdType(resourceName, id));
 			}
@@ -65,6 +103,27 @@ public class JsonApiPostBodyWrapper {
 		}
 
 		public void setData(List<IdType> data) {
+			this.data = data;
+		}
+	}
+	
+	public static class IdTypeWrapper {
+		
+		private IdType data;
+		
+		public IdTypeWrapper(String resourceName, String id) {
+			this.data = new IdType(resourceName, id);
+		}
+		
+		public IdTypeWrapper(String resourceName, Long id) {
+			this.data = new IdType(resourceName, id);
+		}
+
+		public IdType getData() {
+			return data;
+		}
+
+		public void setData(IdType data) {
 			this.data = data;
 		}
 	}
@@ -100,11 +159,11 @@ public class JsonApiPostBodyWrapper {
 		}
 	}
 
-	public CreateBody getData() {
+	public T getData() {
 		return data;
 	}
 
-	public void setData(CreateBody data) {
+	public void setData(T data) {
 		this.data = data;
 	}
 }

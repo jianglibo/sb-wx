@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jianglibo.wx.JsonApiPostBodyWrapper;
+import com.jianglibo.wx.JsonApiPostBodyWrapper.CreateOneBody;
 import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
@@ -44,13 +45,14 @@ public class TestApproveAdd extends KatharsisBase {
 		BootGroup bg = new BootGroup("agroup");
 		bg = groupRepo.save(bg);
 		
-		JsonApiPostBodyWrapperBuilder pbwb = new JsonApiPostBodyWrapperBuilder(getResourceName()).addAttributePair("targetType", BootGroup.class.getName())
+		JsonApiPostBodyWrapper<CreateOneBody> jpw = JsonApiPostBodyWrapperBuilder.getObjectRelationBuilder(getResourceName()).addAttributePair("targetType", BootGroup.class.getName())
 				.addAttributePair("targetId", bg.getId())
 				.addRelation("requester", JsonApiResourceNames.BOOT_USER, bu.getId())
-				.addRelation("receiver", JsonApiResourceNames.BOOT_USER, b1.getId());
-		JsonApiPostBodyWrapper jpw = pbwb.build();
+				.addRelation("receiver", JsonApiResourceNames.BOOT_USER, b1.getId()).build();
 		
-		response = postItemWithContent(indentOm.writeValueAsString(jpw), jwtToken);
+		String s = indentOm.writeValueAsString(jpw);
+		writeDto(s, getResourceName(), "requestjoingroup");
+		response = postItemWithContent(s, jwtToken);
 		assertResponseCode(response, 201);
 		ApproveDto ad = getOne(response, ApproveDto.class);
 		assertThat(ad.getTargetId(), equalTo(bg.getId()));

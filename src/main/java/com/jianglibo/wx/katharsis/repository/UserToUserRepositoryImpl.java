@@ -8,6 +8,7 @@ import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.UserDto;
+import com.jianglibo.wx.katharsis.exception.UnsupportRequestException;
 
 @Component
 public class UserToUserRepositoryImpl extends RelationshipRepositoryBaseMine<UserDto, UserDto> {
@@ -23,23 +24,33 @@ public class UserToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 	}
 	
 	@Override
-	public void addRelations(UserDto source, Iterable<Long> targetIds, String fieldName) {
-		BootUser befollowed = userRepo.findOne(source.getId());
-		for(Long id : targetIds) {
-			FollowRelation fr = new FollowRelation(userRepo.findOne(id), befollowed);
-			frfRepo.save(fr);
+	public void addRelations(UserDto followerDto, Iterable<Long> targetIds, String fieldName) {
+		if ("followers".equals(fieldName)) {
+			throw new UnsupportRequestException("user's followers cannot change directly");
+		}
+		BootUser follower = userRepo.findOne(followerDto.getId());
+		if ("followeds".equals(fieldName)) {
+			for(Long id : targetIds) {
+				FollowRelation fr = new FollowRelation(follower, userRepo.findOne(id));
+				frfRepo.save(fr);
+			}
 		}
 	}
 	
 	@Override
-	public void removeRelations(UserDto source, Iterable<Long> targetIds, String fieldName) {
-		BootUser befollowed = userRepo.findOne(source.getId());
-		BootUser follower;
-		FollowRelation fr;
-		for(Long id : targetIds) {
-			follower = userRepo.findOne(id);
-			fr = frfRepo.findByFollowedAndFollower(befollowed, follower);
-			frfRepo.delete(fr);
+	public void removeRelations(UserDto followerDto, Iterable<Long> targetIds, String fieldName) {
+		if ("followers".equals(fieldName)) {
+			throw new UnsupportRequestException("user's followers cannot change directly");
+		}
+		BootUser follower = userRepo.findOne(followerDto.getId());
+		if ("followeds".equals(fieldName)) {
+			BootUser befollowed;
+			FollowRelation fr;
+			for(Long id : targetIds) {
+				befollowed = userRepo.findOne(id);
+				fr = frfRepo.findByFollowedAndFollower(befollowed, follower);
+				frfRepo.delete(fr);
+			}
 		}
 	}
 

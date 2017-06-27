@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jianglibo.wx.JsonApiPostBodyWrapper;
 import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
+import com.jianglibo.wx.JsonApiPostBodyWrapper.CreateListBody;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.FollowRelation;
@@ -47,7 +48,7 @@ public class TestUserApi  extends KatharsisBase {
 		
 		Long[] roleids = bu.getRoles().stream().map(r -> r.getId()).toArray(size -> new Long[size]);
 		
-		JsonApiPostBodyWrapper jbw = new JsonApiPostBodyWrapperBuilder(getResourceName())
+		JsonApiPostBodyWrapper<CreateListBody> jbw = JsonApiPostBodyWrapperBuilder.getListRelationBuilder(getResourceName())
 				.addAttributePair("name", "name1334")
 				.addAttributePair("email", "ab@c.com")
 				.addAttributePair("mobile", "13777777777")

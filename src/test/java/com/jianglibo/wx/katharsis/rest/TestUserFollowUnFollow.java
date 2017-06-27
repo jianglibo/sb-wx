@@ -13,7 +13,7 @@ import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 
-public class TestFollowUnFollow  extends KatharsisBase {
+public class TestUserFollowUnFollow  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
@@ -23,18 +23,19 @@ public class TestFollowUnFollow  extends KatharsisBase {
 	
 	@Test
 	public void t() throws Exception {
-		BootUser bu = loginAsAdmin();
+		BootUser befollowed = loginAsAdmin();
 		BootUser follower = createBootUser("hello", "hello");
 		
-		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", follower.getId());
-		response = addRelationWithContent(indentOm.writeValueAsString(jbw), "followers", bu.getId(), jwtToken);
+		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", befollowed.getId());
+		
+		response = addRelationWithContent(indentOm.writeValueAsString(jbw), "followeds", follower.getId(), jwtToken);
 		assertResponseCode(response, 204);
-		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/followers");
+		response = requestForBody(jwtToken, getItemUrl(befollowed.getId()) + "/followers");
 		assertItemNumber(response, UserDto.class, 1);
 		
-		response = deleteRelationWithContent(indentOm.writeValueAsString(jbw), "followers", bu.getId(), jwtToken);
+		response = deleteRelationWithContent(indentOm.writeValueAsString(jbw), "followeds", follower.getId(), jwtToken);
 		assertResponseCode(response, 204);
-		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/followers");
+		response = requestForBody(jwtToken, getItemUrl(befollowed.getId()) + "/followers");
 		assertItemNumber(response, UserDto.class, 0);
 	}
 	

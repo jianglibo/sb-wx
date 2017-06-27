@@ -70,4 +70,9 @@ public class GroupUserRelationFacadeRepositoryImpl extends FacadeRepositoryBaseI
 	public GroupUserRelation findByBootGroupAndBootUser(BootGroup group, BootUser user) {
 		return getRepository().findByBootGroupAndBootUser(group, user);
 	}
+
+	@Override
+	public List<GroupUserRelation> findByBootGroup(BootGroup bg) {
+		return getRepository().findAllByBootGroup(bg);
+	}
 }

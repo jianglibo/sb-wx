@@ -32,11 +32,12 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.config.ApplicationConfig;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.constant.UrlConstants;
-import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Medium;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
+import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
+import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
 import com.jianglibo.wx.facade.MediumFacadeRepository;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
@@ -70,10 +71,16 @@ public class PostPostFilter implements Filter {
 	private PostFacadeRepository postRepo;
 	
 	@Autowired
+	private BootGroupFacadeRepository groupRepo;
+	
+	@Autowired
 	private BootUserFacadeRepository userRepository;
 	
 	@Autowired
 	private PostShareFacadeRepository psRepo;
+	
+	@Autowired
+	private GroupUserRelationFacadeRepository guRepo;
 	
 	@Autowired
 	private FileItemProcessor fileItemProcessor;
@@ -104,6 +111,8 @@ public class PostPostFilter implements Filter {
 						List<Medium> media = new ArrayList<>();
 						List<Long> sharedUserIds = new ArrayList<>();
 						
+						List<Long> sharedGroupIds = new ArrayList<>();
+						
 						while (iter.hasNext()) {
 						    FileItemStream item = iter.next();
 						    String name = item.getFieldName();
@@ -119,6 +128,9 @@ public class PostPostFilter implements Filter {
 						    	} else if ("sharedUsers".equals(name)) {
 						    		String commaStr = Streams.asString(stream);
 						    		sharedUserIds = Stream.of(commaStr.split(",")).map(s -> Long.valueOf(s)).collect(Collectors.toList());
+						    	} else if ("sharedGroups".equals(name)) {
+						    		String commaStr = Streams.asString(stream);
+						    		sharedGroupIds = Stream.of(commaStr.split(",")).map(s -> Long.valueOf(s)).collect(Collectors.toList());
 						    	}
 						    } else {
 						    	media.add(fileItemProcessor.processFileItem(item));
@@ -141,7 +153,13 @@ public class PostPostFilter implements Filter {
 						
 						final Post p = post;
 						sharedUserIds.stream().map(uid -> new PostShare(p, userRepository.findOne(uid))).forEach(ps -> psRepo.save(ps));
-						
+						sharedGroupIds.stream().map(gid -> groupRepo.findOne(gid)).flatMap(g -> guRepo.findByBootGroup(g).stream()).map(gur -> gur.getBootUser()).map(bu -> new PostShare(p, bu)).forEach(ps -> {
+							try {
+								psRepo.save(ps);
+							} catch (Exception e) {
+								logger.info("post {} already shared to {}", p.getId(), ps.getBootUser().getId());
+							}
+						});
 						response.sendRedirect(getPostRedirectUrl(post));
 					} catch (FileUploadException e) {
 						fileItemProcessor.writeErrotToResponse(response, e);

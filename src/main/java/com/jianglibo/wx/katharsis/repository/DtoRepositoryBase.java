@@ -21,6 +21,7 @@ import com.jianglibo.wx.katharsis.dto.converter.DtoConverter;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.exception.AppException;
 import com.jianglibo.wx.katharsis.exception.UnsortableException;
+import com.jianglibo.wx.katharsis.exception.UnsupportedRelationException;
 import com.jianglibo.wx.util.QuerySpecUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 
@@ -179,5 +180,9 @@ public abstract class DtoRepositoryBase<T extends Dto<T, E>, L extends ResourceL
 
 	public DtoConverter<E, T> getConverter() {
 		return converter;
+	}
+	
+	protected UnsupportedRelationException getUnsupportRelationException(String thisDtoName, String oppositeName) {
+		return new UnsupportedRelationException(String.format("%s's opposite relation: %s does't exists.", thisDtoName, oppositeName));
 	}
 }

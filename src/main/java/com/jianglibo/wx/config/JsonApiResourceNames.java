@@ -7,6 +7,8 @@ public class JsonApiResourceNames {
 	public static final String BOOT_GROUP = "groups";
 	public static final String ROLE = "roles";
 	
+	public static final String UNREAD = "unreads";
+	
 	public static final String MESSAGE_NOTIFY = "messagenotifies";
 	
 	public static final String POST = "posts";

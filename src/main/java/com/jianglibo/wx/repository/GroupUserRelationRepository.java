@@ -19,4 +19,6 @@ public interface GroupUserRelationRepository extends RepositoryBase<GroupUserRel
 	long countByBootGroup(BootGroup group);
 
 	GroupUserRelation findByBootGroupAndBootUser(BootGroup group, BootUser user);
+
+	List<GroupUserRelation> findAllByBootGroup(BootGroup bg);
 }

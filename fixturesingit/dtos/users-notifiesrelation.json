@@ -1,27 +1,27 @@
 {
   "data" : [ {
-    "id" : "131072",
+    "id" : "1",
     "type" : "messagenotifies",
     "attributes" : {
       "number" : 0,
-      "createdAt" : 1498549273806,
+      "createdAt" : 1498564361859,
       "ntype" : "post"
     },
     "relationships" : {
       "user" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/messagenotifies/131072/relationships/user",
-          "related" : "http://localhost/jsonapi/messagenotifies/131072/user"
+          "self" : "http://localhost:88/jsonapi/messagenotifies/1/relationships/user",
+          "related" : "http://localhost:88/jsonapi/messagenotifies/1/user"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/messagenotifies/131072"
+      "self" : "http://localhost:88/jsonapi/messagenotifies/1"
     }
   } ],
   "links" : {
-    "first" : "http://localhost/jsonapi/messagenotifies/?page[limit]=20&include[messagenotifies]=user&filter[messagenotifies][user][id][EQ]=458753",
-    "last" : "http://localhost/jsonapi/messagenotifies/?page[limit]=20&include[messagenotifies]=user&filter[messagenotifies][user][id][EQ]=458753",
+    "first" : "http://localhost:88/jsonapi/messagenotifies/?page[limit]=20&include[messagenotifies]=user&filter[messagenotifies][user][id][EQ]=3",
+    "last" : "http://localhost:88/jsonapi/messagenotifies/?page[limit]=20&include[messagenotifies]=user&filter[messagenotifies][user][id][EQ]=3",
     "next" : null,
     "prev" : null
   },

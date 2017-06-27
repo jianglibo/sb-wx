@@ -10,6 +10,7 @@ import java.util.Arrays;
 import org.apache.http.HttpResponse;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -19,20 +20,27 @@ import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.JsonApiPostBodyWrapper.CreateListBody;
 import com.jianglibo.wx.config.JsonApiResourceNames;
+import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
+import com.jianglibo.wx.domain.GroupUserRelation;
 import com.jianglibo.wx.jwt.JwtUtil;
 import com.jianglibo.wx.katharsis.dto.MediumDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
+import com.jianglibo.wx.repository.GroupUserRelationRepository;
 
 public class TestPostApi  extends KatharsisBase {
 	
 	
 	private String jwtToken;
 	
+	@Autowired
+	private GroupUserRelationRepository guRepo;
+	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllPost();
+		groupRepo.deleteAll();
 		jwtToken = getAdminJwtToken();
 	}
 	
@@ -46,8 +54,20 @@ public class TestPostApi  extends KatharsisBase {
 		
 		BootUser b1 = createBootUser("b1", "123");
 		BootUser b2 = createBootUser("b2", "123");
+		
+		BootUser b3 = createBootUser("b3", "123");
+		BootUser b4 = createBootUser("b4", "123");
+		
+		BootGroup bg = new BootGroup("group");
+		groupRepo.save(bg);
+		
+		GroupUserRelation gur = new GroupUserRelation(bg, b3);
+		guRepo.save(gur);
+		
+		gur = new GroupUserRelation(bg, b4);
+		guRepo.save(gur);
 
-		apacheResponse = postPost(jwtToken,"atitle", "acontent",Arrays.asList(m.getId()),Arrays.asList(b1.getId(), b2.getId()), Paths.get("fixturesingit", "v.js"));
+		apacheResponse = postPost(jwtToken,"atitle", "acontent",Arrays.asList(m.getId()),Arrays.asList(b1.getId(), b2.getId()),Arrays.asList(bg.getId()), Paths.get("fixturesingit", "v.js"));
 		
 		url = apacheResponse.getFirstHeader("location").getValue();
 		response = requestForBody(jwtToken, url);
@@ -56,7 +76,7 @@ public class TestPostApi  extends KatharsisBase {
 		assertItemNumber(response, PostDto.class, 1);
 		
 		response = requestForBody(jwtToken, getItemUrl(pd.getId()) + "/sharedUsers");
-		assertItemNumber(response, UserDto.class, 2);
+		assertItemNumber(response, UserDto.class, 4);
 	}	
 	
 	@Test
@@ -71,11 +91,25 @@ public class TestPostApi  extends KatharsisBase {
 		BootUser b1 = createBootUser("b1", "123");
 		BootUser b2 = createBootUser("b2", "123");
 		
+		BootUser b3 = createBootUser("b3", "123");
+		BootUser b4 = createBootUser("b4", "123");
+		
+		BootGroup bg = new BootGroup("group");
+		groupRepo.save(bg);
+		
+		GroupUserRelation gur = new GroupUserRelation(bg, b3);
+		guRepo.save(gur);
+		
+		gur = new GroupUserRelation(bg, b4);
+		guRepo.save(gur);
+		
 		JsonApiPostBodyWrapper<CreateListBody> jbw = JsonApiPostBodyWrapperBuilder.getListRelationBuilder(getResourceName())
 				.addAttributePair("title", "title")
 				.addAttributePair("content", "content")
 				.addRelation("media", JsonApiResourceNames.MEDIUM, m.getId())
-				.addRelation("sharedUsers", JsonApiResourceNames.BOOT_USER, b1.getId(),b2.getId()).build();
+				.addRelation("sharedUsers", JsonApiResourceNames.BOOT_USER, b1.getId(),b2.getId())
+				.addRelation("sharedGroups", JsonApiResourceNames.BOOT_GROUP, bg.getId())
+				.build();
 		
 		
 		String s = objectMapper.writeValueAsString(jbw);
@@ -88,7 +122,7 @@ public class TestPostApi  extends KatharsisBase {
 		
 		
 		response = requestForBody(jwtToken, getItemUrl(newPost.getId()) + "/sharedUsers");
-		assertItemNumber(response, UserDto.class, 2);
+		assertItemNumber(response, UserDto.class, 4);
 		
 		
 		// get all posts

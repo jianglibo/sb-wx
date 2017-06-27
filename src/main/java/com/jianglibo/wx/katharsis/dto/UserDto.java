@@ -90,6 +90,10 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="user")
     private List<MessageNotifyDto> notifies;
     
+    @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="user")
+    private List<UnreadDto> unreads;
+
+    
     public List<PostDto> getPosts() {
 		return posts;
 	}
@@ -356,4 +360,14 @@ public class UserDto extends DtoBase<UserDto, BootUser> {
 	public void setNotifies(List<MessageNotifyDto> notifies) {
 		this.notifies = notifies;
 	}
+
+	public List<UnreadDto> getUnreads() {
+		return unreads;
+	}
+
+	public void setUnreads(List<UnreadDto> unreads) {
+		this.unreads = unreads;
+	}
+	
+	
 }

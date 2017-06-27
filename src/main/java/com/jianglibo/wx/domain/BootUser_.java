@@ -17,7 +17,7 @@ public class BootUser_ extends BaseEntity_ {
 	public static volatile ListAttribute<BootUser, Post> posts;
 	public static volatile SingularAttribute<BootUser, Gender> gender;
 	public static volatile ListAttribute<BootUser, PostShare> postShares;
-	public static volatile ListAttribute<BootUser, PostUnRead> postUnread;
+	public static volatile ListAttribute<BootUser, Unread> postUnread;
 	public static volatile ListAttribute<BootUser, Approve> sentApproves;
 	public static volatile ListAttribute<BootUser, Approve> receivedApproves;
 	public static volatile SingularAttribute<BootUser, String> name;

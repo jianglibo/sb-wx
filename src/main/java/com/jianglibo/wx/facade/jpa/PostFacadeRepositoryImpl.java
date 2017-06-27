@@ -28,7 +28,6 @@ import com.jianglibo.wx.facade.SimplePageable;
 import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.katharsis.dto.MediumDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
-import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.PostRepository;
 import com.jianglibo.wx.util.SecurityUtil;
 
@@ -47,6 +46,12 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 	
 	@Autowired
 	private PostShareFacadeRepository psRepo;
+	
+	@Autowired
+	private BootGroupFacadeRepositoryImpl groupRepo;
+	
+	@Autowired
+	private GroupUserRelationFacadeRepositoryImpl guRepo;
 	
 	public PostFacadeRepositoryImpl(PostRepository jpaRepo) {
 		super(jpaRepo);
@@ -102,13 +107,27 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 			}
 		}
 		entity.setMedia(media);
+		
+		final Post fe = entity;
 
 		if (dto.getSharedUsers() != null) {
-			for(UserDto udto : dto.getSharedUsers()) {
-				BootUser bu = userRepo.findOne(udto.getId());
-				PostShare ps = new PostShare(entity, bu);
-				psRepo.save(ps);
-			}
+			dto.getSharedUsers().stream().map(udto -> userRepo.findOne(udto.getId())).forEach(u -> {
+				try {
+					PostShare ps = new PostShare(fe, u);
+					psRepo.save(ps);
+				} catch (Exception e) {
+				}
+			});
+		}
+		
+		if (dto.getSharedGroups() != null) {
+			dto.getSharedGroups().stream().map(gdto -> groupRepo.findOne(gdto.getId())).flatMap(g -> guRepo.findByBootGroup(g).stream()).map(gu -> gu.getBootUser()).forEach(bu -> {
+				try {
+					PostShare ps = new PostShare(fe, bu);
+					psRepo.save(ps);
+				} catch (Exception e) {
+				}
+			});
 		}
 		
 		return entity;

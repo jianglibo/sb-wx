@@ -1,0 +1,31 @@
+{
+  "data" : [ {
+    "id" : "262144",
+    "type" : "unreads",
+    "attributes" : {
+      "createdAt" : 1498567923051,
+      "type" : "post",
+      "obid" : 55
+    },
+    "relationships" : {
+      "user" : {
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/unreads/262144/relationships/user",
+          "related" : "http://localhost:88/jsonapi/unreads/262144/user"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost:88/jsonapi/unreads/262144"
+    }
+  } ],
+  "links" : {
+    "first" : "http://localhost:88/jsonapi/unreads/?page[limit]=20&filter[unreads][user][id][EQ]=294914&include[unreads]=user&filter[unreads][type][EQ]=post",
+    "last" : "http://localhost:88/jsonapi/unreads/?page[limit]=20&filter[unreads][user][id][EQ]=294914&include[unreads]=user&filter[unreads][type][EQ]=post",
+    "next" : null,
+    "prev" : null
+  },
+  "meta" : {
+    "totalResourceCount" : 1
+  }
+}

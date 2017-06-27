@@ -121,12 +121,13 @@ public abstract class KatharsisBase extends Tbase {
 		return postForm(jwtToken, new HashMap<>(), "/fileupload", fps);
 	}
 	
-	protected HttpResponse postPost(String jwtToken,String title, String content,List<Long> mediaIds, List<Long> userIds, Path...fps) throws IOException {
+	protected HttpResponse postPost(String jwtToken,String title, String content,List<Long> mediaIds, List<Long> userIds,List<Long> groupIds, Path...fps) throws IOException {
 		Map<String, String> m = new HashMap<>();
 		m.put("title", title);
 		m.put("content", content);
 		m.put("media", mediaIds.stream().map(l -> String.valueOf(l)).collect(Collectors.joining(",")));
 		m.put("sharedUsers", userIds.stream().map(l -> String.valueOf(l)).collect(Collectors.joining(",")));
+		m.put("sharedGroups", groupIds.stream().map(l -> String.valueOf(l)).collect(Collectors.joining(",")));
 		return postForm(jwtToken, m , "/postpost", fps);
 	}
 	

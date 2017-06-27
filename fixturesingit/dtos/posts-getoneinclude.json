@@ -1,69 +1,75 @@
 {
   "data" : {
-    "id" : "1441793",
+    "id" : "393217",
     "type" : "posts",
     "attributes" : {
-      "createdAt" : 1498458581268,
+      "createdAt" : 1498571897165,
       "title" : "title",
       "content" : "content"
     },
     "relationships" : {
       "sharedUsers" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/1441793/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/1441793/sharedUsers"
+          "self" : "http://localhost:88/jsonapi/posts/393217/relationships/sharedUsers",
+          "related" : "http://localhost:88/jsonapi/posts/393217/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/1441793/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/1441793/creator"
+          "self" : "http://localhost:88/jsonapi/posts/393217/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/posts/393217/creator"
+        }
+      },
+      "sharedGroups" : {
+        "links" : {
+          "self" : "http://localhost:88/jsonapi/posts/393217/relationships/sharedGroups",
+          "related" : "http://localhost:88/jsonapi/posts/393217/sharedGroups"
         }
       },
       "media" : {
         "data" : [ {
-          "id" : "1933314",
+          "id" : "196610",
           "type" : "medium"
         }, {
-          "id" : "1933314",
+          "id" : "196610",
           "type" : "medium"
         } ],
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/1441793/relationships/media",
-          "related" : "http://localhost/jsonapi/posts/1441793/media"
+          "self" : "http://localhost:88/jsonapi/posts/393217/relationships/media",
+          "related" : "http://localhost:88/jsonapi/posts/393217/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/posts/1441793"
+      "self" : "http://localhost:88/jsonapi/posts/393217"
     }
   },
   "included" : [ {
-    "id" : "1933314",
+    "id" : "196610",
     "type" : "medium",
     "attributes" : {
-      "createdAt" : 1498458577475,
+      "createdAt" : 1498571894901,
       "size" : 61,
       "contentType" : "application/octet-stream",
-      "url" : "http://localhost:80/uploaded/ff9b089459734bea8affdf240abb9d45.js",
+      "url" : "http://localhost:88/uploaded/cb3e20a782f04ec39a9d05f68467c3e3.js",
       "orignName" : "v.js"
     },
     "relationships" : {
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/medium/1933314/relationships/creator",
-          "related" : "http://localhost/jsonapi/medium/1933314/creator"
+          "self" : "http://localhost:88/jsonapi/medium/196610/relationships/creator",
+          "related" : "http://localhost:88/jsonapi/medium/196610/creator"
         }
       },
       "post" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/medium/1933314/relationships/post",
-          "related" : "http://localhost/jsonapi/medium/1933314/post"
+          "self" : "http://localhost:88/jsonapi/medium/196610/relationships/post",
+          "related" : "http://localhost:88/jsonapi/medium/196610/post"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/medium/1933314"
+      "self" : "http://localhost:88/jsonapi/medium/196610"
     }
   } ]
 }

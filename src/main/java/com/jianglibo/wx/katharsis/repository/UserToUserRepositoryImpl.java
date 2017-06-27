@@ -8,7 +8,7 @@ import com.jianglibo.wx.domain.FollowRelation;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.UserDto;
-import com.jianglibo.wx.katharsis.exception.UnsupportRequestException;
+import com.jianglibo.wx.katharsis.exception.UnsupportedRequestException;
 
 @Component
 public class UserToUserRepositoryImpl extends RelationshipRepositoryBaseMine<UserDto, UserDto> {
@@ -26,7 +26,7 @@ public class UserToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 	@Override
 	public void addRelations(UserDto followerDto, Iterable<Long> targetIds, String fieldName) {
 		if ("followers".equals(fieldName)) {
-			throw new UnsupportRequestException("user's followers cannot change directly");
+			throw new UnsupportedRequestException("user's followers cannot change directly");
 		}
 		BootUser follower = userRepo.findOne(followerDto.getId());
 		if ("followeds".equals(fieldName)) {
@@ -40,7 +40,7 @@ public class UserToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 	@Override
 	public void removeRelations(UserDto followerDto, Iterable<Long> targetIds, String fieldName) {
 		if ("followers".equals(fieldName)) {
-			throw new UnsupportRequestException("user's followers cannot change directly");
+			throw new UnsupportedRequestException("user's followers cannot change directly");
 		}
 		BootUser follower = userRepo.findOne(followerDto.getId());
 		if ("followeds".equals(fieldName)) {

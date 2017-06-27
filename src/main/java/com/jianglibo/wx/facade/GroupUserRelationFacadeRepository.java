@@ -19,6 +19,7 @@ public interface GroupUserRelationFacadeRepository extends FacadeRepositoryBase<
 	long countByBootUser(BootUser user);
 
 	GroupUserRelation findByBootGroupAndBootUser(BootGroup gp, BootUser findOne);
-	
+
+	List<GroupUserRelation> findByBootGroup(BootGroup bg);
 	
 }

@@ -14,7 +14,6 @@ import com.jianglibo.wx.katharsis.dto.MessageNotifyDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.dto.converter.MessageNotifyDtoConverter;
-import com.jianglibo.wx.katharsis.exception.UnsupportRelationException;
 import com.jianglibo.wx.katharsis.repository.MessageNotifyDtoRepository.MessageNotifyDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 
@@ -54,7 +53,6 @@ public class MessageNotifyDtoRepositoryImpl  extends DtoRepositoryBase<MessageNo
 			mnl.forEach(mn -> mn.setUser(udto));
 			return mnl;
 		}
-		
-		throw new UnsupportRelationException("messagenotify's opposite relation: " + rq.getRelationName() + " does't exists.");
+		throw getUnsupportRelationException("messagenotify", rq.getRelationName());
 	}
 }

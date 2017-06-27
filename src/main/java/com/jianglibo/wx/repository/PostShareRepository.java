@@ -18,4 +18,5 @@ public interface PostShareRepository extends RepositoryBase<PostShare> {
 
 
 	PostShare findByPostAndBootUser(Post post, BootUser user);
+	List<PostShare> findAllByBootUser(BootUser user);
 }

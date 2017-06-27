@@ -30,8 +30,6 @@ public class RoleDtoRepositoryImpl  extends DtoRepositoryBase<RoleDto, RoleDtoLi
 	public RoleDtoRepositoryImpl(RoleFacadeRepository repository, RoleDtoConverter converter) {
 		super(RoleDto.class, RoleDtoList.class, Role.class, repository, converter);
 	}
-//	$r = Invoke-WebRequest -Uri http://localhost:8080/jsonapi/roles/32768 -Headers @{Accept="application/vnd.api+json;charset=UTF-8"} -Method Delete
-//	$r = Invoke-WebRequest -Uri http://localhost:8080/jsonapi/roles -Headers @{Accept="application/vnd.api+json;charset=UTF-8"} -ContentType "application/vnd.api+json;charset=UTF-8" -Body '{"data": {"attributes": {"name": "test"}, "type": "roles"}}' -Method Post
 
 	@Override
 	protected RoleDtoList findAllWithQuerySpec(QuerySpec querySpec) {
@@ -40,7 +38,6 @@ public class RoleDtoRepositoryImpl  extends DtoRepositoryBase<RoleDto, RoleDtoLi
 
 	@Override
 	protected List<String> checkAllSortableFieldAllowed(QuerySpec querySpec) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

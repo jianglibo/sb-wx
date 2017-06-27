@@ -8,16 +8,22 @@
     "relationships" : {
       "sharedUsers" : {
         "data" : [ {
-          "id" : "196609",
+          "id" : "589827",
           "type" : "users"
         }, {
-          "id" : "229376",
+          "id" : "622592",
           "type" : "users"
+        } ]
+      },
+      "sharedGroups" : {
+        "data" : [ {
+          "id" : "393217",
+          "type" : "groups"
         } ]
       },
       "media" : {
         "data" : [ {
-          "id" : "1933314",
+          "id" : "229378",
           "type" : "medium"
         } ]
       }

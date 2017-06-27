@@ -38,10 +38,6 @@ public class Post extends BaseEntity {
 	
 	@OneToMany(mappedBy="post", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
 	private List<PostShare> postShares = new ArrayList<>();
-	
-	@OneToMany(mappedBy="post", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
-	private List<PostUnRead> postUnreads = new ArrayList<>(); 
-
 
 	public String getTitle() {
 		return title;
@@ -81,13 +77,5 @@ public class Post extends BaseEntity {
 
 	public void setPostShares(List<PostShare> postShares) {
 		this.postShares = postShares;
-	}
-
-	public List<PostUnRead> getPostUnreads() {
-		return postUnreads;
-	}
-
-	public void setPostUnreads(List<PostUnRead> postUnreads) {
-		this.postUnreads = postUnreads;
 	}
 }

@@ -30,6 +30,9 @@ public class GroupDto extends DtoBase<GroupDto, BootGroup>{
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="ownedGroups")
 	private UserDto creator;
 	
+	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="sharedGroups")
+	private List<PostDto> receivedPosts;
+	
 	private boolean openToAll;
 	
 	public GroupDto() {}
@@ -73,5 +76,13 @@ public class GroupDto extends DtoBase<GroupDto, BootGroup>{
 
 	public void setOpenToAll(boolean openToAll) {
 		this.openToAll = openToAll;
+	}
+
+	public List<PostDto> getReceivedPosts() {
+		return receivedPosts;
+	}
+
+	public void setReceivedPosts(List<PostDto> receivedPosts) {
+		this.receivedPosts = receivedPosts;
 	}
 }

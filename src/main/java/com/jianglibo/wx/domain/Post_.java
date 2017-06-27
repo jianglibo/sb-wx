@@ -13,5 +13,5 @@ public class Post_ extends BaseEntity_ {
 	public static volatile SingularAttribute<Post, BootUser> creator;
 	public static volatile ListAttribute<Post, Medium> media;
 	public static volatile ListAttribute<Post, PostShare> postShares;
-	public static volatile ListAttribute<Post, PostUnRead> postUnreads;
+	public static volatile ListAttribute<Post, Unread> postUnreads;
 }

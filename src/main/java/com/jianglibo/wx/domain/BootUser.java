@@ -52,9 +52,6 @@ public class BootUser extends BaseEntity {
     @OneToMany(mappedBy="bootUser", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
     private List<PostShare> postShares = new ArrayList<>();
     
-    @OneToMany(mappedBy="bootUser", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
-    private List<PostUnRead> postUnread = new ArrayList<>();
-    
     @OneToMany(mappedBy="requester", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
     private List<Approve> sentApproves = new ArrayList<>();
     
@@ -112,8 +109,11 @@ public class BootUser extends BaseEntity {
     @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="follower")
     private List<FollowRelation> followeds = new ArrayList<>();
     
-    @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="post")
+    @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="creator")
     private List<Medium> media = new ArrayList<>();
+    
+    @OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy="bootUser")
+    private List<Unread> unreads = new ArrayList<>();
     
     public String getCity() {
 		return city;
@@ -357,14 +357,6 @@ public class BootUser extends BaseEntity {
 		this.postShares = postShares;
 	}
 
-	public List<PostUnRead> getPostUnread() {
-		return postUnread;
-	}
-
-	public void setPostUnread(List<PostUnRead> postUnread) {
-		this.postUnread = postUnread;
-	}
-
 	public List<Approve> getSentApproves() {
 		return sentApproves;
 	}
@@ -387,6 +379,14 @@ public class BootUser extends BaseEntity {
 
 	public void setNotifies(List<MessageNotify> notifies) {
 		this.notifies = notifies;
+	}
+
+	public List<Unread> getUnreads() {
+		return unreads;
+	}
+
+	public void setUnreads(List<Unread> unreads) {
+		this.unreads = unreads;
 	}
 
 	public static enum Gender {

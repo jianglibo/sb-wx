@@ -14,7 +14,7 @@ import com.jianglibo.wx.katharsis.dto.ApproveDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.converter.ApproveDtoConverter;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
-import com.jianglibo.wx.katharsis.exception.UnsupportRequestException;
+import com.jianglibo.wx.katharsis.exception.UnsupportedRequestException;
 import com.jianglibo.wx.katharsis.repository.ApproveDtoRepository.ApproveDtoList;
 import com.jianglibo.wx.util.QuerySpecUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
@@ -44,7 +44,7 @@ public class ApproveDtoRepositoryImpl  extends DtoRepositoryBase<ApproveDto, App
 	
 	@Override
 	public ApproveDto createNew(ApproveDto dto) {
-		throw new UnsupportRequestException("Approve object direct creation is forbiden.");
+		throw new UnsupportedRequestException("Approve object direct creation is forbiden.");
 	}
 
 	@Override

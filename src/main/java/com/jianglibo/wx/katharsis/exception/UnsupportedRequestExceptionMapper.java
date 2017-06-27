@@ -8,10 +8,10 @@ import io.katharsis.errorhandling.ErrorResponse;
 import io.katharsis.errorhandling.mapper.ExceptionMapper;
 
 @Component
-public class UnsupportRelationExceptionMapper implements ExceptionMapper<UnsupportRelationException> {
+public class UnsupportedRequestExceptionMapper implements ExceptionMapper<UnsupportedRequestException> {
 
 	@Override
-	public ErrorResponse toErrorResponse(UnsupportRelationException e) {
+	public ErrorResponse toErrorResponse(UnsupportedRequestException e) {
 		ErrorData ed = ErrorData
 				.builder()
 				.setTitle(e.getTitle())
@@ -23,9 +23,9 @@ public class UnsupportRelationExceptionMapper implements ExceptionMapper<Unsuppo
 	}
 
 	@Override
-	public UnsupportRelationException fromErrorResponse(ErrorResponse errorResponse) {
+	public UnsupportedRequestException fromErrorResponse(ErrorResponse errorResponse) {
 		ErrorData ed =  errorResponse.getErrors().iterator().next();
-		UnsupportRelationException ae = new UnsupportRelationException(ed.getDetail());
+		UnsupportedRequestException ae = new UnsupportedRequestException(ed.getDetail());
 		return ae;
 	}
 

@@ -2,7 +2,7 @@ package com.jianglibo.wx.katharsis.exception;
 
 import com.jianglibo.wx.constant.AppErrorCodes;
 
-public class UnsupportRelationException extends RuntimeException {
+public class UnsupportedRequestException extends RuntimeException {
 
 	/**
 	 * 
@@ -10,12 +10,12 @@ public class UnsupportRelationException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
 	private String title = "request not supported.";
-	private String code = AppErrorCodes.UNSUPPORTED_RELATION;
+	private String code = AppErrorCodes.UNSUPPORTED_REQUEST;
 	private String detail;
 	
-	public UnsupportRelationException(String detail) {
+	public UnsupportedRequestException(String detail) {
 		super(detail);
-		this.detail = detail;
+		setDetail(detail);
 	}
 	
 	public String getTitle() {

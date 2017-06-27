@@ -1,6 +1,7 @@
 package com.jianglibo.wx.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -17,12 +18,12 @@ public class PostShare extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="post_id")
 	private Post post;
 	
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	private BootUser bootUser;
 	

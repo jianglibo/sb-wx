@@ -32,6 +32,9 @@ public class PostDto extends DtoBase<PostDto, Post>{
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="receivedPosts")
 	private List<UserDto> sharedUsers = new ArrayList<>();
 	
+	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="receivedPosts")
+	private List<GroupDto> sharedGroups = new ArrayList<>();
+	
 	public PostDto() {}
 	
 	public PostDto(Long id) {
@@ -81,5 +84,13 @@ public class PostDto extends DtoBase<PostDto, Post>{
 
 	public void setSharedUsers(List<UserDto> sharedUsers) {
 		this.sharedUsers = sharedUsers;
+	}
+
+	public List<GroupDto> getSharedGroups() {
+		return sharedGroups;
+	}
+
+	public void setSharedGroups(List<GroupDto> sharedGroups) {
+		this.sharedGroups = sharedGroups;
 	}
 }

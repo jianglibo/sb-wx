@@ -64,11 +64,6 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 	}
 
 	@Override
-	public Post patch(Post entity, PostDto dto) {
-		return entity;
-	}
-	
-	@Override
 	@PreAuthorize(PreAuthorizeExpression.ENTITY_ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE)
 	public List<Post> findMine(@P("entity") BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
 		return getRepository().findAll(creatorEq(user), new SimplePageable(offset, limit, sortBrokers)).getContent();

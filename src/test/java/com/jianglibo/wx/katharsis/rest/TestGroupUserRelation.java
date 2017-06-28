@@ -23,7 +23,7 @@ import com.jianglibo.wx.katharsis.dto.GroupDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.GroupUserRelationRepository;
 
-public class TestBootGrouptApi  extends KatharsisBase {
+public class TestGroupUserRelation  extends KatharsisBase {
 	
 	
 	private String jwtToken;
@@ -34,6 +34,7 @@ public class TestBootGrouptApi  extends KatharsisBase {
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		delteAllGroups();
+		deleteAllUsers();
 		jwtToken = getAdminJwtToken();
 	}
 	
@@ -53,7 +54,7 @@ public class TestBootGrouptApi  extends KatharsisBase {
 	}
 	
 	@Test
-	public void getMemberssRelationsSelf() throws Exception {
+	public void getMembersRelation() throws Exception {
 		BootGroup gp = new BootGroup("agroup");
 		gp  = groupRepo.save(gp);
 		
@@ -69,39 +70,36 @@ public class TestBootGrouptApi  extends KatharsisBase {
 		gurRepo.save(gura);
 		
 		response = requestForBody(jwtToken, getItemUrl(gp.getId()) + "/members");
-		writeDto(response, JsonApiResourceNames.BOOT_GROUP, "getmembersrelations-self");
+		writeDto(response, JsonApiResourceNames.BOOT_GROUP, "membersrelation");
 		List<UserDto> users = getList(response, UserDto.class);
 		assertThat(users.size(), equalTo(3));
 		
 		BootUser du = createBootUser("ddd", "1234");
 		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", du.getId());
+		
+		String  body = indentOm.writeValueAsString(jbw);
+		writeDto(body, getResourceName(), "altermember");
 		// add relation.
-		response = addRelationWithContent(indentOm.writeValueAsString(jbw), "members", gp.getId(), jwtToken);
+		response = addRelationWithContent(body, "members", gp.getId(), jwtToken);
 		assertThat(response.getStatusCodeValue(), equalTo(204));
 		response = requestForBody(jwtToken, getItemUrl(gp.getId()) + "/members");
-		writeDto(response, JsonApiResourceNames.BOOT_GROUP, "getmembersrelations-self");
-		users = getList(response, UserDto.class);
 		
+		users = getList(response, UserDto.class);
 		assertThat(response.getStatusCodeValue(), equalTo(200));
 		assertThat(users.size(), equalTo(4));
 		assertThat(gurRepo.count(), equalTo(4L));
-		// delete a relation
-		response = deleteRelationWithContent(indentOm.writeValueAsString(jbw), "members", gp.getId(), jwtToken);
 		
+		// delete a relation
+		response = deleteRelationWithContent(body, "members", gp.getId(), jwtToken);
 		response = requestForBody(jwtToken, getItemUrl(gp.getId()) + "/members");
-		writeDto(response, JsonApiResourceNames.BOOT_GROUP, "getmembersrelations-self");
 		users = getList(response, UserDto.class);
 		assertThat(gurRepo.count(), equalTo(3L));
 		assertThat(users.size(), equalTo(3));
 		
+		// pagination
 		response = requestForBody(jwtToken, getItemUrl(gp.getId()) + "/members?page[limit]=1&page[offset]=0");
-		writeDto(response, JsonApiResourceNames.BOOT_GROUP, "getmemberssrelations-self");
 		users = getList(response, UserDto.class);
 		assertThat(users.size(), equalTo(1));
-		
-		
-		
-		printme(indentOm.writeValueAsString(jbw));
 	}
 
 

@@ -48,12 +48,6 @@ public class RoleFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Role,Role
 	}
 
 	@Override
-	public Role patch(Role entity, RoleDto dto) {
-		entity.setName(dto.getName());
-		return entity;
-	}
-
-	@Override
 	public Role newByDto(RoleDto dto) {
 		Role entity = new Role(dto.getName());
 		return entity;

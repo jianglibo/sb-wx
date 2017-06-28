@@ -15,11 +15,6 @@ public class LoginAttemptFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<L
 	}
 
 	@Override
-	public LoginAttempt patch(LoginAttempt entity, LoginAttemptDto dto) {
-		return null;
-	}
-
-	@Override
 	public LoginAttempt newByDto(LoginAttemptDto dto) {
 		return null;
 	}

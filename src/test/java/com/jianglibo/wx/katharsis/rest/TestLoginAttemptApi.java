@@ -8,29 +8,32 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.jianglibo.wx.JsonApiPostBodyWrapper;
+import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 
 import io.katharsis.errorhandling.ErrorData;
-import io.katharsis.resource.Document;
 
 public class TestLoginAttemptApi  extends KatharsisBase {
 	
 	
 	@Test
 	public void tWrongCredential() throws JsonParseException, JsonMappingException, IOException {
-		HttpEntity<String> request = new HttpEntity<String>(getFixtureWithExplicitName("loginAttemptWrongCredential"));
-		response = restTemplate.postForEntity(getBaseURI(), request, String.class);
-		String body = response.getBody();
-		writeDto(response, getResourceName(), "failed");
 		
-		Document d =  kboot.getObjectMapper().readValue(body, Document.class);
-		List<ErrorData> eds = d.getErrors();
+		JsonApiPostBodyWrapper<?> jbw = JsonApiPostBodyWrapperBuilder.getObjectRelationBuilder(getResourceName())
+				.addAttributePair("username", "admin")
+				.addAttributePair("password", "123xisld")
+				.build();
+		
+		String body = indentOm.writeValueAsString(jbw);
+		response = postItemWithContent(body, "");
+		writeDto(response, getResourceName(), "failed");
+		List<ErrorData> eds = getErrors(response);
 		assertThat(eds.size(), equalTo(1));
 		
 		assertThat(response.getStatusCodeValue(), equalTo(HttpStatus.FORBIDDEN.value()));
@@ -38,12 +41,18 @@ public class TestLoginAttemptApi  extends KatharsisBase {
 	
 	@Test
 	public void tRightCredential() throws JsonParseException, JsonMappingException, IOException {
-		HttpEntity<String> request = new HttpEntity<String>(getFixtureWithExplicitName("loginAttemptRightCredential"));
-		response = restTemplate.postForEntity(getBaseURI(), request, String.class);
-		String body = response.getBody();
+
+		
+		JsonApiPostBodyWrapper<?> jbw = JsonApiPostBodyWrapperBuilder.getObjectRelationBuilder(getResourceName())
+				.addAttributePair("username", "admin")
+				.addAttributePair("password", "123456")
+				.build();
+		String body = indentOm.writeValueAsString(jbw);
+		response = postItemWithContent(body, "");
+		
 		writeDto(response, getResourceName(), "success");
-		Document d =  kboot.getObjectMapper().readValue(body, Document.class);
-		List<ErrorData> eds = d.getErrors();
+		
+		List<ErrorData> eds = getErrors(response);
 		assertNull(eds);
 		assertThat(response.getStatusCodeValue(), equalTo(HttpStatus.CREATED.value()));
 		verifyOneKey(response, "jwtToken", "data", "attributes");

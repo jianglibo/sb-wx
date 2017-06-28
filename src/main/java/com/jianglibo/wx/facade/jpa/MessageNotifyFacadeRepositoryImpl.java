@@ -20,11 +20,6 @@ public class MessageNotifyFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<
 	}
 
 	@Override
-	public MessageNotify patch(MessageNotify entity, MessageNotifyDto dto) {
-		return null;
-	}
-
-	@Override
 	public MessageNotify newByDto(MessageNotifyDto dto) {
 		return null;
 	}

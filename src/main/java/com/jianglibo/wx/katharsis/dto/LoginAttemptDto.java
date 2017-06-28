@@ -21,7 +21,7 @@ public class LoginAttemptDto extends  DtoBase<LoginAttemptDto, LoginAttempt>{
 	
 	private String jwtToken;
 	
-	private UserDto user;
+	private long user;
 	
 	private Provider provider = Provider.NORMAL;
 	
@@ -82,12 +82,13 @@ public class LoginAttemptDto extends  DtoBase<LoginAttemptDto, LoginAttempt>{
 	public void setJwtToken(String jwtToken) {
 		this.jwtToken = jwtToken;
 	}
-	
-	public UserDto getUser() {
+
+	public long getUser() {
 		return user;
 	}
 
-	public void setUser(UserDto user) {
+	public void setUser(long user) {
 		this.user = user;
 	}
+
 }

@@ -33,11 +33,6 @@ public class PostShareFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post
 	}
 
 	@Override
-	public PostShare patch(PostShare entity, PostShareDto dto) {
-		return null;
-	}
-
-	@Override
 	public PostShare newByDto(PostShareDto dto) {
 		return null;
 	}

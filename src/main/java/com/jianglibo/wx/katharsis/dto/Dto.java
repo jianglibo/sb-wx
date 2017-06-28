@@ -6,6 +6,9 @@ public interface Dto<T, E extends BaseEntity> {
 
 	Long getId();
 	
+	String getDtoApplyTo();
+	String getDtoAction();
+	
 	default Long a() {
 		return 0L;
 	}

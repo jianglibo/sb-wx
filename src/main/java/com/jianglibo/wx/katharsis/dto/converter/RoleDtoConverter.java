@@ -9,13 +9,6 @@ import com.jianglibo.wx.katharsis.dto.RoleDto;
 @Component
 public class RoleDtoConverter implements DtoConverter<Role, RoleDto> {
 
-//	@Override
-//	public Role dto2Entity(RoleDto dto) {
-//		Role entity = new Role();
-//		BeanUtils.copyProperties(dto, entity);
-//		return entity;
-//	}
-
 	@Override
 	public RoleDto entity2Dto(Role entity,Scenario scenario) {
 		RoleDto dto = new RoleDto();

@@ -43,12 +43,6 @@ public class ApproveFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Approv
 	public Approve save(Approve entity) {
 		return super.save(entity);
 	}
-
-	@Override
-	public Approve patch(Approve entity, ApproveDto dto) {
-//		entity.setName(dto.getName());
-		return entity;
-	}
 	
 	public Specification<Approve> requestEq(BootUser user) {
 		return new Specification<Approve>() {

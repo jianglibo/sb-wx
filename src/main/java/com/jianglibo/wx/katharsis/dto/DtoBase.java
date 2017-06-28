@@ -1,10 +1,11 @@
 package com.jianglibo.wx.katharsis.dto;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.jianglibo.wx.domain.BaseEntity;
 
 import io.katharsis.resource.annotations.JsonApiId;
@@ -16,10 +17,8 @@ public abstract class DtoBase<T, E extends BaseEntity> implements Dto<T, E> {
 	
 	private Date createdAt;
 	
-	@JsonProperty(access=Access.WRITE_ONLY)
 	private String dtoApplyTo;
 	
-	@JsonProperty(access=Access.WRITE_ONLY)
 	private String dtoAction;
 	
 	public DtoBase(){}
@@ -44,20 +43,30 @@ public abstract class DtoBase<T, E extends BaseEntity> implements Dto<T, E> {
 		this.createdAt = createdAt;
 	}
 
-	@JsonIgnore
+//	@JsonIgnore
 	public String getDtoApplyTo() {
 		return dtoApplyTo;
 	}
+	
+	public Set<String> calDtoApplyToSet() {
+		if (getDtoApplyTo() != null && !getDtoApplyTo().trim().isEmpty()) {
+			return Stream.of(getDtoApplyTo().split(",")).map(s -> s.trim()).collect(Collectors.toSet());
+		} else {
+			return new HashSet<>();
+		}
+	}
 
+//	@JsonProperty("dtoApplyTo")
 	public void setDtoApplyTo(String dtoApplyTo) {
 		this.dtoApplyTo = dtoApplyTo;
 	}
 
-	@JsonIgnore
+//	@JsonIgnore
 	public String getDtoAction() {
 		return dtoAction;
 	}
 
+//	@JsonProperty("dtoAction")
 	public void setDtoAction(String dtoAction) {
 		this.dtoAction = dtoAction;
 	}

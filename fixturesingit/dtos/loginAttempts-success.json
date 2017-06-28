@@ -1,58 +1,22 @@
 {
   "data" : {
-    "id" : "196609",
+    "id" : "1343489",
     "type" : "loginAttempts",
     "attributes" : {
       "createdAt" : null,
       "password" : "",
       "provider" : "NORMAL",
       "success" : true,
-      "jwtToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcmluY2lwYWwiLCJnZW5kZXIiOiJGRU1BTEUiLCJtb2JpbGUiOiJhZG1pbiIsImlzcyI6ImppYW5nbGlibyIsImlkIjoiMTYzODQyIiwiZXhwIjoxNDk3NjAxMzAzLCJlbWFpbCI6ImFkbWlubTM5NTguY29tIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTklTVFJBVE9SIiwiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYWRtaW4ifQ.LiwXVtIlLSQn1BNWB73ce_vQd8useY-NT5oXTR2y3ho",
+      "jwtToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcmluY2lwYWwiLCJnZW5kZXIiOiJGRU1BTEUiLCJtb2JpbGUiOiJhZG1pbiIsImlzcyI6ImppYW5nbGlibyIsImlkIjoiMTE0Njg4NSIsImV4cCI6MTQ5ODYzMzI5MCwiZW1haWwiOiJhZG1pbm0zOTU4LmNvbSIsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU5JU1RSQVRPUiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImFkbWluIn0.i1JFW2OLQGMFpbAw1QwllQ7gz7hK-4FX2vk7NzPNUe8",
       "sessionId" : null,
-      "user" : {
-        "id" : 163842,
-        "createdAt" : null,
-        "dtoApplyTo" : null,
-        "dtoAction" : null,
-        "displayName" : null,
-        "avatar" : null,
-        "emailVerified" : false,
-        "mobileVerified" : false,
-        "accountNonExpired" : true,
-        "accountNonLocked" : true,
-        "credentialsNonExpired" : true,
-        "openId" : null,
-        "enabled" : true,
-        "gender" : "FEMALE",
-        "city" : null,
-        "country" : null,
-        "language" : null,
-        "province" : null,
-        "name" : "admin",
-        "email" : "adminm3958.com",
-        "password" : null,
-        "mobile" : "admin",
-        "roles" : [ {
-          "id" : 8,
-          "createdAt" : 1497576792342,
-          "dtoApplyTo" : null,
-          "dtoAction" : null,
-          "name" : "ROLE_ADMINISTRATOR"
-        }, {
-          "id" : 1,
-          "createdAt" : 1497576792199,
-          "dtoApplyTo" : null,
-          "dtoAction" : null,
-          "name" : "ROLE_USER"
-        } ]
-      },
+      "user" : 1146885,
       "remoteAddress" : null,
       "dtoAction" : null,
       "username" : "admin",
       "dtoApplyTo" : null
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/loginAttempts/196609"
+      "self" : "http://localhost/jsonapi/loginAttempts/1343489"
     }
   }
 }

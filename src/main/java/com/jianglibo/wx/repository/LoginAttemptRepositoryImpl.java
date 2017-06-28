@@ -35,13 +35,4 @@ public class LoginAttemptRepositoryImpl extends SimpleJpaRepositoryBase<LoginAtt
         this.context = applicationContext;
     }
 
-//	@Override
-//	protected long countIfNotCountOne(QuerySpec querySpec) {
-//		return 0;
-//	}
-//
-//	@Override
-//	protected List<LoginAttempt> findIfNotFindOne(QuerySpec querySpec) {
-//		return null;
-//	}
 }

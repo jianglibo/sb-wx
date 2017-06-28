@@ -64,6 +64,7 @@ public abstract class KatharsisBase extends Tbase {
 	protected static class ActionNames {
 		public static String POST_RESULT = "postresult";
 		public static String POST_ERROR = "posterror";
+		public static String PATCH_RESULT = "patchresult";
 		public static String GET_LIST = "getlist";
 		public static String GET_ONE = "getone";
 		public static String GET_ONE_INCLUDE = "getoneinclude";
@@ -268,12 +269,15 @@ public abstract class KatharsisBase extends Tbase {
 		return restTemplate.postForEntity(getBaseURI(), request, String.class);
 	}
 	
+	public String patchItemWithContent(String content, String jwtToken) throws IOException {
+		HttpEntity<String> request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
+		return restTemplate.patchForObject(getBaseURI(), request, String.class);
+	}
+	
 	public ResponseEntity<String> postItemWithContent(String content, String jwtToken, String url) throws IOException {
 		HttpEntity<String> request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
 		return restTemplate.postForEntity(url, request, String.class);
 	}
-
-
 	
 	public HttpHeaders getCsrfHeader() {
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -346,6 +350,15 @@ public abstract class KatharsisBase extends Tbase {
 				url,
 		        HttpMethod.DELETE, request, String.class);
 	}
+	
+	public ResponseEntity<String> patchByExchange(String content, String jwtToken, String url) throws IOException {
+		HttpHeaders hds = getAuthorizationHaders(jwtToken);
+		HttpEntity<String> request = new HttpEntity<>(content, hds);
+		return restTemplate.exchange(
+				url,
+		        HttpMethod.PATCH, request, String.class);
+	}
+
 	
 	protected String getKatharsisBase() {
 		return domainName + pathPrefix;

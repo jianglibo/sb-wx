@@ -1,0 +1,106 @@
+{
+  "data" : {
+    "id" : "1015810",
+    "type" : "users",
+    "attributes" : {
+      "country" : null,
+      "gender" : "FEMALE",
+      "city" : null,
+      "displayName" : null,
+      "credentialsNonExpired" : true,
+      "mobile" : "13777777777",
+      "mobileVerified" : false,
+      "language" : null,
+      "avatar" : null,
+      "enabled" : true,
+      "dtoApplyTo" : "password",
+      "createdAt" : 1498622178722,
+      "emailVerified" : false,
+      "password" : "",
+      "province" : null,
+      "name" : "name1334",
+      "accountNonExpired" : true,
+      "email" : "ab@c.com",
+      "dtoAction" : "modify",
+      "accountNonLocked" : true
+    },
+    "relationships" : {
+      "unreads" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/unreads",
+          "related" : "http://localhost/jsonapi/users/1015810/unreads"
+        }
+      },
+      "followers" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/followers",
+          "related" : "http://localhost/jsonapi/users/1015810/followers"
+        }
+      },
+      "ownedGroups" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/ownedGroups",
+          "related" : "http://localhost/jsonapi/users/1015810/ownedGroups"
+        }
+      },
+      "followeds" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/followeds",
+          "related" : "http://localhost/jsonapi/users/1015810/followeds"
+        }
+      },
+      "sentApproves" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/sentApproves",
+          "related" : "http://localhost/jsonapi/users/1015810/sentApproves"
+        }
+      },
+      "roles" : {
+        "data" : [ ],
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/roles",
+          "related" : "http://localhost/jsonapi/users/1015810/roles"
+        }
+      },
+      "notifies" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/notifies",
+          "related" : "http://localhost/jsonapi/users/1015810/notifies"
+        }
+      },
+      "receivedPosts" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/receivedPosts",
+          "related" : "http://localhost/jsonapi/users/1015810/receivedPosts"
+        }
+      },
+      "joinedGroups" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/joinedGroups",
+          "related" : "http://localhost/jsonapi/users/1015810/joinedGroups"
+        }
+      },
+      "media" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/media",
+          "related" : "http://localhost/jsonapi/users/1015810/media"
+        }
+      },
+      "posts" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/posts",
+          "related" : "http://localhost/jsonapi/users/1015810/posts"
+        }
+      },
+      "receivedApproves" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/users/1015810/relationships/receivedApproves",
+          "related" : "http://localhost/jsonapi/users/1015810/receivedApproves"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/users/1015810"
+    }
+  }
+}

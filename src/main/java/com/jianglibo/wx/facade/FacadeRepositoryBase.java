@@ -14,8 +14,6 @@ public interface FacadeRepositoryBase<E, D> {
 	
 	void delete(Long id);
 	
-	E patch(E entity, D dto);
-	
 	E newByDto(D dto);
 
 	E findOne(Long id, boolean internalCall);

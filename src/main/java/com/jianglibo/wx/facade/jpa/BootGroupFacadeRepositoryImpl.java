@@ -45,12 +45,6 @@ public class BootGroupFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Boot
 	}
 
 	@Override
-	public BootGroup patch(BootGroup entity, GroupDto dto) {
-		entity.setName(dto.getName());
-		return entity;
-	}
-
-	@Override
 	public BootGroup newByDto(GroupDto dto) {
 		BootGroup entity = new BootGroup(dto.getName());
 		return entity;

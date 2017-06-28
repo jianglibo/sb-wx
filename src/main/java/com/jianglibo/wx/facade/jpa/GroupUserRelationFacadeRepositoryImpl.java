@@ -34,11 +34,6 @@ public class GroupUserRelationFacadeRepositoryImpl extends FacadeRepositoryBaseI
 	}
 
 	@Override
-	public GroupUserRelation patch(GroupUserRelation entity, GroupUserRelationDto dto) {
-		return null;
-	}
-
-	@Override
 	public GroupUserRelation newByDto(GroupUserRelationDto dto) {
 		return null;
 	}

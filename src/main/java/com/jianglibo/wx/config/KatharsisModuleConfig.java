@@ -22,16 +22,16 @@ import zipkin.reporter.Reporter;
 @Configuration
 public class KatharsisModuleConfig {
 	
-	@Bean
-	public BraveModule braveModule() {
-		String serviceName = "exampleApp";
-		Endpoint localEndpoint = Endpoint.builder().serviceName(serviceName).build();
-		InheritableServerClientAndLocalSpanState spanState = new InheritableServerClientAndLocalSpanState(localEndpoint);
-		Brave.Builder builder = new Brave.Builder(spanState);
-		builder = builder.reporter(new LoggingReporter());
-		Brave brave = builder.build();
-		return BraveModule.newServerModule(brave);
-	}
+//	@Bean
+//	public BraveModule braveModule() {
+//		String serviceName = "exampleApp";
+//		Endpoint localEndpoint = Endpoint.builder().serviceName(serviceName).build();
+//		InheritableServerClientAndLocalSpanState spanState = new InheritableServerClientAndLocalSpanState(localEndpoint);
+//		Brave.Builder builder = new Brave.Builder(spanState);
+//		builder = builder.reporter(new LoggingReporter());
+//		Brave brave = builder.build();
+//		return BraveModule.newServerModule(brave);
+//	}
 	
 	@Bean
 	public ValidationModule validationModule() {
@@ -58,9 +58,6 @@ public class KatharsisModuleConfig {
 //	public MyDFilterModule myDFilterModule() {
 //		return new MyDFilterModule();
 //	}
-	
-
-	
 	
 	public static class MyDFilterModule extends AbstractDocumentFilter {
 

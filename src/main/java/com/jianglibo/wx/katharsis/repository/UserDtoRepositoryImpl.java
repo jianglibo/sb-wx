@@ -29,6 +29,7 @@ import com.jianglibo.wx.katharsis.dto.UserDto.OnCreateGroup;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.dto.converter.UserDtoConverter;
 import com.jianglibo.wx.katharsis.repository.UserDtoRepository.UserDtoList;
+import com.jianglibo.wx.util.PatchUtil;
 import com.jianglibo.wx.util.QuerySpecUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 import com.jianglibo.wx.util.UuidUtil;
@@ -89,7 +90,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 		} else {
 			validate(dto);
 			BootUser entity = getRepository().findOne(dto.getId(), false);
-			entity = getRepository().patch(entity, dto);
+			PatchUtil.applyPatch(entity, dto);
 			return getConverter().entity2Dto(entity, Scenario.MODIFY);
 		}
 	}

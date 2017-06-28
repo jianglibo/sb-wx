@@ -39,11 +39,6 @@ public class FollowRelationFacadeRepositoryImpl extends FacadeRepositoryBaseImpl
 	}
 
 	@Override
-	public FollowRelation patch(FollowRelation entity, FollowRelationDto dto) {
-		return null;
-	}
-
-	@Override
 	public FollowRelation newByDto(FollowRelationDto dto) {
 		return null;
 	}

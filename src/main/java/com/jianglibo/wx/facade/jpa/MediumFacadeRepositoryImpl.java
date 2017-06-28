@@ -27,11 +27,6 @@ public class MediumFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Medium,
 	}
 
 	@Override
-	public Medium patch(Medium entity, MediumDto dto) {
-		return entity;
-	}
-
-	@Override
 	public Medium newByDto(MediumDto dto) {
 		Medium entity = new Medium();
 		return entity;

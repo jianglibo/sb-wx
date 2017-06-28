@@ -37,11 +37,6 @@ public class UnreadFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Unread,
 	}
 
 	@Override
-	public Unread patch(Unread entity, UnreadDto dto) {
-		return null;
-	}
-
-	@Override
 	public Unread newByDto(UnreadDto dto) {
 		return null;
 	}

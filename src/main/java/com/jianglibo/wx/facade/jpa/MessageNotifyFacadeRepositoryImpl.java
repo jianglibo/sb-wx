@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.MessageNotify;
 import com.jianglibo.wx.facade.MessageNotifyFacadeRepository;
+import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.katharsis.dto.MessageNotifyDto;
 import com.jianglibo.wx.repository.MessageNotifyRepository;
 
@@ -25,13 +26,9 @@ public class MessageNotifyFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<
 	}
 
 	@Override
-	public List<MessageNotify> findByBootUserAndNtype(BootUser user, String ntype) {
-		return getRepository().findByBootUserAndNtype(user, ntype);
-	}
-
-	@Override
-	public long countByBootUserAndNtype(BootUser user, String ntype) {
-		return getRepository().countByBootUserAndNtype(user, ntype);
+	public Page<MessageNotify> findByBootUserAndNtype(BootUser user, String ntype) {
+		List<MessageNotify> mns = getRepository().findByBootUserAndNtype(user, ntype);
+		return new Page<>(mns.size(), mns);
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.SortBroker;
 
 import io.katharsis.queryspec.Direction;
@@ -83,6 +84,10 @@ public class QuerySpecUtil {
 			String f = sort.getAttributePath().stream().collect(Collectors.joining(","));
 			return sort.getDirection() == Direction.ASC ? new SortBroker(f, true) : new SortBroker(f, false);
 		}).toArray(f -> new SortBroker[f]);
+	}
+	
+	public static PageFacade getPageFacade(QuerySpec spec) {
+		return new PageFacade(spec.getOffset(), spec.getLimit(), getSortBrokers(spec));
 	}
 	
 	public static Optional<String> getFilterStringValue(QuerySpec querySpec, String fn) {

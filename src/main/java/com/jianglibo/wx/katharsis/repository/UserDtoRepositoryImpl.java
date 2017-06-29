@@ -20,6 +20,7 @@ import com.jianglibo.wx.facade.ApproveFacadeRepository;
 import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.FollowRelationFacadeRepository;
+import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
@@ -111,18 +112,17 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 		if ("joinedGroups".equals(rq.getRelationName())) {
 			GroupDto gdo = new GroupDto(rq.getRelationIds().get(0));
 			BootGroup bg = groupRepo.findOne(gdo.getId());
-			List<BootUser> users = getRepository().findAllByGroup(bg, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = getRepository().countByGroup(bg);
-			UserDtoList udl = convertToResourceList(users, count, Scenario.RELATION_LIST);
+			Page<BootUser> users = getRepository().findAllByGroup(bg, QuerySpecUtil.getPageFacade(querySpec));
+			UserDtoList udl = convertToResourceList(users, Scenario.RELATION_LIST);
 			List<GroupDto> groups = Arrays.asList(gdo);
 			udl.forEach(u -> u.setJoinedGroups(groups));
 			return udl;
 		} else if ("followersOp".equals(rq.getRelationName())) {
 			UserDto udt = new UserDto(rq.getRelationIds().get(0));
-			List<FollowRelation> followers = followRelationDtoRepository.findByFollowed(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = followRelationDtoRepository.countByFollowed(rq.getRelationIds().get(0));
-			List<BootUser> users = followers.stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
-			UserDtoList udl = convertToResourceList(users, count, Scenario.RELATION_LIST);
+			BootUser user = userRepo.findOne(udt.getId());
+			Page<FollowRelation> followerPage = followRelationDtoRepository.findByFollowed(user, QuerySpecUtil.getPageFacade(querySpec));
+			List<BootUser> users = followerPage.getContent().stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
+			UserDtoList udl = convertToResourceList(users, followerPage.getTotalResourceCount(), Scenario.RELATION_LIST);
 			udl.forEach(u -> {
 				u.setFollowedsOp(udt);
 				u.setFollowersOp(udt);
@@ -130,10 +130,10 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			return udl;
 		} else if ("followedsOp".equals(rq.getRelationName())) {
 			UserDto udt = new UserDto(rq.getRelationIds().get(0));
-			List<FollowRelation> followers = followRelationDtoRepository.findByFollower(rq.getRelationIds().get(0), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = followRelationDtoRepository.countByFollower(rq.getRelationIds().get(0));
-			List<BootUser> users = followers.stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
-			UserDtoList udl = convertToResourceList(users, count, Scenario.RELATION_LIST);
+			BootUser user = userRepo.findOne(udt.getId());
+			Page<FollowRelation> followerPage = followRelationDtoRepository.findByFollower(user, QuerySpecUtil.getPageFacade(querySpec));
+			List<BootUser> users = followerPage.getContent().stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
+			UserDtoList udl = convertToResourceList(users, followerPage.getTotalResourceCount(), Scenario.RELATION_LIST);
 			udl.forEach(u -> {
 				u.setFollowedsOp(udt);
 				u.setFollowersOp(udt);
@@ -141,9 +141,8 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			return udl;
 		} else if ("receivedPosts".equals(rq.getRelationName())) {
 			PostDto pd = new PostDto(rq.getRelationIds().get(0));
-			List<PostShare> pss = psRepo.findByPost(postRepo.findOne(pd.getId()), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = psRepo.countByPost(postRepo.findOne(pd.getId()));
-			UserDtoList udl = convertToResourceList(pss.stream().map(ps -> ps.getBootUser()).collect(Collectors.toList()), count, Scenario.RELATION_LIST);
+			Page<PostShare> pss = psRepo.findByPost(postRepo.findOne(pd.getId()), QuerySpecUtil.getPageFacade(querySpec));
+			UserDtoList udl = convertToResourceList(pss.getContent().stream().map(ps -> ps.getBootUser()).collect(Collectors.toList()), pss.getTotalResourceCount(), Scenario.RELATION_LIST);
 			List<PostDto> posts = Arrays.asList(pd);
 			udl.forEach(u -> u.setReceivedPosts(posts));
 			return udl;

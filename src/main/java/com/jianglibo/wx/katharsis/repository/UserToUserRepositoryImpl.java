@@ -32,7 +32,7 @@ public class UserToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 		if ("followeds".equals(fieldName)) {
 			for(Long id : targetIds) {
 				FollowRelation fr = new FollowRelation(follower, userRepo.findOne(id));
-				frfRepo.save(fr);
+				frfRepo.save(fr, null);
 			}
 		}
 	}

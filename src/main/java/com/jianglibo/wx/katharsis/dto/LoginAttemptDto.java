@@ -9,7 +9,7 @@ import io.katharsis.resource.annotations.JsonApiResource;
 
 @JsonApiResource(type = JsonApiResourceNames.LOGIN_ATTEMPT)
 @DtoToEntity(entityClass=LoginAttempt.class)
-public class LoginAttemptDto extends  DtoBase<LoginAttemptDto, LoginAttempt>{
+public class LoginAttemptDto extends  DtoBase {
 	
     private String username;
     

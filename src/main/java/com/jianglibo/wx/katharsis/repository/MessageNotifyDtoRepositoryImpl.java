@@ -10,6 +10,7 @@ import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.MessageNotify;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.MessageNotifyFacadeRepository;
+import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.katharsis.dto.MessageNotifyDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
@@ -48,8 +49,8 @@ public class MessageNotifyDtoRepositoryImpl  extends DtoRepositoryBase<MessageNo
 		if ("user".equals(rq.getRelationName())) {
 			UserDto udto = new UserDto(rq.getRelationIds().get(0));
 			BootUser bu = userRepo.findOne(udto.getId());
-			List<MessageNotify> mns = mnRepo.findByBootUserAndNtype(bu, MessageNotify.POST_NTYPE);
-			MessageNotifyDtoList mnl = convertToResourceList(mns, mns.size(), Scenario.FIND_LIST);
+			Page<MessageNotify> mns = mnRepo.findByBootUserAndNtype(bu, MessageNotify.POST_NTYPE);
+			MessageNotifyDtoList mnl = convertToResourceList(mns, Scenario.FIND_LIST);
 			mnl.forEach(mn -> mn.setUser(udto));
 			return mnl;
 		}

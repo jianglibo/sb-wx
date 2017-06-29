@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Unread;
-import com.jianglibo.wx.facade.SimplePageable;
 import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.facade.UnreadFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.UnreadDto;
@@ -26,8 +25,8 @@ public class UnreadFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Unread,
 	}
 	
 	@Override
-	public Unread save(Unread entity) {
-		return super.save(entity);
+	public Unread save(Unread entity, UnreadDto dto) {
+		return super.save(entity, dto);
 	}
 	
 

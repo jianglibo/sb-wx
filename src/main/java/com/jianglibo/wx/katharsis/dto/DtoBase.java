@@ -6,11 +6,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.jianglibo.wx.domain.BaseEntity;
-
 import io.katharsis.resource.annotations.JsonApiId;
 
-public abstract class DtoBase<T, E extends BaseEntity> implements Dto<T, E> {
+public abstract class DtoBase implements Dto {
 
 	@JsonApiId
 	private Long id;

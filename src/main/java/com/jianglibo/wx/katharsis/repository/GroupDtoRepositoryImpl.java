@@ -12,6 +12,8 @@ import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.GroupUserRelation;
 import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
+import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
+import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
@@ -29,7 +31,7 @@ public class GroupDtoRepositoryImpl  extends DtoRepositoryBase<GroupDto, GroupDt
 	private BootUserFacadeRepository userRepo;
 	
 	@Autowired
-	private GroupUserRelationDtoRepository guRepo;
+	private GroupUserRelationFacadeRepository guRepo;
 	
 	@Autowired
 	public GroupDtoRepositoryImpl(BootGroupFacadeRepository repository, GroupDtoConverter converter) {
@@ -51,10 +53,9 @@ public class GroupDtoRepositoryImpl  extends DtoRepositoryBase<GroupDto, GroupDt
 		if ("members".equals(rq.getRelationName())) {
 			UserDto udo = new UserDto(rq.getRelationIds().get(0));
 			BootUser bu = userRepo.findOne(udo.getId());
-			List<GroupUserRelation> gurs = guRepo.findByUser(bu, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = guRepo.countByUser(bu);
-			List<BootGroup> gps = gurs.stream().map(gur -> gur.getBootGroup()).collect(Collectors.toList());
-			GroupDtoList gl = convertToResourceList(gps, count, Scenario.RELATION_LIST);
+			Page<GroupUserRelation> gurs = guRepo.findByBootUser(bu, QuerySpecUtil.getPageFacade(querySpec));
+			List<BootGroup> gps = gurs.getContent().stream().map(gur -> gur.getBootGroup()).collect(Collectors.toList());
+			GroupDtoList gl = convertToResourceList(gps, gurs.getTotalResourceCount(), Scenario.RELATION_LIST);
 			gl.forEach(gdto -> gdto.getMembers().add(udo));
 			return gl;
 		}

@@ -1,7 +1,5 @@
 package com.jianglibo.wx.facade.jpa;
 
-import java.util.List;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -10,19 +8,20 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
-import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Approve;
 import com.jianglibo.wx.domain.Approve_;
+import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.facade.ApproveFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
-import com.jianglibo.wx.facade.SimplePageable;
-import com.jianglibo.wx.facade.SortBroker;
-import com.jianglibo.wx.repository.ApproveRepository;
+import com.jianglibo.wx.facade.Page;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.katharsis.dto.ApproveDto;
+import com.jianglibo.wx.repository.ApproveRepository;
 
 /**
  * @author jianglibo@gmail.com
@@ -39,9 +38,9 @@ public class ApproveFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Approv
 	}
 	
 	@Override
-	@PreAuthorize(PreAuthorizeExpression.HAS_ADMINISTRATOR_ROLE)
-	public Approve save(Approve entity) {
-		return super.save(entity);
+	@PreAuthorize("((#entity.receiver.id == principal.id) and ((#entity.state == T(com.jianglibo.wx.eu.ApproveState).REJECT) or (#entity.state == T(com.jianglibo.wx.eu.ApproveState).APPROVED))) or ((#entity.requester.id == principal.id) and ((#entity.state == T(com.jianglibo.wx.eu.ApproveState).REQUEST_PENDING) or (#entity.state == T(com.jianglibo.wx.eu.ApproveState).INVITE_PENDING)))")
+	public Approve save(@P("entity") Approve entity, ApproveDto dto) {
+		return super.save(entity, dto);
 	}
 	
 	public Specification<Approve> requestEq(BootUser user) {
@@ -52,7 +51,6 @@ public class ApproveFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Approv
 			}
 		};
 	}
-
 
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
@@ -65,22 +63,16 @@ public class ApproveFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Approv
 	}
 
 	@Override
-	public List<Approve> findSent(BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().findAllByRequester(user, new SimplePageable(offset, limit, sortBrokers));
+	@PreAuthorize("#entity.id == principal.id")
+	public Page<Approve> findSent(@P("entity") BootUser user, PageFacade pf) {
+		org.springframework.data.domain.Page<Approve> opage = getRepository().findAllByRequester(user, new SimplePageable(pf)); 
+		return new Page<>(opage.getTotalElements(), opage.getContent());
 	}
 
 	@Override
-	public long countSend(BootUser user) {
-		return getRepository().countByRequester(user);
-	}
-
-	@Override
-	public List<Approve> findReceived(BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().findAllByReceiver(user, new SimplePageable(offset, limit, sortBrokers));
-	}
-
-	@Override
-	public long countReceived(BootUser user) {
-		return getRepository().countByReceiver(user);
+	@PreAuthorize("#entity.id == principal.id")
+	public Page<Approve> findReceived(@P("entity") BootUser user, PageFacade pf) {
+		org.springframework.data.domain.Page<Approve> opage = getRepository().findAllByReceiver(user, new SimplePageable(pf)); 
+		return new Page<>(opage.getTotalElements(), opage.getContent()); 
 	}
 }

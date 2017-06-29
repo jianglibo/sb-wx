@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import com.jianglibo.wx.facade.SimplePageable;
+import com.jianglibo.wx.facade.jpa.SimplePageable;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.util.QuerySpecUtil;
 

@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import com.jianglibo.wx.annotation.DtoToEntity;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.Approve;
-import com.jianglibo.wx.domain.Approve.ApproveState;
+import com.jianglibo.wx.eu.ApproveState;
 
 import io.katharsis.resource.annotations.JsonApiRelation;
 import io.katharsis.resource.annotations.JsonApiResource;
@@ -14,7 +14,7 @@ import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.APPROVE)
 @DtoToEntity(entityClass=Approve.class)
-public class ApproveDto extends DtoBase<ApproveDto, Approve> {
+public class ApproveDto extends DtoBase {
 
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.AUTOMATICALLY_WHEN_NULL,serialize=SerializeType.LAZY, opposite="sentApproves")
 	@NotNull

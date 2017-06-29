@@ -53,6 +53,11 @@ public class JsonApiPostBodyWrapperBuilder {
 			body.getData().setType(resouceName);
 		}
 		
+		public OneObjectWapperBuilder dtoApplyTo(String fns) {
+			addAttributePair("dtoApplyTo", fns);
+			return this;
+		}
+		
 		public OneObjectWapperBuilder addAttributePair(String an, Object av) {
 			body.getData().getAttributes().put(an, av);
 			return this;

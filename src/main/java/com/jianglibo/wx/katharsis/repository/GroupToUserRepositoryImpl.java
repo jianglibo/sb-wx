@@ -33,7 +33,7 @@ public class GroupToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Gr
 		GroupUserRelation gur;
 		for (Long target : targetIds) {
 			gur = new GroupUserRelation(gp, userRepo.findOne(target));
-			gurRepo.save(gur);
+			gurRepo.save(gur, null);
 		}
 	}
 	

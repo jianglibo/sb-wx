@@ -22,8 +22,8 @@ public class MediumFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Medium,
 	
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
-	public Medium save(Medium entity) {
-		return super.save(entity);
+	public Medium save(Medium entity, MediumDto dto) {
+		return super.save(entity, dto);
 	}
 
 	@Override

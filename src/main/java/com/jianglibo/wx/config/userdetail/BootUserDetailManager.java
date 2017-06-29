@@ -90,7 +90,7 @@ public class BootUserDetailManager implements UserDetailsManager {
       				   if (initRun) {
       					 return roleRepo.initSave(r);
       				   } else {
-      					 return roleRepo.save(r);
+      					 return roleRepo.save(r, null);
       				   }
       			   } else {
       				   return ot.getSecond();
@@ -103,7 +103,7 @@ public class BootUserDetailManager implements UserDetailsManager {
     		if (initRun) {
     			dr = roleRepo.initSave(new Role(RoleNames.USER));
     		} else {
-    			dr = roleRepo.save(new Role(RoleNames.USER));
+    			dr = roleRepo.save(new Role(RoleNames.USER), null);
     		}
     	}
 
@@ -116,7 +116,7 @@ public class BootUserDetailManager implements UserDetailsManager {
 	  	   bootUser = new BootUser(bootUserVoLocal, passwordEncoder.encode(bootUserVoLocal.getPassword()));
 	     }
 	     bootUser.setRoles(roleset);
-	     return userRepo.save(bootUser);
+	     return userRepo.save(bootUser, null);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class BootUserDetailManager implements UserDetailsManager {
 		BootUserPrincipal pvo = (BootUserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		BootUser p = userRepo.findOne(pvo.getId(), true);		
 		p.setPassword(passwordEncoder.encode(newPassword));		
-		userRepo.save(p);
+		userRepo.save(p, null);
 		SecurityContextHolder.getContext().setAuthentication(
 				createNewAuthentication(currentUser, newPassword));
 //		userCache.removeUserFromCache(username);

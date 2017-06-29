@@ -10,7 +10,7 @@ import io.katharsis.resource.annotations.JsonApiResource;
 
 @JsonApiResource(type = JsonApiResourceNames.POST_SHARE)
 @DtoToEntity(entityClass=PostShare.class)
-public class PostShareDto extends DtoBase<PostShareDto, PostShare>{
+public class PostShareDto extends DtoBase {
 	
 	@NotNull
 	private UserDto bootUser;

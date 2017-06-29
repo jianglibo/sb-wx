@@ -1,15 +1,12 @@
 package com.jianglibo.wx.katharsis.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.PostDto;
@@ -37,7 +34,7 @@ public class PostToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Pos
 		if ("sharedUsers".equals(fieldName)) {
 			for(Long id : targetIds) {
 				PostShare ps = new PostShare(p, userRepo.findOne(id));
-				psRepo.save(ps);
+				psRepo.save(ps, null);
 			}
 		}
 	}
@@ -57,10 +54,10 @@ public class PostToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Pos
 	public void setRelations(PostDto source, Iterable<Long> targetIds, String fieldName) {
 		Post p = postRepo.findOne(source.getId());
 		if ("sharedUsers".equals(fieldName)) {
-			psRepo.findByPost(p, 0L, 10000L).forEach(ps -> psRepo.delete(ps)); 
+			psRepo.findByPost(p, new PageFacade(10000L)).getContent().forEach(ps -> psRepo.delete(ps)); 
 			for(Long id : targetIds) {
 				PostShare ps = new PostShare(p, userRepo.findOne(id));
-				psRepo.save(ps);
+				psRepo.save(ps, null);
 			}
 		}
 	}

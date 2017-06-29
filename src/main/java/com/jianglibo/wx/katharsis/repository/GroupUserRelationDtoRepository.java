@@ -1,10 +1,9 @@
 package com.jianglibo.wx.katharsis.repository;
 
-import java.util.List;
-
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.GroupUserRelation;
-import com.jianglibo.wx.facade.SortBroker;
+import com.jianglibo.wx.facade.Page;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.katharsis.dto.GroupUserRelationDto;
 
 import io.katharsis.queryspec.QuerySpec;
@@ -20,8 +19,7 @@ public interface GroupUserRelationDtoRepository extends ResourceRepositoryV2<Gro
 	@Override
 	public GroupUserRelationDtoList findAll(QuerySpec querySpec);
 
-	public List<GroupUserRelation> findByUser(BootUser bu, long offset, Long limit, SortBroker...sortBrokers);
+	public Page<GroupUserRelation> findByUser(BootUser bu, PageFacade pf);
 
-	public long countByUser(BootUser bu);
 }
 

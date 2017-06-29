@@ -1,7 +1,5 @@
 package com.jianglibo.wx.facade.jpa;
 
-import java.util.List;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +22,8 @@ public class BootGroupFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Boot
 	
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.HAS_ADMINISTRATOR_ROLE)
-	public BootGroup save(BootGroup entity) {
-		return super.save(entity);
+	public BootGroup save(BootGroup entity, GroupDto dto) {
+		return super.save(entity, dto);
 	}
 	
 
@@ -36,12 +34,7 @@ public class BootGroupFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Boot
 
 	@Override
 	public BootGroup initSave(BootGroup entity) {
-		return super.save(entity);
-	}
-
-	@Override
-	public List<BootGroup> findAll() {
-		return getRepository().findAll();
+		return super.save(entity, null);
 	}
 
 	@Override

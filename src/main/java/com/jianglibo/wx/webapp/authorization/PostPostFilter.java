@@ -39,6 +39,7 @@ import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
 import com.jianglibo.wx.facade.MediumFacadeRepository;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.exception.NotMultipartContentException;
@@ -140,22 +141,22 @@ public class PostPostFilter implements Filter {
 						post.setTitle(title);
 						post.setContent(content);
 						post.setCreator(userRepository.findOne(SecurityUtil.getLoginUserId(), false));
-						post = postRepo.save(post);
+						post = postRepo.save(post, null);
 						final Post finalPost = post;
 						mediaIds.addAll(media.stream().map(dto -> dto.getId()).collect(Collectors.toList()));
 						List<Medium> ms = mediaIds.stream().map(id -> {
 							Medium m = mediumRepo.findOne(id);
 							m.setPost(finalPost);
-							return mediumRepo.save(m);
+							return mediumRepo.save(m, null);
 							}).collect(Collectors.toList());
 						post.setMedia(ms);
-						postRepo.save(post);
+						postRepo.save(post,null);
 						
 						final Post p = post;
-						sharedUserIds.stream().map(uid -> new PostShare(p, userRepository.findOne(uid))).forEach(ps -> psRepo.save(ps));
-						sharedGroupIds.stream().map(gid -> groupRepo.findOne(gid)).flatMap(g -> guRepo.findByBootGroup(g).stream()).map(gur -> gur.getBootUser()).map(bu -> new PostShare(p, bu)).forEach(ps -> {
+						sharedUserIds.stream().map(uid -> new PostShare(p, userRepository.findOne(uid))).forEach(ps -> psRepo.save(ps, null));
+						sharedGroupIds.stream().map(gid -> groupRepo.findOne(gid)).flatMap(g -> guRepo.findByBootGroup(g, new PageFacade(10000L)).getContent().stream()).map(gur -> gur.getBootUser()).map(bu -> new PostShare(p, bu)).forEach(ps -> {
 							try {
-								psRepo.save(ps);
+								psRepo.save(ps, null);
 							} catch (Exception e) {
 								logger.info("post {} already shared to {}", p.getId(), ps.getBootUser().getId());
 							}

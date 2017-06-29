@@ -79,7 +79,7 @@ public class TestRoleApi  extends KatharsisBase {
 	
 	@Test
 	public void tNormalUserAddOne() throws JsonParseException, JsonMappingException, IOException {
-		response = postItem(getNormalJwtToken());
+		response = postItem(getJwtToken("u1", "123"));
 		assertAccessDenied(response);
 	}
 

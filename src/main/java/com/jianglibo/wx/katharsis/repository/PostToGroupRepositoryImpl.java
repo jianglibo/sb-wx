@@ -1,7 +1,5 @@
 package com.jianglibo.wx.katharsis.repository;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +9,8 @@ import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
+import com.jianglibo.wx.facade.Page;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
@@ -42,10 +42,10 @@ public class PostToGroupRepositoryImpl extends RelationshipRepositoryBaseMine<Po
 		if ("sharedGroups".equals(fieldName)) {
 			for(Long id : targetIds) {
 				BootGroup bg = groupRepo.findOne(id);
-				List<GroupUserRelation> gurs =  guRepo.findByBootGroup(bg);
-				gurs.stream().map(gur -> gur.getBootUser()).forEach(user -> {
+				Page<GroupUserRelation> gurs =  guRepo.findByBootGroup(bg, new PageFacade(10000L));
+				gurs.getContent().stream().map(gur -> gur.getBootUser()).forEach(user -> {
 					PostShare ps = new PostShare(p, user);
-					psRepo.save(ps);
+					psRepo.save(ps, null);
 				});
 			}
 		}

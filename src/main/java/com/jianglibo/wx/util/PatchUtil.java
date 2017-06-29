@@ -10,13 +10,14 @@ import java.util.stream.Stream;
 import org.springframework.beans.BeanUtils;
 
 import com.jianglibo.wx.domain.BaseEntity;
+import com.jianglibo.wx.katharsis.dto.Dto;
 import com.jianglibo.wx.katharsis.dto.DtoBase;
 
 public class PatchUtil {
 	
 	private static Map<Class<?>, Set<String>> cmap = new ConcurrentHashMap<>();
 
-	public static <E extends BaseEntity, D extends DtoBase<D, E>> void applyPatch(E entity, D dto) {
+	public static <E extends BaseEntity, D extends Dto> void applyPatch(E entity, D dto) {
 		if (dto.getDtoApplyTo() != null && !dto.getDtoApplyTo().trim().isEmpty()) {
 			Set<String> ppnames = cmap.computeIfAbsent(entity.getClass(), clazz -> getClassPropertyNames(clazz));
 			Set<String> ss = dto.calDtoApplyToSet();

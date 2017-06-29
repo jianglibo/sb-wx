@@ -36,7 +36,7 @@ public class UserToRoleRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 				roles.add(roleRepo.findOne(id));
 			}
 			bu.setRoles(roles);
-			userRepo.save(bu);
+			userRepo.save(bu, null);
 		}
 	}
 	
@@ -52,7 +52,7 @@ public class UserToRoleRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 				}
 			}
 			bu.setRoles(roles);
-			userRepo.save(bu);
+			userRepo.save(bu, null);
 		}
 	}
 

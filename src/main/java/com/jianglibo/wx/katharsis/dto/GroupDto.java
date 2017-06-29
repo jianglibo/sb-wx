@@ -18,7 +18,7 @@ import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.BOOT_GROUP)
 @DtoToEntity(entityClass=BootGroup.class)
-public class GroupDto extends DtoBase<GroupDto, BootGroup>{
+public class GroupDto extends DtoBase {
 	
 	@NotNull
 	@Size(min=3, max=30)

@@ -12,6 +12,7 @@ import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
+import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.PostDto;
@@ -51,14 +52,14 @@ public class PostDtoRepositoryImpl  extends DtoRepositoryBase<PostDto, PostDtoLi
 	@Override
 	protected PostDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("creator".equals(rq.getRelationName())) {
-			List<Post> posts = getRepository().findMine(userRepo.findOne(rq.getRelationIds().get(0)), querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = getRepository().countMine(userRepo.findOne(rq.getRelationIds().get(0)));
-			return convertToResourceList(posts, count, Scenario.RELATION_LIST);
+			BootUser user = userRepo.findOne(rq.getRelationIds().get(0));
+			Page<Post> posts = getRepository().findMine(user, QuerySpecUtil.getPageFacade(querySpec));
+			return convertToResourceList(posts, Scenario.RELATION_LIST);
 		} else if ("sharedUsers".equals(rq.getRelationName())) {
 			BootUser user = userRepo.findOne(rq.getRelationIds().get(0));
-			List<PostShare> pss = psRepo.findByBootUser(user, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = psRepo.countByBootUser(user);
-			PostDtoList pdl = convertToResourceList(pss.stream().map(ps -> ps.getPost()).collect(Collectors.toList()), count, Scenario.RELATION_LIST);
+			Page<PostShare> pss = psRepo.findByBootUser(user, QuerySpecUtil.getPageFacade(querySpec));
+			PostDtoList pdl = convertToResourceList(pss.getContent().stream().map(ps -> ps.getPost()).collect(Collectors.toList()), pss.getTotalResourceCount(), Scenario.RELATION_LIST);
+			
 			List<UserDto> users = Arrays.asList(new UserDto(user.getId()));
 			pdl.forEach(p -> p.setSharedUsers(users));
 			return pdl;

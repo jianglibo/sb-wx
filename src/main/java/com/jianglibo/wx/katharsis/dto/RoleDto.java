@@ -17,7 +17,7 @@ import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.ROLE)
 @DtoToEntity(entityClass=Role.class)
-public class RoleDto extends DtoBase<RoleDto, Role>{
+public class RoleDto extends DtoBase {
 	
 	@NotNull
 	@Size(min=3, max=30)

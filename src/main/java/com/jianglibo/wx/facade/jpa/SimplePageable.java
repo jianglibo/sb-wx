@@ -1,4 +1,4 @@
-package com.jianglibo.wx.facade;
+package com.jianglibo.wx.facade.jpa;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +7,9 @@ import java.util.stream.Stream;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+
+import com.jianglibo.wx.facade.PageFacade;
+import com.jianglibo.wx.facade.SortBroker;
 
 import io.katharsis.queryspec.Direction;
 import io.katharsis.queryspec.QuerySpec;
@@ -18,6 +21,10 @@ public class SimplePageable implements Pageable {
 	private final int curPage;
 	
 	private final int offset;
+	
+	public SimplePageable(PageFacade pf) {
+		this(pf.getOffset(), pf.getLimit(), pf.getSorts());
+	}
 	
 	public SimplePageable(long offset, long limit,SortBroker...filterFields) {
 		this.offset = (int) offset;

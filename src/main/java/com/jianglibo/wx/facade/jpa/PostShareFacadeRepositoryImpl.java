@@ -1,7 +1,5 @@
 package com.jianglibo.wx.facade.jpa;
 
-import java.util.List;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
@@ -9,9 +7,9 @@ import com.jianglibo.wx.constant.PreAuthorizeExpression;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
+import com.jianglibo.wx.facade.Page;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
-import com.jianglibo.wx.facade.SimplePageable;
-import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.katharsis.dto.PostShareDto;
 import com.jianglibo.wx.repository.PostShareRepository;
 
@@ -28,8 +26,8 @@ public class PostShareFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post
 	
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
-	public PostShare save(PostShare entity) {
-		return super.save(entity);
+	public PostShare save(PostShare entity, PostShareDto dto) {
+		return super.save(entity, dto);
 	}
 
 	@Override
@@ -38,23 +36,15 @@ public class PostShareFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post
 	}
 
 	@Override
-	public List<PostShare> findByBootUser(BootUser user, long offset, long limit, SortBroker... sortBrokers) {
-		return getRepository().findAllByBootUser(user, new SimplePageable(offset, limit, sortBrokers));
+	public Page<PostShare> findByBootUser(BootUser user, PageFacade pf) {
+		org.springframework.data.domain.Page<PostShare> opage = getRepository().findAllByBootUser(user, new SimplePageable(pf));
+		return new Page<>(opage.getTotalElements(), opage.getContent());
 	}
 
 	@Override
-	public long countByBootUser(BootUser user) {
-		return getRepository().countByBootUser(user);
-	}
-
-	@Override
-	public List<PostShare> findByPost(Post post, long offset, long limit, SortBroker... sortBrokers) {
-		return getRepository().findAllByPost(post, new SimplePageable(offset, limit, sortBrokers));
-	}
-
-	@Override
-	public long countByPost(Post post) {
-		return getRepository().countByPost(post);
+	public Page<PostShare> findByPost(Post post, PageFacade pf) {
+		org.springframework.data.domain.Page<PostShare> opage = getRepository().findAllByPost(post, new SimplePageable(pf));
+		return new Page<>(opage.getTotalElements(), opage.getContent()); 
 	}
 
 	@Override

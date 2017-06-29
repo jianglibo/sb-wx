@@ -1,7 +1,6 @@
 package com.jianglibo.wx.facade.jpa;
 
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,11 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
 import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
+import com.jianglibo.wx.domain.GroupUserRelation;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
-import com.jianglibo.wx.facade.SortBroker;
+import com.jianglibo.wx.facade.Page;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.BootUserRepository;
 import com.jianglibo.wx.util.SecurityUtil;
@@ -110,13 +111,8 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	}
 
 	@Override
-	public List<BootUser> findAllByGroup(BootGroup group, long offset, Long limit, SortBroker... sortBrokers) {
-		return gurRepo.findByBootGroup(group,offset,limit,sortBrokers).stream().map(gur -> gur.getBootUser()).collect(Collectors.toList());
+	public Page<BootUser> findAllByGroup(BootGroup group, PageFacade pf) {
+		Page<GroupUserRelation> page = gurRepo.findByBootGroup(group,pf);
+		return new Page<>(page.getTotalResourceCount(), page.getContent().stream().map(gur -> gur.getBootUser()).collect(Collectors.toList()));
 	}
-
-	@Override
-	public long countByGroup(BootGroup group) {
-		return gurRepo.countByBootGroup(group);
-	}
-
 }

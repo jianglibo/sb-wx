@@ -3,8 +3,11 @@ package com.jianglibo.wx.domain;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.jianglibo.wx.eu.ApproveState;
 
 @Entity
 @Table(name = "approve")
@@ -15,10 +18,10 @@ public class Approve extends BaseEntity {
 	 */
 	private static final long serialVersionUID = 8189805474312842749L;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	private BootUser requester;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	private BootUser receiver;
 	
 	private String targetType;
@@ -86,10 +89,6 @@ public class Approve extends BaseEntity {
 
 	public void setState(ApproveState state) {
 		this.state = state;
-	}
-
-	public static enum ApproveState {
-		REQUEST_PENDING,REJECT,APPROVED, INVITE_PENDING
 	}
 
 	public static class ApproveBuilder<T extends BaseEntity> {

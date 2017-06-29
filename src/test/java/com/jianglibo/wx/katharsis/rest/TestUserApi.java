@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -23,7 +22,6 @@ import com.jianglibo.wx.JsonApiPostBodyWrapper;
 import com.jianglibo.wx.JsonApiPostBodyWrapper.CreateListBody;
 import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
-import com.jianglibo.wx.M3958TsBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.katharsis.dto.UserDto;

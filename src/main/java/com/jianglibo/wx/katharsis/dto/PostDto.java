@@ -16,7 +16,7 @@ import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.POST)
 @DtoToEntity(entityClass=Post.class)
-public class PostDto extends DtoBase<PostDto, Post>{
+public class PostDto extends DtoBase {
 	
 	@NotNull
 	private String title;

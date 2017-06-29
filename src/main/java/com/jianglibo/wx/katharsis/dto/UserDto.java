@@ -23,7 +23,7 @@ import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.BOOT_USER)
 @DtoToEntity(entityClass=BootUser.class)
-public class UserDto extends DtoBase<UserDto, BootUser> {
+public class UserDto extends DtoBase {
 	
 	public static interface OnCreateGroup {}
 	

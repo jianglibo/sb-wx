@@ -67,10 +67,10 @@ public class LoginAttemptDtoRepositoryImpl  extends DtoRepositoryBase<LoginAttem
 				BootUserPrincipal user = (BootUserPrincipal) an.getPrincipal();
 				loginAttemp.setSuccess(true);
 				loginAttemp.setPassword("");
-				getRepository().save(loginAttemp);
+				getRepository().save(loginAttemp, null);
 				return ((LoginAttemptDtoConverter)getConverter()).newDto(dto, user, loginAttemp);
 		} catch (AuthenticationException e) {
-				getRepository().save(loginAttemp);
+				getRepository().save(loginAttemp, null);
 				throw e;
 		}
 	}

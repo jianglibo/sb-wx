@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import com.jianglibo.wx.domain.BaseEntity;
 import com.jianglibo.wx.facade.FacadeRepositoryBase;
+import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.katharsis.dto.Dto;
-import com.jianglibo.wx.katharsis.dto.DtoBase;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.exception.AppException;
@@ -31,7 +31,7 @@ import io.katharsis.queryspec.QuerySpec;
 import io.katharsis.repository.ResourceRepositoryBase;
 import io.katharsis.resource.list.ResourceListBase;
 
-public abstract class DtoRepositoryBase<T extends DtoBase<T, E>, L extends ResourceListBase<T, DtoListMeta, DtoListLinks>, E extends BaseEntity, F extends FacadeRepositoryBase<E, T>>
+public abstract class DtoRepositoryBase<T extends Dto, L extends ResourceListBase<T, DtoListMeta, DtoListLinks>, E extends BaseEntity, F extends FacadeRepositoryBase<E, T>>
 		extends ResourceRepositoryBase<T, Long> {
 	
 	private static Logger log = LoggerFactory.getLogger(DtoRepositoryBase.class);
@@ -46,8 +46,8 @@ public abstract class DtoRepositoryBase<T extends DtoBase<T, E>, L extends Resou
 	
 	private final DtoConverter<E, T> converter;
 	
-	public void validate(Dto<?, ?> o, Class<?>...groups) {
-		Set<ConstraintViolation<Dto<?, ?>>> cve = validator.validate(o, groups);
+	public void validate(Dto o, Class<?>...groups) {
+		Set<ConstraintViolation<Dto>> cve = validator.validate(o, groups);
 		if (!cve.isEmpty()) {
 			throw new ConstraintViolationException(cve);
 		}
@@ -99,7 +99,7 @@ public abstract class DtoRepositoryBase<T extends DtoBase<T, E>, L extends Resou
 	}
 	
 	public E saveToBackendRepo(T dto, E entity) {
-		return repository.save(entity);
+		return repository.save(entity, dto);
 	}
 	
 	@Override
@@ -144,9 +144,8 @@ public abstract class DtoRepositoryBase<T extends DtoBase<T, E>, L extends Resou
 		}
 		
 		if (querySpec.getFilters().isEmpty()) {
-			entities = repository.findRange(querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = repository.count();
-			return convertToResourceList(entities, count, Scenario.FIND_LIST);
+			Page<E> page = repository.findAll(QuerySpecUtil.getPageFacade(querySpec));
+			return convertToResourceList(page, Scenario.FIND_LIST);
 		} else {
 			RelationQuery rq = QuerySpecUtil.findRelationQuery(querySpec); 
 			if (rq != null) {
@@ -175,6 +174,11 @@ public abstract class DtoRepositoryBase<T extends DtoBase<T, E>, L extends Resou
 		}
 		return listOb;
 	}
+	
+	protected L convertToResourceList(Page<E> page, Scenario scenario) {
+		return convertToResourceList(page.getContent(), page.getTotalResourceCount(), scenario);
+	}
+	
 	
 	public F getRepository() {
 		return repository;

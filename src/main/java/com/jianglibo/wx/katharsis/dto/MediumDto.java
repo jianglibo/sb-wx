@@ -12,7 +12,7 @@ import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.MEDIUM)
 @DtoToEntity(entityClass=Medium.class)
-public class MediumDto extends DtoBase<MediumDto, Medium>{
+public class MediumDto extends DtoBase {
 	
 	private String url;
 	private String contentType;

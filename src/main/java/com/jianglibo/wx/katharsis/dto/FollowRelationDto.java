@@ -10,7 +10,7 @@ import io.katharsis.resource.annotations.JsonApiResource;
 
 @JsonApiResource(type = JsonApiResourceNames.FOLLOW_RELATION)
 @DtoToEntity(entityClass=FollowRelation.class)
-public class FollowRelationDto extends DtoBase<FollowRelationDto, FollowRelation>{
+public class FollowRelationDto extends DtoBase {
 	
 	@NotNull
 	private UserDto follower;

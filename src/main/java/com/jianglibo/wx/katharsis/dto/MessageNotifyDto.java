@@ -12,7 +12,7 @@ import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.MESSAGE_NOTIFY)
 @DtoToEntity(entityClass=MessageNotify.class)
-public class MessageNotifyDto extends DtoBase<MessageNotifyDto, MessageNotify>{
+public class MessageNotifyDto extends DtoBase {
 	
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="notifies")
 	private UserDto user;

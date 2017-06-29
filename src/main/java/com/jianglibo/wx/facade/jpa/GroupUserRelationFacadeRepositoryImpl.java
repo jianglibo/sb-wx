@@ -1,7 +1,5 @@
 package com.jianglibo.wx.facade.jpa;
 
-import java.util.List;
-
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -11,8 +9,8 @@ import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.GroupUserRelation;
 import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
-import com.jianglibo.wx.facade.SimplePageable;
-import com.jianglibo.wx.facade.SortBroker;
+import com.jianglibo.wx.facade.Page;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.katharsis.dto.GroupUserRelationDto;
 import com.jianglibo.wx.repository.GroupUserRelationRepository;
 
@@ -29,8 +27,8 @@ public class GroupUserRelationFacadeRepositoryImpl extends FacadeRepositoryBaseI
 	
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
-	public GroupUserRelation save(GroupUserRelation entity) {
-		return super.save(entity);
+	public GroupUserRelation save(GroupUserRelation entity, GroupUserRelationDto dto) {
+		return super.save(entity, dto);
 	}
 
 	@Override
@@ -40,34 +38,20 @@ public class GroupUserRelationFacadeRepositoryImpl extends FacadeRepositoryBaseI
 
 
 	@Override
-	public List<GroupUserRelation> findByBootGroup(@P("entity") BootGroup group, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().findAllByBootGroup(group, new SimplePageable(offset, limit, sortBrokers));
-	}
-
-	@Override
-	public long countByBootGroup(@P("entity")BootGroup group) {
-		return getRepository().countByBootGroup(group);
+	public Page<GroupUserRelation> findByBootGroup(@P("entity") BootGroup group, PageFacade pf) {
+		org.springframework.data.domain.Page<GroupUserRelation> opage = getRepository().findAllByBootGroup(group, new SimplePageable(pf)); 
+		return new Page<>(opage.getTotalElements(), opage.getContent());
 	}
 
 	@Override
 	@PreAuthorize("hasRole('ADMINISTRATOR') or (#entity.id == principal.id)")
-	public List<GroupUserRelation> findByBootUser(@P("entity")BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().findAllByBootUser(user, new SimplePageable(offset, limit, sortBrokers));
-	}
-
-
-	@Override
-	public long countByBootUser(@P("entity")BootUser user) {
-		return getRepository().countByBootUser(user);
+	public Page<GroupUserRelation> findByBootUser(@P("entity")BootUser user, PageFacade pf) {
+		org.springframework.data.domain.Page<GroupUserRelation> opage = getRepository().findAllByBootUser(user, new SimplePageable(pf)); 
+		return new Page<>(opage.getTotalElements(), opage.getContent());
 	}
 
 	@Override
 	public GroupUserRelation findByBootGroupAndBootUser(BootGroup group, BootUser user) {
 		return getRepository().findByBootGroupAndBootUser(group, user);
-	}
-
-	@Override
-	public List<GroupUserRelation> findByBootGroup(BootGroup bg) {
-		return getRepository().findAllByBootGroup(bg);
 	}
 }

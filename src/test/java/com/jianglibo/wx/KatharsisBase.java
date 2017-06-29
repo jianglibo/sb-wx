@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -153,6 +152,13 @@ public abstract class KatharsisBase extends Tbase {
 		assertThat(items.size(), equalTo(expectedNumber));
 	}
 	
+	public <T> void assertMetaNumber(ResponseEntity<String> response, long expectedNumber) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = kboot.getObjectMapper();
+		Document document = objectMapper.readValue(response.getBody(), Document.class);
+		long totalResourceCount = document.getMeta().get("totalResourceCount").asLong();
+		assertThat(totalResourceCount, equalTo(expectedNumber));
+	}
+	
 	public void assertResponseCode(ResponseEntity<String> response, int code) {
 		assertThat(response.getStatusCodeValue(), equalTo(code));
 	}
@@ -294,21 +300,17 @@ public abstract class KatharsisBase extends Tbase {
 	}
 	
 	public String getAdminJwtToken() throws IOException {
-		return getJwtToken("loginAdmin", RoleNames.ROLE_ADMINISTRATOR);
+		return getJwtToken("tadmin", "123456", RoleNames.ROLE_ADMINISTRATOR);
 	}
 	
-	public String getNormalJwtToken() throws IOException {
-		return getJwtToken("loginUser");
-	}
+	public String getJwtToken(String username, String password, String...roles) throws IOException {
 	
-	public String getJwtToken(String fixtrue, String...roles) throws IOException {
-		String c = getFixtureWithExplicitName(fixtrue);
+		JsonApiPostBodyWrapper<?> jaw = JsonApiPostBodyWrapperBuilder.getObjectRelationBuilder(JsonApiResourceNames.LOGIN_ATTEMPT)
+				.addAttributePair("username", username)
+				.addAttributePair("password", password)
+				.build();
+		String c = indentOm.writeValueAsString(jaw);
 		
-		Map<String, Object> m = kboot.getObjectMapper().readValue(c, Map.class);
-		m = (Map<String, Object>) m.get("data");
-		m = (Map<String, Object>) m.get("attributes");
-		String username = (String) m.get("username");
-		String password = (String) m.get("password");
 		createBootUser(username, password, roles);
 		
 		HttpEntity<String> request = new HttpEntity<String>(c);

@@ -24,8 +24,8 @@ public class RoleFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Role,Role
 	
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.HAS_ADMINISTRATOR_ROLE)
-	public Role save(Role entity) {
-		return super.save(entity);
+	public Role save(Role entity, RoleDto dto) {
+		return super.save(entity, dto);
 	}
 	
 
@@ -39,7 +39,7 @@ public class RoleFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Role,Role
 
 	@Override
 	public Role initSave(Role entity) {
-		return super.save(entity);
+		return super.save(entity, null);
 	}
 
 	@Override

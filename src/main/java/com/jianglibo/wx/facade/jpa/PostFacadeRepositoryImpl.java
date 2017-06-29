@@ -22,10 +22,10 @@ import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.domain.Post_;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.MediumFacadeRepository;
+import com.jianglibo.wx.facade.Page;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
-import com.jianglibo.wx.facade.SimplePageable;
-import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.katharsis.dto.MediumDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.repository.PostRepository;
@@ -59,21 +59,17 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 	
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.HAS_ADMINISTRATOR_ROLE)
-	public Post save(Post entity) {
-		return super.save(entity);
+	public Post save(Post entity, PostDto dto) {
+		return super.save(entity, dto);
 	}
 
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.ENTITY_ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE)
-	public List<Post> findMine(@P("entity") BootUser user, long offset, Long limit, SortBroker... sortBrokers) {
-		return getRepository().findAll(creatorEq(user), new SimplePageable(offset, limit, sortBrokers)).getContent();
+	public Page<Post> findMine(@P("entity") BootUser user, PageFacade pf) {
+		org.springframework.data.domain.Page<Post> opage = getRepository().findAll(creatorEq(user), new SimplePageable(pf)); 
+		return new Page<>(opage.getTotalElements(), opage.getContent());
 	}
 
-	@Override
-	public long countMine(@P("entity") BootUser user) {
-		return getRepository().count(creatorEq(user));
-	}
-	
 	public Specification<Post> creatorEq(BootUser user) {
 		return new Specification<Post>() {
 			public Predicate toPredicate(Root<Post> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
@@ -98,7 +94,7 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 			for(MediumDto mdto : dto.getMedia()) {
 				Medium m = mediumRepo.findOne(mdto.getId());
 				m.setPost(entity);
-				media.add(mediumRepo.save(m));
+				media.add(mediumRepo.save(m, null));
 			}
 		}
 		entity.setMedia(media);
@@ -109,17 +105,17 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 			dto.getSharedUsers().stream().map(udto -> userRepo.findOne(udto.getId())).forEach(u -> {
 				try {
 					PostShare ps = new PostShare(fe, u);
-					psRepo.save(ps);
+					psRepo.save(ps, null);
 				} catch (Exception e) {
 				}
 			});
 		}
 		
 		if (dto.getSharedGroups() != null) {
-			dto.getSharedGroups().stream().map(gdto -> groupRepo.findOne(gdto.getId())).flatMap(g -> guRepo.findByBootGroup(g).stream()).map(gu -> gu.getBootUser()).forEach(bu -> {
+			dto.getSharedGroups().stream().map(gdto -> groupRepo.findOne(gdto.getId())).flatMap(g -> guRepo.findByBootGroup(g, new PageFacade(10000L)).getContent().stream()).map(gu -> gu.getBootUser()).forEach(bu -> {
 				try {
 					PostShare ps = new PostShare(fe, bu);
-					psRepo.save(ps);
+					psRepo.save(ps, null);
 				} catch (Exception e) {
 				}
 			});

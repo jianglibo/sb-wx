@@ -10,7 +10,7 @@ import io.katharsis.resource.annotations.JsonApiResource;
 
 @JsonApiResource(type = JsonApiResourceNames.GR_USER_RELATION)
 @DtoToEntity(entityClass=GroupUserRelation.class)
-public class GroupUserRelationDto extends DtoBase<GroupUserRelationDto, GroupUserRelation>{
+public class GroupUserRelationDto extends DtoBase {
 	
 	@NotNull
 	private UserDto bootUser;

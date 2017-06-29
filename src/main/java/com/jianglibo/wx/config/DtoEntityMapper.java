@@ -15,9 +15,9 @@ import com.jianglibo.wx.util.ClassScanner;
 @Component
 public class DtoEntityMapper implements InitializingBean {
 	
-	private final Map<Class<? extends Dto<?,?>>, Class<? extends BaseEntity>>  dtoToEntity = new HashMap<>();
+	private final Map<Class<? extends Dto>, Class<? extends BaseEntity>>  dtoToEntity = new HashMap<>();
 	
-	private final Map<Class<? extends BaseEntity>, Class<? extends Dto<?,?>>>  entityToDto = new HashMap<>();
+	private final Map<Class<? extends BaseEntity>, Class<? extends Dto>>  entityToDto = new HashMap<>();
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -28,17 +28,17 @@ public class DtoEntityMapper implements InitializingBean {
 		for(Class<?> dtoClass : dtoClasses) {
 			de = dtoClass.getAnnotation(DtoToEntity.class);
 			entityClass = de.entityClass();
-			Class<? extends Dto<?,?>> dtotrue = (Class<? extends Dto<?, ?>>) dtoClass;
+			Class<? extends Dto> dtotrue = (Class<? extends Dto>) dtoClass;
 			dtoToEntity.put(dtotrue, entityClass);
 			entityToDto.put(entityClass, dtotrue);
 		}
 	}
 
-	public Map<Class<? extends Dto<?, ?>>, Class<? extends BaseEntity>> getDtoToEntity() {
+	public Map<Class<? extends Dto>, Class<? extends BaseEntity>> getDtoToEntity() {
 		return dtoToEntity;
 	}
 
-	public Map<Class<? extends BaseEntity>, Class<? extends Dto<?, ?>>> getEntityToDto() {
+	public Map<Class<? extends BaseEntity>, Class<? extends Dto>> getEntityToDto() {
 		return entityToDto;
 	}
 }

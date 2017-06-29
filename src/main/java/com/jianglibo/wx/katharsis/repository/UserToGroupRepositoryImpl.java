@@ -44,10 +44,10 @@ public class UserToGroupRepositoryImpl extends RelationshipRepositoryBaseMine<Us
 				BootGroup gp = groupRepo.findOne(id);
 				if (gp.isOpenToAll()) {
 					GroupUserRelation gur = new GroupUserRelation(gp, bu);
-					guRepo.save(gur);
+					guRepo.save(gur, null);
 				} else {
 					Approve approve = new Approve.ApproveBuilder<>(gp).sender(bu).receiver(gp.getCreator()).build();
-					approveRepo.save(approve);
+					approveRepo.save(approve, null);
 				}
 			}
 		}

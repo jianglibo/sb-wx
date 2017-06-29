@@ -1,14 +1,15 @@
 package com.jianglibo.wx.facade;
 
-import java.util.List;
+import com.jianglibo.wx.domain.BaseEntity;
+import com.jianglibo.wx.katharsis.dto.Dto;
 
-public interface FacadeRepositoryBase<E, D> {
+public interface FacadeRepositoryBase<E extends BaseEntity, D extends Dto> {
 	
-	List<E> findRange(long offset, long limit, SortBroker...sortFields);
+	Page<E> findAll(PageFacade pf);
 	
 	long count();
 	
-	E save(E entity);
+	E save(E entity, D dto);
 	
 	void delete(E entity);
 	

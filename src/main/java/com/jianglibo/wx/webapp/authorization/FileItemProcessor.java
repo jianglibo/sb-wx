@@ -75,7 +75,7 @@ public class FileItemProcessor {
 		mi.setOrignName(originName);
 		mi.setCreator(userRepository.findOne(SecurityUtil.getLoginUserId(), false));
 		mi.setUrl(appConfig.getUploadLinkBase() + mi.getLocalPath());
-		mi = mediumRepository.save(mi);
+		mi = mediumRepository.save(mi, null);
 		return mi;
 	}
 	

@@ -8,7 +8,7 @@ import io.katharsis.resource.annotations.JsonApiResource;
 
 @JsonApiResource(type = JsonApiResourceNames.RECEIVED_MESSAGE)
 @DtoToEntity(entityClass=ReceivedTextMessage.class)
-public class ReceivedMessageDto extends DtoBase<ReceivedMessageDto, ReceivedTextMessage>{
+public class ReceivedMessageDto extends DtoBase {
 	
 	private String toUserName;
 	private String fromUserName;

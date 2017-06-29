@@ -1,16 +1,10 @@
 package com.jianglibo.wx.katharsis.dto;
 
-import com.jianglibo.wx.domain.BaseEntity;
+import java.util.Set;
 
-public interface Dto<T, E extends BaseEntity> {
-
+public interface Dto {
 	Long getId();
-	
 	String getDtoApplyTo();
 	String getDtoAction();
-	
-	default Long a() {
-		return 0L;
-	}
-	
+	Set<String> calDtoApplyToSet();
 }

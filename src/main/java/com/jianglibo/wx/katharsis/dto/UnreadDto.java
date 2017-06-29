@@ -13,7 +13,7 @@ import io.katharsis.resource.annotations.SerializeType;
 
 @JsonApiResource(type = JsonApiResourceNames.UNREAD)
 @DtoToEntity(entityClass=Unread.class)
-public class UnreadDto extends DtoBase<UnreadDto, Unread>{
+public class UnreadDto extends DtoBase {
 
 	@NotNull
 	private long obid;

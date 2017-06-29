@@ -9,8 +9,10 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.GroupUserRelation;
 import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
-import com.jianglibo.wx.facade.SimplePageable;
+import com.jianglibo.wx.facade.Page;
+import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.SortBroker;
+import com.jianglibo.wx.facade.jpa.SimplePageable;
 import com.jianglibo.wx.katharsis.dto.GroupUserRelationDto;
 import com.jianglibo.wx.katharsis.dto.converter.GroupUserRelationDtoConverter;
 import com.jianglibo.wx.katharsis.repository.GroupUserRelationDtoRepository.GroupUserRelationDtoList;
@@ -23,7 +25,7 @@ import io.katharsis.queryspec.QuerySpec;
 public class GroupUserRelationDtoRepositoryImpl  extends DtoRepositoryBase<GroupUserRelationDto, GroupUserRelationDtoList, GroupUserRelation, GroupUserRelationFacadeRepository> implements GroupUserRelationDtoRepository {
 	
 	@Autowired
-	private GroupUserRelationRepository gurRepo;
+	private GroupUserRelationFacadeRepository gurRepo;
 	
 	@Autowired
 	public GroupUserRelationDtoRepositoryImpl(GroupUserRelationFacadeRepository repository, GroupUserRelationDtoConverter converter) {
@@ -46,12 +48,7 @@ public class GroupUserRelationDtoRepositoryImpl  extends DtoRepositoryBase<Group
 	}
 
 	@Override
-	public List<GroupUserRelation> findByUser(BootUser bu, long offset, Long limit, SortBroker... sortBrokers) {
-		return gurRepo.findAllByBootUser(bu, new SimplePageable(offset, limit, sortBrokers));
-	}
-
-	@Override
-	public long countByUser(BootUser bu) {
-		return gurRepo.countByBootUser(bu);
+	public Page<GroupUserRelation> findByUser(BootUser bu, PageFacade pf) {
+		return gurRepo.findByBootUser(bu, pf);
 	}
 }

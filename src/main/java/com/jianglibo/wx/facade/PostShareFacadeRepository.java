@@ -1,7 +1,5 @@
 package com.jianglibo.wx.facade;
 
-import java.util.List;
-
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
@@ -14,15 +12,10 @@ public interface PostShareFacadeRepository extends FacadeRepositoryBase<PostShar
 	/**
 	 * find by follower mean the follower is me. So the result is all I followed.
 	 */
-	List<PostShare> findByBootUser(BootUser user, long offset, long limit, SortBroker...sortBrokers);
+	Page<PostShare> findByBootUser(BootUser user, PageFacade pf);
 	
-	long countByBootUser(BootUser user);
-	
-	List<PostShare> findByPost(Post post, long offset, long limit, SortBroker...sortBrokers);
-	
-	long countByPost(Post post);
+	Page<PostShare> findByPost(Post post, PageFacade pf);
 
 	PostShare findByPostAndBootUser(Post post, BootUser findOne);
-	
 	
 }

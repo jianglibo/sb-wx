@@ -111,7 +111,8 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	}
 
 	@Override
-	public Page<BootUser> findAllByGroup(BootGroup group, PageFacade pf) {
+	@PreAuthorize("hasRole('ADMINISTRATOR') or (#group.creator.id == principal.id)")
+	public Page<BootUser> findAllByGroup(@P("group") BootGroup group, PageFacade pf) {
 		Page<GroupUserRelation> page = gurRepo.findByBootGroup(group,pf);
 		return new Page<>(page.getTotalResourceCount(), page.getContent().stream().map(gur -> gur.getBootUser()).collect(Collectors.toList()));
 	}

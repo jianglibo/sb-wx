@@ -58,7 +58,6 @@ public class TestUserFollowUnFollow  extends KatharsisBase {
 		assertMetaNumber(response, 25);
 
 	}
-	
 
 	@Override
 	protected String getResourceName() {

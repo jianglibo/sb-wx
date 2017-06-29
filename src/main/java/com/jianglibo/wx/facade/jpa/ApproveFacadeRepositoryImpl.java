@@ -5,8 +5,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,10 +15,10 @@ import com.jianglibo.wx.domain.Approve;
 import com.jianglibo.wx.domain.Approve_;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.facade.ApproveFacadeRepository;
-import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.katharsis.dto.ApproveDto;
+import com.jianglibo.wx.katharsis.exception.UnsupportedRequestException;
 import com.jianglibo.wx.repository.ApproveRepository;
 
 /**
@@ -30,15 +28,12 @@ import com.jianglibo.wx.repository.ApproveRepository;
 @Component
 public class ApproveFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Approve,ApproveDto, ApproveRepository> implements ApproveFacadeRepository {
 	
-	@Autowired
-	private BootUserFacadeRepository userRepo;
-	
 	public ApproveFacadeRepositoryImpl(ApproveRepository jpaRepo) {
 		super(jpaRepo);
 	}
 	
 	@Override
-	@PreAuthorize("((#entity.receiver.id == principal.id) and ((#entity.state == T(com.jianglibo.wx.eu.ApproveState).REJECT) or (#entity.state == T(com.jianglibo.wx.eu.ApproveState).APPROVED))) or ((#entity.requester.id == principal.id) and ((#entity.state == T(com.jianglibo.wx.eu.ApproveState).REQUEST_PENDING) or (#entity.state == T(com.jianglibo.wx.eu.ApproveState).INVITE_PENDING)))")
+	@PreAuthorize("((#entity.receiver.id == principal.id) and ((#entity.state == T(com.jianglibo.wx.eu.ApproveState).REJECT) or (#entity.state == T(com.jianglibo.wx.eu.ApproveState).APPROVED))) or ((#entity.requester.id == principal.id) and ((#entity.state == T(com.jianglibo.wx.eu.ApproveState).PENDING)))")
 	public Approve save(@P("entity") Approve entity, ApproveDto dto) {
 		return super.save(entity, dto);
 	}
@@ -55,11 +50,12 @@ public class ApproveFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Approv
 	@Override
 	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
 	public Approve newByDto(ApproveDto dto) {
-		Approve entity = new Approve();
-		BeanUtils.copyProperties(dto, entity, "receiver", "requester", "state");
-		entity.setReceiver(userRepo.findOne(dto.getReceiver().getId()));
-		entity.setRequester(userRepo.findOne(dto.getRequester().getId()));
-		return entity;
+		throw new UnsupportedRequestException("directly creating approve object is not allowed.");
+//		Approve entity = new Approve();
+//		BeanUtils.copyProperties(dto, entity, "receiver", "requester", "state");
+//		entity.setReceiver(userRepo.findOne(dto.getReceiver().getId()));
+//		entity.setRequester(userRepo.findOne(dto.getRequester().getId()));
+//		return entity;
 	}
 
 	@Override

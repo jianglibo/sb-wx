@@ -77,4 +77,10 @@ public class ThirdPartLogin extends BaseEntity {
         this.readableId = readableId;
     }
 
+	@Override
+	public String[] propertiesOnCreating() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

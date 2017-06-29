@@ -43,15 +43,15 @@ public class TestApproveAdd extends KatharsisBase {
 	
 	@Test
 	public void t() throws IOException {
-		BootUser bu = bootUserRepo.findByName("admin");
-		BootUser b1 = createBootUser("b1", "123");
+		BootUser requester = createBootUser("b1", "123");
+		BootUser receiver = createBootUser("b2", "123");
 		BootGroup bg = new BootGroup("agroup");
 		bg = groupRepo.save(bg);
 		
 		JsonApiPostBodyWrapper<CreateOneBody> jpw = JsonApiPostBodyWrapperBuilder.getObjectRelationBuilder(getResourceName()).addAttributePair("targetType", BootGroup.class.getName())
 				.addAttributePair("targetId", bg.getId())
-				.addRelation("requester", JsonApiResourceNames.BOOT_USER, bu.getId())
-				.addRelation("receiver", JsonApiResourceNames.BOOT_USER, b1.getId()).build();
+				.addRelation("requester", JsonApiResourceNames.BOOT_USER, requester.getId())
+				.addRelation("receiver", JsonApiResourceNames.BOOT_USER, receiver.getId()).build();
 		
 		String s = indentOm.writeValueAsString(jpw);
 		response = postItemWithContent(s, jwtToken);

@@ -2,28 +2,22 @@ package com.jianglibo.wx.katharsis.rest;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.jianglibo.wx.JsonApiPostBodyWrapper;
+import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
-import com.jianglibo.wx.repository.GroupUserRelationRepository;
 
 public class TestGrouptApi  extends KatharsisBase {
-	
-	
-	private String jwtToken;
-	
-	@Autowired
-	private GroupUserRelationRepository gurRepo;
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
@@ -33,17 +27,34 @@ public class TestGrouptApi  extends KatharsisBase {
 	
 	@Test
 	public void tAdmionAddOne() throws JsonParseException, JsonMappingException, IOException {
-		ResponseEntity<String> response = postItem(jwtToken);
+		
+		JsonApiPostBodyWrapper<?> body = JsonApiPostBodyWrapperBuilder.getObjectRelationBuilder(getResourceName())
+				.addAttributePair("name", "agroup")
+				.addAttributePair("description", "agroupdescription")
+				.addAttributePair("openToAll", true)
+				.addAttributePair("thumbUrl", "abc")
+				.build();
+		
+		String bodys = indentOm.writeValueAsString(body);
+		writeDto(bodys, getResourceName(), "postcontent");
+		
+		response = postItemWithContent(bodys, jwtToken);
+		
 		writeDto(response, getResourceName(), ActionNames.POST_RESULT);
 		
-		GroupDto newPost = getOne(response.getBody(), GroupDto.class);
-		assertThat(newPost.getName(), equalTo("agroup"));
+		GroupDto newGroup = getOne(response.getBody(), GroupDto.class);
+		assertThat(newGroup.getName(), equalTo("agroup"));
+		assertThat(newGroup.getDescription(), equalTo("agroupdescription"));
+		assertThat(newGroup.getThumbUrl(), equalTo("abc"));
+		assertTrue(newGroup.isOpenToAll());
 		
 		response = requestForBody(jwtToken, getBaseURI());
 		writeDto(response, getResourceName(), ActionNames.GET_LIST);
-		response = requestForBody(jwtToken, getItemUrl(newPost.getId()));
+		
+		response = requestForBody(jwtToken, getItemUrl(newGroup.getId()));
+		
 		writeDto(response, getResourceName(), ActionNames.GET_ONE);
-		deleteByExchange(jwtToken, getItemUrl(newPost.getId()));
+		deleteByExchange(jwtToken, getItemUrl(newGroup.getId()));
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class Approve extends BaseEntity {
 	private Long targetId;
 	
 	@Enumerated(EnumType.STRING)
-	private ApproveState state = ApproveState.REQUEST_PENDING;
+	private ApproveState state = ApproveState.PENDING;
 	
 	private String forwhat;
 	
@@ -112,5 +112,11 @@ public class Approve extends BaseEntity {
 		public Approve build() {
 			return approve;
 		}
+	}
+
+	@Override
+	public String[] propertiesOnCreating() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

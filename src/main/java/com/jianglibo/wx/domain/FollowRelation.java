@@ -50,4 +50,10 @@ public class FollowRelation extends BaseEntity {
 	public void setFollowed(BootUser followed) {
 		this.followed = followed;
 	}
+
+	@Override
+	public String[] propertiesOnCreating() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

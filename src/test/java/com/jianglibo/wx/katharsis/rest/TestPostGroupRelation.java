@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -24,7 +23,6 @@ import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.GroupUserRelation;
 import com.jianglibo.wx.domain.PostShare;
-import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.repository.GroupUserRelationRepository;
 import com.jianglibo.wx.repository.PostShareRepository;

@@ -45,7 +45,7 @@ public class TestBeanUtil {
 		BootUser bu = originBu();
 		UserDto dto = originDto();
 		dto.setDtoApplyTo("name");
-		PatchUtil.applyPatch(bu, dto);
+		PropertyCopyUtil.applyPatch(bu, dto);
 		assertThat(bu.getName(), equalTo("abc1"));
 		assertThat(bu.getEmail(), equalTo("abc@email.com"));
 		assertThat(bu.getPassword(), equalTo("123"));
@@ -53,7 +53,7 @@ public class TestBeanUtil {
 		bu = originBu();
 		dto = originDto();
 		dto.setDtoApplyTo("name,email,password");
-		PatchUtil.applyPatch(bu, dto);
+		PropertyCopyUtil.applyPatch(bu, dto);
 		assertThat(bu.getName(), equalTo("abc1"));
 		assertThat(bu.getEmail(), equalTo("abc@email.com1"));
 		assertThat(bu.getPassword(), equalTo("1231"));

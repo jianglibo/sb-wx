@@ -23,7 +23,7 @@ import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
 import com.jianglibo.wx.katharsis.exception.AppException;
 import com.jianglibo.wx.katharsis.exception.UnsortableException;
 import com.jianglibo.wx.katharsis.exception.UnsupportedRelationException;
-import com.jianglibo.wx.util.PatchUtil;
+import com.jianglibo.wx.util.PropertyCopyUtil;
 import com.jianglibo.wx.util.QuerySpecUtil;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 
@@ -82,7 +82,7 @@ public abstract class DtoRepositoryBase<T extends Dto, L extends ResourceListBas
 	public T modify(T dto) {
 		validate(dto);
 		E entity = repository.findOne(dto.getId(), false);
-		PatchUtil.applyPatch(entity,dto);
+		PropertyCopyUtil.applyPatch(entity,dto);
 		return converter.entity2Dto(saveToBackendRepo(dto, entity), Scenario.MODIFY);
 	}
 	

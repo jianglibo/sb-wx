@@ -69,4 +69,10 @@ public class Role extends BaseEntity implements GrantedAuthority {
     public String toString() {
     	return "ROLE: " + getName();
     }
+
+	@Override
+	public String[] propertiesOnCreating() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

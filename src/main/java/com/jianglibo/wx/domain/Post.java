@@ -78,4 +78,10 @@ public class Post extends BaseEntity {
 	public void setPostShares(List<PostShare> postShares) {
 		this.postShares = postShares;
 	}
+
+	@Override
+	public String[] propertiesOnCreating() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

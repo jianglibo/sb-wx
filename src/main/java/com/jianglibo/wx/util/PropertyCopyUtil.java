@@ -1,6 +1,8 @@
 package com.jianglibo.wx.util;
 
 import java.beans.PropertyDescriptor;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,9 +13,8 @@ import org.springframework.beans.BeanUtils;
 
 import com.jianglibo.wx.domain.BaseEntity;
 import com.jianglibo.wx.katharsis.dto.Dto;
-import com.jianglibo.wx.katharsis.dto.DtoBase;
 
-public class PatchUtil {
+public class PropertyCopyUtil {
 	
 	private static Map<Class<?>, Set<String>> cmap = new ConcurrentHashMap<>();
 
@@ -30,4 +31,14 @@ public class PatchUtil {
 		PropertyDescriptor[] pds = BeanUtils.getPropertyDescriptors(clazz);		
 		return Stream.of(pds).map(pd -> pd.getName()).collect(Collectors.toSet());
 	}
+	
+	public static <E extends BaseEntity, D extends Dto> void copyPropertyOnly(E entity, D dto, String...fns) {
+			Set<String> ppnames = cmap.computeIfAbsent(entity.getClass(), clazz -> getClassPropertyNames(clazz));
+			Set<String> ss = new HashSet<>(Arrays.asList(fns));
+			String[] excludes = ppnames.stream().filter(s -> !ss.contains(s)).toArray(size -> new String[size]);
+			BeanUtils.copyProperties(dto, entity, excludes);
+	}
+
+	
+	
 }

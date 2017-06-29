@@ -11,12 +11,9 @@ import com.jianglibo.wx.domain.GroupUserRelation;
 import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
 import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.facade.PageFacade;
-import com.jianglibo.wx.facade.SortBroker;
-import com.jianglibo.wx.facade.jpa.SimplePageable;
 import com.jianglibo.wx.katharsis.dto.GroupUserRelationDto;
 import com.jianglibo.wx.katharsis.dto.converter.GroupUserRelationDtoConverter;
 import com.jianglibo.wx.katharsis.repository.GroupUserRelationDtoRepository.GroupUserRelationDtoList;
-import com.jianglibo.wx.repository.GroupUserRelationRepository;
 import com.jianglibo.wx.util.QuerySpecUtil.RelationQuery;
 
 import io.katharsis.queryspec.QuerySpec;

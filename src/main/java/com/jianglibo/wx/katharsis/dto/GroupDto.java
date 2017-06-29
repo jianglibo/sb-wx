@@ -24,6 +24,10 @@ public class GroupDto extends DtoBase {
 	@Size(min=3, max=30)
 	private String name;
 	
+	private String description;
+	
+	private String thumbUrl;
+	
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="joinedGroups")
 	private List<UserDto> members = new ArrayList<>();
 	
@@ -84,5 +88,21 @@ public class GroupDto extends DtoBase {
 
 	public void setReceivedPosts(List<PostDto> receivedPosts) {
 		this.receivedPosts = receivedPosts;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getThumbUrl() {
+		return thumbUrl;
+	}
+
+	public void setThumbUrl(String thumbUrl) {
+		this.thumbUrl = thumbUrl;
 	}
 }

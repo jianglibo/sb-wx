@@ -12,6 +12,10 @@ public interface GroupUserRelationFacadeRepository extends FacadeRepositoryBase<
 	
 	Page<GroupUserRelation> findByBootUser(BootUser user, PageFacade pf);
 
-	GroupUserRelation findByBootGroupAndBootUser(BootGroup gp, BootUser findOne);
+	GroupUserRelation findByBootGroupAndBootUser(BootGroup group, BootUser user);
+	
+	void deleteByBootGroupAndBootUser(BootGroup group, BootUser user);
+
+	void addRelation(BootGroup group, BootUser user);
 	
 }

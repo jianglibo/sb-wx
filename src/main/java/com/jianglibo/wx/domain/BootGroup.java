@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "bootgroup", uniqueConstraints = { @UniqueConstraint(columnNames = "name")})
@@ -24,13 +25,15 @@ public class BootGroup extends BaseEntity {
 	@NotNull
 	private String name;
 	
+	@Size(max=80)
 	private String description;
 	
 	private boolean openToAll;
 	
 	private String thumbUrl;
 	
-	@ManyToOne
+	@NotNull
+	@ManyToOne(fetch=FetchType.EAGER)
 	private BootUser creator;
 	
 	@OneToMany(mappedBy="bootGroup", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
@@ -89,5 +92,10 @@ public class BootGroup extends BaseEntity {
 
 	public void setOpenToAll(boolean openToAll) {
 		this.openToAll = openToAll;
+	}
+
+	@Override
+	public String[] propertiesOnCreating() {
+		return new String[]{"name", "description", "openToAll", "thumbUrl"};
 	}
 }

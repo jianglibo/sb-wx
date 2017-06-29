@@ -81,4 +81,6 @@ public abstract class BaseEntity implements Serializable {
     public void setVersion(int version) {
         this.version = version;
     }
+    
+    public abstract String[] propertiesOnCreating();
 }

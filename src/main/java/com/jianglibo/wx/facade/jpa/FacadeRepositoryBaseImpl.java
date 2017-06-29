@@ -6,7 +6,6 @@ import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.SortBroker;
 import com.jianglibo.wx.katharsis.dto.Dto;
-import com.jianglibo.wx.katharsis.dto.DtoBase;
 import com.jianglibo.wx.repository.RepositoryBase;
 
 public abstract class FacadeRepositoryBaseImpl<T extends BaseEntity, D extends Dto, R extends RepositoryBase<T>> implements FacadeRepositoryBase<T, D> {

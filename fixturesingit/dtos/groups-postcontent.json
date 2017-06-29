@@ -1,9 +1,12 @@
 {
-    "data": {
-        "type": "groups",
-        "attributes": {
-            "name": "agroup",
-            "members": []
-        }
-    }
+  "data" : {
+    "type" : "groups",
+    "attributes" : {
+      "openToAll" : true,
+      "name" : "agroup",
+      "description" : "agroupdescription",
+      "thumbUrl" : "abc"
+    },
+    "relationships" : { }
+  }
 }

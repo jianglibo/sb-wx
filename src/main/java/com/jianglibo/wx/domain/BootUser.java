@@ -392,4 +392,10 @@ public class BootUser extends BaseEntity {
 	public static enum Gender {
         MALE, FEMALE
     }
+
+	@Override
+	public String[] propertiesOnCreating() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

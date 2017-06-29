@@ -54,4 +54,18 @@ public class GroupUserRelationFacadeRepositoryImpl extends FacadeRepositoryBaseI
 	public GroupUserRelation findByBootGroupAndBootUser(BootGroup group, BootUser user) {
 		return getRepository().findByBootGroupAndBootUser(group, user);
 	}
+
+	@Override
+	@PreAuthorize("hasRole('ADMINISTRATOR') or (#entity.creator.id == principal.id)")
+	public void deleteByBootGroupAndBootUser(@P("entity")BootGroup group, BootUser user) {
+		GroupUserRelation gu = findByBootGroupAndBootUser(group, user);
+		delete(gu);
+	}
+
+	@Override
+	@PreAuthorize("hasRole('ADMINISTRATOR') or (#entity.creator.id == principal.id)")
+	public void addRelation(@P("entity")BootGroup group, BootUser user) {
+		GroupUserRelation gu = new GroupUserRelation(group, user);
+		save(gu, null);
+	}
 }

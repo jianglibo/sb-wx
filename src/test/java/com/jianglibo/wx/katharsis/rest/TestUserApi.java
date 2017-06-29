@@ -25,12 +25,8 @@ import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.katharsis.dto.UserDto;
-import com.jianglibo.wx.repository.FollowRelationRepository;
 
 public class TestUserApi  extends KatharsisBase {
-	
-	@Autowired
-	private FollowRelationRepository frRepo;
 	
 	@Autowired
 	private ApplicationContext applicationContext;

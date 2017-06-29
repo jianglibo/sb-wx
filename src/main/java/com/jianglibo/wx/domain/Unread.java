@@ -51,4 +51,10 @@ public class Unread extends BaseEntity {
 		this.type = type;
 	}
 
+	@Override
+	public String[] propertiesOnCreating() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

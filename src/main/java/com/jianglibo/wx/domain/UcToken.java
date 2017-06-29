@@ -117,4 +117,11 @@ public class UcToken extends BaseEntity {
         VERIFY_EMAIL, PASSWORD_RECOVER
     }
 
+
+	@Override
+	public String[] propertiesOnCreating() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

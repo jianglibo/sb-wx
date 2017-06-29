@@ -1,7 +1,5 @@
 package com.jianglibo.wx.facade;
 
-import java.util.List;
-
 import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
 

@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -19,14 +18,11 @@ import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.GroupUserRelation;
-import com.jianglibo.wx.katharsis.dto.GroupDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.GroupUserRelationRepository;
 
 public class TestGroupUserRelation  extends KatharsisBase {
 	
-	
-	private String jwtToken;
 	
 	@Autowired
 	private GroupUserRelationRepository gurRepo;
@@ -35,32 +31,20 @@ public class TestGroupUserRelation  extends KatharsisBase {
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		delteAllGroups();
 		deleteAllUsers();
-		jwtToken = getAdminJwtToken();
-	}
-	
-	@Test
-	public void tAdmionAddOne() throws JsonParseException, JsonMappingException, IOException {
-		ResponseEntity<String> response = postItem(jwtToken);
-		writeDto(response, getResourceName(), ActionNames.POST_RESULT);
-		
-		GroupDto newPost = getOne(response.getBody(), GroupDto.class);
-		assertThat(newPost.getName(), equalTo("agroup"));
-		
-		response = requestForBody(jwtToken, getBaseURI());
-		writeDto(response, getResourceName(), ActionNames.GET_LIST);
-		response = requestForBody(jwtToken, getItemUrl(newPost.getId()));
-		writeDto(response, getResourceName(), ActionNames.GET_ONE);
-		deleteByExchange(jwtToken, getItemUrl(newPost.getId()));
 	}
 	
 	@Test
 	public void getMembersRelation() throws Exception {
-		BootGroup gp = new BootGroup("agroup");
-		gp  = groupRepo.save(gp);
 		
 		BootUser au = createBootUser("aaa", "1234");
 		BootUser bu = createBootUser("bbb", "1234");
 		BootUser cu = createBootUser("ccc", "1234");
+
+		
+		BootGroup gp = new BootGroup("agroup");
+		gp.setCreator(au);
+		gp  = groupRepo.save(gp);
+		
 		
 		GroupUserRelation gura = new GroupUserRelation(gp, au);
 		gurRepo.save(gura);
@@ -69,16 +53,22 @@ public class TestGroupUserRelation  extends KatharsisBase {
 		gura = new GroupUserRelation(gp, cu);
 		gurRepo.save(gura);
 		
+		jwtToken = getJwtToken("aaa", "1234");
 		response = requestForBody(jwtToken, getItemUrl(gp.getId()) + "/members");
 		writeDto(response, JsonApiResourceNames.BOOT_GROUP, "membersrelation");
 		List<UserDto> users = getList(response, UserDto.class);
 		assertThat(users.size(), equalTo(3));
+		
+		String jwtToken1 = getJwtToken("bbb", "1234");
+		response = requestForBody(jwtToken1, getItemUrl(gp.getId()) + "/members");
+		assertAccessDenied(response);
 		
 		BootUser du = createBootUser("ddd", "1234");
 		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", du.getId());
 		
 		String  body = indentOm.writeValueAsString(jbw);
 		writeDto(body, getResourceName(), "altermember");
+		
 		// add relation.
 		response = addRelationWithContent(body, "members", gp.getId(), jwtToken);
 		assertThat(response.getStatusCodeValue(), equalTo(204));

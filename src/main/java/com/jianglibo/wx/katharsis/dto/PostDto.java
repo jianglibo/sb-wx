@@ -35,6 +35,10 @@ public class PostDto extends DtoBase {
 	@JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="receivedPosts")
 	private List<GroupDto> sharedGroups = new ArrayList<>();
 	
+	private boolean toAll;
+	
+	private boolean read;
+	
 	public PostDto() {}
 	
 	public PostDto(Long id) {
@@ -92,5 +96,21 @@ public class PostDto extends DtoBase {
 
 	public void setSharedGroups(List<GroupDto> sharedGroups) {
 		this.sharedGroups = sharedGroups;
+	}
+
+	public boolean isToAll() {
+		return toAll;
+	}
+
+	public void setToAll(boolean toAll) {
+		this.toAll = toAll;
+	}
+
+	public boolean isRead() {
+		return read;
+	}
+
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 }

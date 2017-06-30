@@ -38,10 +38,10 @@ public class PostToGroupRepositoryImpl extends RelationshipRepositoryBaseMine<Po
 	
 	@Override
 	public void addRelations(PostDto source, Iterable<Long> targetIds, String fieldName) {
-		Post p = postRepo.findOne(source.getId());
+		Post p = postRepo.findOne(source.getId(), true);
 		if ("sharedGroups".equals(fieldName)) {
 			for(Long id : targetIds) {
-				BootGroup bg = groupRepo.findOne(id);
+				BootGroup bg = groupRepo.findOne(id, true);
 				Page<GroupUserRelation> gurs =  guRepo.findByBootGroup(bg, new PageFacade(10000L));
 				gurs.getContent().stream().map(gur -> gur.getBootUser()).forEach(user -> {
 					PostShare ps = new PostShare(p, user);

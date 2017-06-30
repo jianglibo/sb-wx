@@ -142,16 +142,12 @@ public abstract class DtoRepositoryBase<T extends Dto, L extends ResourceListBas
 		if (unsported != null && unsported.size() > 0) {
 			 throw new UnsortableException(String.join(",", unsported));
 		}
-		
-		if (querySpec.getFilters().isEmpty()) {
-			Page<E> page = repository.findAll(QuerySpecUtil.getPageFacade(querySpec));
-			return convertToResourceList(page, Scenario.FIND_LIST);
-		} else {
-			RelationQuery rq = QuerySpecUtil.findRelationQuery(querySpec); 
-			if (rq != null) {
-				return findWithRelationAndSpec(rq, querySpec);
-			}
+
+		RelationQuery rq = QuerySpecUtil.findRelationQuery(querySpec); 
+		if (rq == null) {
 			return findAllWithQuerySpec(querySpec);
+		} else {
+			return findWithRelationAndSpec(rq, querySpec);
 		}
 	}
 	

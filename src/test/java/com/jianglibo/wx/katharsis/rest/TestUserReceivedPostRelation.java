@@ -28,33 +28,51 @@ public class TestUserReceivedPostRelation  extends KatharsisBase {
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllUsers();
-		jwtToken = getAdminJwtToken();
 	}
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		BootUser bu = createBootUser("b1", "123", "a", "b", "c");
-		BootUser bu1 = createBootUser("b2", "123");
+		BootUser user1 = createUser1();
+		BootUser user2 = createUser2();
 		
 		Post post1 = new Post();
 		post1.setTitle("title");
 		post1.setContent("content");
-		post1.setCreator(bu1);
+		post1.setCreator(user2);
 		post1 = postRepo.save(post1);
 		
 		Post post2 = new Post();
 		post2.setTitle("title1");
 		post2.setContent("content1");
-		post2.setCreator(bu1);
+		post2.setCreator(user2);
 		post2 = postRepo.save(post2);
-		psRepo.save(new PostShare(post1, bu));
-		psRepo.save(new PostShare(post2, bu));
+		psRepo.save(new PostShare(post1, user1));
+		psRepo.save(new PostShare(post2, user1));
 		
-		response = requestForBody(jwtToken, getItemUrl(bu.getId()) + "/receivedPosts");
+		String jwt1 = getJwtToken(USER_1, PASSWORD);
+		response = requestForBody(jwt1, getItemUrl(user1.getId()) + "/receivedPosts");
 		
 		writeDto(response.getBody(), getResourceName(), "getreceivedpostsrelation");
 		List<PostDto> posts = getList(response, PostDto.class);
 		assertThat(posts.size(), equalTo(2));
+		
+		String jwt2 = getJwtToken(USER_2, PASSWORD);
+		response = requestForBody(jwt2, getItemUrl(user1.getId()) + "/receivedPosts");
+		assertAccessDenied(response);
+		
+		// creator is permitted.
+		response = requestForBody(jwt2, getItemUrl(JsonApiResourceNames.POST, posts.get(0).getId()));
+		assertData(response);
+		
+		// shared users are permitted.
+		response = requestForBody(jwt1, getItemUrl(JsonApiResourceNames.POST, posts.get(0).getId()));
+		assertData(response);
+		
+		// other users are denied.		
+		BootUser user3 = createBootUser("user3", "12345");
+		String jwt3 = getJwtToken("user3", "12345");
+		response = requestForBody(jwt3, getItemUrl(JsonApiResourceNames.POST, posts.get(0).getId()));
+		assertAccessDenied(response);
 	}
 
 	@Override

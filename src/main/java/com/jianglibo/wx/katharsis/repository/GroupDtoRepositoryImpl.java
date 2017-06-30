@@ -52,7 +52,7 @@ public class GroupDtoRepositoryImpl  extends DtoRepositoryBase<GroupDto, GroupDt
 	protected GroupDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("members".equals(rq.getRelationName())) {
 			UserDto udo = new UserDto(rq.getRelationIds().get(0));
-			BootUser bu = userRepo.findOne(udo.getId());
+			BootUser bu = userRepo.findOne(udo.getId(), true);
 			Page<GroupUserRelation> gurs = guRepo.findByBootUser(bu, QuerySpecUtil.getPageFacade(querySpec));
 			List<BootGroup> gps = gurs.getContent().stream().map(gur -> gur.getBootGroup()).collect(Collectors.toList());
 			GroupDtoList gl = convertToResourceList(gps, gurs.getTotalResourceCount(), Scenario.RELATION_LIST);

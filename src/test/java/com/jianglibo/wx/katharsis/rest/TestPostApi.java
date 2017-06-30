@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.junit.Before;
@@ -28,20 +29,42 @@ import com.jianglibo.wx.katharsis.dto.MediumDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.repository.GroupUserRelationRepository;
+import com.jianglibo.wx.repository.UnreadRepository;
 
 public class TestPostApi  extends KatharsisBase {
 	
-	
-	private String jwtToken;
-	
 	@Autowired
 	private GroupUserRelationRepository guRepo;
+	
+	@Autowired
+	private UnreadRepository unreadRepo;
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllPost();
 		groupRepo.deleteAll();
+		unreadRepo.deleteAll();
 		jwtToken = getAdminJwtToken();
+	}
+	
+	@Test
+	public void tGetList() throws IOException {
+		BootUser b1 = createBootUser("b1", "123");
+		createPost(b1, true);
+		String jwt = getJwtToken("b1", "123");
+		response = requestForBody(jwt, getBaseURI());
+		List<PostDto> posts = getList(response, PostDto.class);
+		assertThat(posts.size(), equalTo(1));
+	}
+	
+	@Test
+	public void tGetListNoToAll() throws IOException {
+		BootUser b1 = createBootUser("b1", "123");
+		createPost(b1, false);
+		String jwt = getJwtToken("b1", "123");
+		response = requestForBody(jwt, getBaseURI());
+		List<PostDto> posts = getList(response, PostDto.class);
+		assertThat(posts.size(), equalTo(0));
 	}
 	
 	@Test
@@ -59,6 +82,7 @@ public class TestPostApi  extends KatharsisBase {
 		BootUser b4 = createBootUser("b4", "123");
 		
 		BootGroup bg = new BootGroup("group");
+		bg.setCreator(b1);
 		groupRepo.save(bg);
 		
 		GroupUserRelation gur = new GroupUserRelation(bg, b3);
@@ -67,13 +91,20 @@ public class TestPostApi  extends KatharsisBase {
 		gur = new GroupUserRelation(bg, b4);
 		guRepo.save(gur);
 
-		apacheResponse = postPost(jwtToken,"atitle", "acontent",Arrays.asList(m.getId()),Arrays.asList(b1.getId(), b2.getId()),Arrays.asList(bg.getId()), Paths.get("fixturesingit", "v.js"));
+		apacheResponse = postPost(jwtToken,"atitle", "acontent"
+				,Arrays.asList(m.getId())
+				,Arrays.asList(b1.getId()
+				, b2.getId())
+				, Arrays.asList(bg.getId())
+				, Paths.get("fixturesingit", "v.js"));
 		
 		url = apacheResponse.getFirstHeader("location").getValue();
 		response = requestForBody(jwtToken, url);
 		writeDto(response, getResourceName(), "formpost-result");
 		PostDto pd = getOne(response, PostDto.class);
 		assertItemNumber(response, PostDto.class, 1);
+		
+		assertThat(unreadRepo.count(), equalTo(4L));
 		
 		response = requestForBody(jwtToken, getItemUrl(pd.getId()) + "/sharedUsers");
 		assertItemNumber(response, UserDto.class, 4);
@@ -95,6 +126,7 @@ public class TestPostApi  extends KatharsisBase {
 		BootUser b4 = createBootUser("b4", "123");
 		
 		BootGroup bg = new BootGroup("group");
+		bg.setCreator(b1);
 		groupRepo.save(bg);
 		
 		GroupUserRelation gur = new GroupUserRelation(bg, b3);

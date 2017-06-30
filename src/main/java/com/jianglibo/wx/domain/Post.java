@@ -30,7 +30,9 @@ public class Post extends BaseEntity {
 	
 	private String content;
 	
-	@ManyToOne
+	private boolean toAll;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
 	private BootUser creator;
 	
 	@OneToMany(mappedBy="post", fetch=FetchType.EAGER)
@@ -81,7 +83,14 @@ public class Post extends BaseEntity {
 
 	@Override
 	public String[] propertiesOnCreating() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[]{"title", "content", "toAll"};
+	}
+
+	public boolean isToAll() {
+		return toAll;
+	}
+
+	public void setToAll(boolean toAll) {
+		this.toAll = toAll;
 	}
 }

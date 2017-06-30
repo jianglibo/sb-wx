@@ -27,7 +27,6 @@ import com.jianglibo.wx.config.ApplicationConfig;
 import com.jianglibo.wx.config.userdetail.BootUserDetailManager;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Role;
-import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.repository.BootGroupRepository;
 import com.jianglibo.wx.repository.BootUserRepository;
 import com.jianglibo.wx.repository.MediumRepository;
@@ -46,6 +45,12 @@ import com.jianglibo.wx.vo.RoleNames;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public abstract class Tbase extends M3958TsBase {
+	
+	protected static String USER_1 = "user1";
+	protected static String USER_2 = "user2";
+	
+	protected static String PASSWORD = "alUls82lsi^v";
+	
 
     protected MockMvc mvc;
     
@@ -123,6 +128,15 @@ public abstract class Tbase extends M3958TsBase {
         BootUserAuthentication saut = new BootUserAuthentication(pv);
         SecurityUtil.doLogin(saut);
     }
+    
+    protected BootUser createUser1() {
+    	return createBootUser(USER_1, PASSWORD);
+    }
+    
+    protected BootUser createUser2() {
+    	return createBootUser(USER_2, PASSWORD);
+    }
+
 
     protected BootUser createBootUser(String name,String password, String... rns) {
         List<Role> rnl = Stream.of(rns).map(Role::new).collect(Collectors.toList()); 

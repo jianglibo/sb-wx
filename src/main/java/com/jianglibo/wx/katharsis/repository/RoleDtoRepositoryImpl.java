@@ -44,7 +44,7 @@ public class RoleDtoRepositoryImpl  extends DtoRepositoryBase<RoleDto, RoleDtoLi
 	@Override
 	protected RoleDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("users".equals(rq.getRelationName())) {
-			BootUser bu = userRepo.findOne(rq.getRelationIds().get(0));
+			BootUser bu = userRepo.findOne(rq.getRelationIds().get(0), true);
 			Set<Role> roles = bu.getRoles();
 			return convertToResourceList(new ArrayList<>(roles), roles.size(), Scenario.FIND_LIST);
 		}

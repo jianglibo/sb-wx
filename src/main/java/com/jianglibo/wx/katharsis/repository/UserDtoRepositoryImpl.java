@@ -85,7 +85,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 	public UserDto modify(UserDto dto) {
 		if ("password".equals(dto.getDtoApplyTo())) {
 			validate(dto, OnCreateGroup.class, Default.class);
-			getRepository().updatePassword(userRepo.findOne(dto.getId()), passwordEncoder.encode(dto.getPassword()));
+			getRepository().updatePassword(userRepo.findOne(dto.getId(), true), passwordEncoder.encode(dto.getPassword()));
 			dto.setPassword("");
 			return dto;
 		} else {
@@ -111,7 +111,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 	protected UserDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("joinedGroups".equals(rq.getRelationName())) {
 			GroupDto gdo = new GroupDto(rq.getRelationIds().get(0));
-			BootGroup bg = groupRepo.findOne(gdo.getId());
+			BootGroup bg = groupRepo.findOne(gdo.getId(), true);
 			Page<BootUser> users = getRepository().findAllByGroup(bg, QuerySpecUtil.getPageFacade(querySpec));
 			UserDtoList udl = convertToResourceList(users, Scenario.RELATION_LIST);
 			List<GroupDto> groups = Arrays.asList(gdo);
@@ -119,7 +119,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			return udl;
 		} else if ("followersOp".equals(rq.getRelationName())) {
 			UserDto udt = new UserDto(rq.getRelationIds().get(0));
-			BootUser user = userRepo.findOne(udt.getId());
+			BootUser user = userRepo.findOne(udt.getId(), true);
 			Page<FollowRelation> followerPage = followRelationDtoRepository.findByFollowed(user, QuerySpecUtil.getPageFacade(querySpec));
 			List<BootUser> users = followerPage.getContent().stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
 			UserDtoList udl = convertToResourceList(users, followerPage.getTotalResourceCount(), Scenario.RELATION_LIST);
@@ -130,7 +130,7 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			return udl;
 		} else if ("followedsOp".equals(rq.getRelationName())) {
 			UserDto udt = new UserDto(rq.getRelationIds().get(0));
-			BootUser user = userRepo.findOne(udt.getId());
+			BootUser user = userRepo.findOne(udt.getId(), true);
 			Page<FollowRelation> followerPage = followRelationDtoRepository.findByFollower(user, QuerySpecUtil.getPageFacade(querySpec));
 			List<BootUser> users = followerPage.getContent().stream().map(fr -> fr.getFollowed()).collect(Collectors.toList());
 			UserDtoList udl = convertToResourceList(users, followerPage.getTotalResourceCount(), Scenario.RELATION_LIST);
@@ -141,13 +141,13 @@ public class UserDtoRepositoryImpl extends DtoRepositoryBase<UserDto, UserDtoLis
 			return udl;
 		} else if ("receivedPosts".equals(rq.getRelationName())) {
 			PostDto pd = new PostDto(rq.getRelationIds().get(0));
-			Page<PostShare> pss = psRepo.findByPost(postRepo.findOne(pd.getId()), QuerySpecUtil.getPageFacade(querySpec));
+			Page<PostShare> pss = psRepo.findByPost(postRepo.findOne(pd.getId(),true), QuerySpecUtil.getPageFacade(querySpec));
 			UserDtoList udl = convertToResourceList(pss.getContent().stream().map(ps -> ps.getBootUser()).collect(Collectors.toList()), pss.getTotalResourceCount(), Scenario.RELATION_LIST);
 			List<PostDto> posts = Arrays.asList(pd);
 			udl.forEach(u -> u.setReceivedPosts(posts));
 			return udl;
 		} else if ("sentApproves".equals(rq.getRelationName())) {
-			Approve ap = approveReop.findOne(rq.getRelationIds().get(0));
+			Approve ap = approveReop.findOne(rq.getRelationIds().get(0), true);
 			BootUser bu = ap.getRequester();
 			UserDtoList udl = convertToResourceList(Arrays.asList(bu), 1, Scenario.RELATION_LIST);
 			return udl;

@@ -57,7 +57,7 @@ public class UnreadDtoRepositoryImpl  extends DtoRepositoryBase<UnreadDto, Unrea
 				}
 			}
 			UserDto udto = new UserDto(rq.getRelationIds().get(0));
-			BootUser bu = userRepo.findOne(udto.getId());
+			BootUser bu = userRepo.findOne(udto.getId(), true);
 			List<Unread> unreads = unreadRepo.findByBootUserAndType(bu, type, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
 			long count = unreadRepo.countByBootUserAndType(bu, type);
 			UnreadDtoList urdl = convertToResourceList(unreads, count, Scenario.FIND_LIST);

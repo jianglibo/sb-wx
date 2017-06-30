@@ -29,11 +29,11 @@ public class UserToRoleRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 	
 	@Override
 	public void addRelations(UserDto source, Iterable<Long> targetIds, String fieldName) {
-		BootUser bu = userRepo.findOne(source.getId());
+		BootUser bu = userRepo.findOne(source.getId(), true);
 		if ("roles".equals(fieldName)) {
 			Set<Role> roles = new HashSet<>(bu.getRoles());
 			for(Long id : targetIds) {
-				roles.add(roleRepo.findOne(id));
+				roles.add(roleRepo.findOne(id, true));
 			}
 			bu.setRoles(roles);
 			userRepo.save(bu, null);
@@ -42,7 +42,7 @@ public class UserToRoleRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 	
 	@Override
 	public void removeRelations(UserDto source, Iterable<Long> targetIds, String fieldName) {
-		BootUser bu = userRepo.findOne(source.getId());
+		BootUser bu = userRepo.findOne(source.getId(), true);
 		if ("roles".equals(fieldName)) {
 			Set<Role> roles = new HashSet<>(bu.getRoles());
 			for(Long id : targetIds) {

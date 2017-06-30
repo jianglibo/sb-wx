@@ -18,7 +18,5 @@ public interface FacadeRepositoryBase<E extends BaseEntity, D extends Dto> {
 	E newByDto(D dto);
 
 	E findOne(Long id, boolean internalCall);
-	
-	E findOne(Long id);
 
 }

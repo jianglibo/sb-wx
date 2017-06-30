@@ -46,12 +46,12 @@ public class FollowRelationDtoRepositoryImpl  extends DtoRepositoryBase<FollowRe
 	protected FollowRelationDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("befollowed".equals(rq.getRelationName())) {
 			UserDto udto = new UserDto(rq.getRelationIds().get(0));
-			BootUser user = userRepo.findOne(udto.getId());
+			BootUser user = userRepo.findOne(udto.getId(), true);
 			Page<FollowRelation> follow2me = getRepository().findByFollowed(user, QuerySpecUtil.getPageFacade(querySpec));
 			return convertToResourceList(follow2me.getContent(), follow2me.getTotalResourceCount(), Scenario.RELATION_LIST);
 		} else if ("follower".equals(rq.getRelationName())) {
 			UserDto udto = new UserDto(rq.getRelationIds().get(0));
-			BootUser user = userRepo.findOne(udto.getId());
+			BootUser user = userRepo.findOne(udto.getId(), true);
 			Page<FollowRelation> follow2me = getRepository().findByFollower(user, QuerySpecUtil.getPageFacade(querySpec));
 			return convertToResourceList(follow2me.getContent(), follow2me.getTotalResourceCount(), Scenario.RELATION_LIST);
 		}

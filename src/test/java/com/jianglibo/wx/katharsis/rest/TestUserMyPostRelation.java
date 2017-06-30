@@ -22,30 +22,35 @@ public class TestUserMyPostRelation  extends KatharsisBase {
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllUsers();
-		jwtToken = getAdminJwtToken();
 	}
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		createBootUser("b1", "123", "a", "b", "c");
-		BootUser bu1 = createBootUser("b2", "123");
+		BootUser user1 = createBootUser("b1", "123", "a", "b", "c");
+		BootUser user2 = createBootUser("b2", "123");
 		
 		Post post1 = new Post();
 		post1.setTitle("title");
 		post1.setContent("content");
-		post1.setCreator(bu1);
+		post1.setCreator(user1);
 		post1 = postRepo.save(post1);
 		
 		Post post2 = new Post();
 		post2.setTitle("title1");
 		post2.setContent("content1");
-		post2.setCreator(bu1);
+		post2.setCreator(user1);
 		post2 = postRepo.save(post2);
 		
-		response = requestForBody(jwtToken, getItemUrl(bu1.getId()) + "/posts");
+		String jwt = getJwtToken("b1", "123");
+		response = requestForBody(jwt, getItemUrl(user1.getId()) + "/posts");
 		writeDto(response.getBody(), getResourceName(), "getpostsrelation");
 		List<PostDto> posts = getList(response, PostDto.class);
 		assertThat(posts.size(), equalTo(2));
+		
+		String jwt1 = getJwtToken("b2", "123");
+		response = requestForBody(jwt1, getItemUrl(user1.getId()) + "/posts");
+		assertAccessDenied(response);
+		
 	}
 
 	@Override

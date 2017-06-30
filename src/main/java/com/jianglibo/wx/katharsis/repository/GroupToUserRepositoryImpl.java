@@ -29,17 +29,17 @@ public class GroupToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Gr
 	
 	@Override
 	public void addRelations(GroupDto source, Iterable<Long> targetIds, String fieldName) {
-		BootGroup gp = groupRepo.findOne(source.getId());
+		BootGroup gp = groupRepo.findOne(source.getId(), true);
 		for (Long target : targetIds) {
-			gurRepo.addRelation(gp, userRepo.findOne(target));
+			gurRepo.addRelation(gp, userRepo.findOne(target, true));
 		}
 	}
 	
 	@Override
 	public void removeRelations(GroupDto source, Iterable<Long> targetIds, String fieldName) {
-		BootGroup gp = groupRepo.findOne(source.getId());
+		BootGroup gp = groupRepo.findOne(source.getId(), true);
 		for (Long target : targetIds) {
-			gurRepo.deleteByBootGroupAndBootUser(gp, userRepo.findOne(target));
+			gurRepo.deleteByBootGroupAndBootUser(gp, userRepo.findOne(target, true));
 		}
 	}
 

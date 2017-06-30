@@ -1,5 +1,6 @@
 package com.jianglibo.wx.facade.jpa;
 
+import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +37,8 @@ public class PostShareFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post
 	}
 
 	@Override
-	public Page<PostShare> findByBootUser(BootUser user, PageFacade pf) {
+	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED + "and (#entity.id == principal.id)")
+	public Page<PostShare> findByBootUser(@P("entity")BootUser user, PageFacade pf) {
 		org.springframework.data.domain.Page<PostShare> opage = getRepository().findAllByBootUser(user, new SimplePageable(pf));
 		return new Page<>(opage.getTotalElements(), opage.getContent());
 	}

@@ -90,7 +90,7 @@ public class QuerySpecUtil {
 		return new PageFacade(spec.getOffset(), spec.getLimit(), getSortBrokers(spec));
 	}
 	
-	public static Optional<String> getFilterStringValue(QuerySpec querySpec, String fn) {
+	public static <T> Optional<T> getFilterSingleValue(QuerySpec querySpec, String fn) {
 		Optional<FilterSpec> ofs = querySpec.getFilters().stream().filter(f -> fn.equals(f.getAttributePath().get(0))).findAny();
 		if (ofs.isPresent()) {
 			Object v = ofs.get().getValue();
@@ -101,8 +101,10 @@ public class QuerySpecUtil {
 				if (((String) v).trim().isEmpty()) {
 					return Optional.empty();
 				} else {
-					return Optional.of(((String) v).trim());
+					return Optional.of(((T) v));
 				}
+			} else if (v instanceof Boolean) {
+				return (Optional<T>) Optional.of(v);
 			} else {
 				throw new RuntimeException(String.format("filter type is not implementation.", v.getClass().getName()));
 			}

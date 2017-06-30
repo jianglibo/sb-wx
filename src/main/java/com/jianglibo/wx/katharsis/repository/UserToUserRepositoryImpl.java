@@ -28,10 +28,10 @@ public class UserToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 		if ("followers".equals(fieldName)) {
 			throw new UnsupportedRequestException("user's followers cannot change directly");
 		}
-		BootUser follower = userRepo.findOne(followerDto.getId());
+		BootUser follower = userRepo.findOne(followerDto.getId(), true);
 		if ("followeds".equals(fieldName)) {
 			for(Long id : targetIds) {
-				FollowRelation fr = new FollowRelation(follower, userRepo.findOne(id));
+				FollowRelation fr = new FollowRelation(follower, userRepo.findOne(id, true));
 				frfRepo.save(fr, null);
 			}
 		}
@@ -42,12 +42,12 @@ public class UserToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Use
 		if ("followers".equals(fieldName)) {
 			throw new UnsupportedRequestException("user's followers cannot change directly");
 		}
-		BootUser follower = userRepo.findOne(followerDto.getId());
+		BootUser follower = userRepo.findOne(followerDto.getId(), true);
 		if ("followeds".equals(fieldName)) {
 			BootUser befollowed;
 			FollowRelation fr;
 			for(Long id : targetIds) {
-				befollowed = userRepo.findOne(id);
+				befollowed = userRepo.findOne(id, true);
 				fr = frfRepo.findByFollowedAndFollower(befollowed, follower);
 				frfRepo.delete(fr);
 			}

@@ -174,11 +174,12 @@ public abstract class KatharsisBase extends Tbase {
 		return d.getErrors().get(0);
 	}
 	
-	public Post createPost(BootUser bu) {
+	public Post createPost(BootUser bu, boolean toAll) {
 		Post post = new Post();
 		post.setCreator(bu);
 		post.setTitle("title-" + new Random().nextInt());
 		post.setContent("content-" + new Random().nextInt());
+		post.setToAll(toAll);
 		post = postRepo.save(post);
 		return post;
 	}

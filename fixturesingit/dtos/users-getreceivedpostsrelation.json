@@ -1,70 +1,90 @@
 {
   "data" : [ {
-    "id" : "65536",
+    "id" : "851968",
     "type" : "posts",
     "attributes" : {
-      "createdAt" : 1498543958666,
+      "toAll" : false,
+      "createdAt" : 1498794473105,
+      "read" : false,
       "title" : "title",
-      "content" : "content"
+      "content" : "content",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
     },
     "relationships" : {
       "sharedUsers" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/65536/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/65536/sharedUsers"
+          "self" : "http://localhost/jsonapi/posts/851968/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/851968/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/65536/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/65536/creator"
+          "self" : "http://localhost/jsonapi/posts/851968/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/851968/creator"
+        }
+      },
+      "sharedGroups" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/851968/relationships/sharedGroups",
+          "related" : "http://localhost/jsonapi/posts/851968/sharedGroups"
         }
       },
       "media" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/65536/relationships/media",
-          "related" : "http://localhost/jsonapi/posts/65536/media"
+          "self" : "http://localhost/jsonapi/posts/851968/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/851968/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/posts/65536"
+      "self" : "http://localhost/jsonapi/posts/851968"
     }
   }, {
-    "id" : "65537",
+    "id" : "851969",
     "type" : "posts",
     "attributes" : {
-      "createdAt" : 1498543958666,
+      "toAll" : false,
+      "createdAt" : 1498794473108,
+      "read" : false,
       "title" : "title1",
-      "content" : "content1"
+      "content" : "content1",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
     },
     "relationships" : {
       "sharedUsers" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/65537/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/65537/sharedUsers"
+          "self" : "http://localhost/jsonapi/posts/851969/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/851969/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/65537/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/65537/creator"
+          "self" : "http://localhost/jsonapi/posts/851969/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/851969/creator"
+        }
+      },
+      "sharedGroups" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/851969/relationships/sharedGroups",
+          "related" : "http://localhost/jsonapi/posts/851969/sharedGroups"
         }
       },
       "media" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/65537/relationships/media",
-          "related" : "http://localhost/jsonapi/posts/65537/media"
+          "self" : "http://localhost/jsonapi/posts/851969/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/851969/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/posts/65537"
+      "self" : "http://localhost/jsonapi/posts/851969"
     }
   } ],
   "links" : {
-    "first" : "http://localhost/jsonapi/posts/?include[posts]=sharedUsers&page[limit]=20&filter[posts][sharedUsers][id][EQ]=98305",
-    "last" : "http://localhost/jsonapi/posts/?include[posts]=sharedUsers&page[limit]=20&filter[posts][sharedUsers][id][EQ]=98305",
+    "first" : "http://localhost/jsonapi/posts/?include[posts]=sharedUsers&page[limit]=20&filter[posts][sharedUsers][id][EQ]=2293761",
+    "last" : "http://localhost/jsonapi/posts/?include[posts]=sharedUsers&page[limit]=20&filter[posts][sharedUsers][id][EQ]=2293761",
     "next" : null,
     "prev" : null
   },

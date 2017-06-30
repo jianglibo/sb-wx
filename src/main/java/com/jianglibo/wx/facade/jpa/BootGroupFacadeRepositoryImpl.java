@@ -49,7 +49,7 @@ public class BootGroupFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Boot
 	public BootGroup newByDto(GroupDto dto) {
 		BootGroup entity = new BootGroup(dto.getName());
 		PropertyCopyUtil.copyPropertyOnly(entity, dto, entity.propertiesOnCreating());
-		entity.setCreator(userRepo.findOne(SecurityUtil.getLoginUserId()));
+		entity.setCreator(userRepo.findOne(SecurityUtil.getLoginUserId(), true));
 		return entity;
 	}
 }

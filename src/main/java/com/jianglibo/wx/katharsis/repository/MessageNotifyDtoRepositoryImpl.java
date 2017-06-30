@@ -48,7 +48,7 @@ public class MessageNotifyDtoRepositoryImpl  extends DtoRepositoryBase<MessageNo
 	protected MessageNotifyDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("user".equals(rq.getRelationName())) {
 			UserDto udto = new UserDto(rq.getRelationIds().get(0));
-			BootUser bu = userRepo.findOne(udto.getId());
+			BootUser bu = userRepo.findOne(udto.getId(), true);
 			Page<MessageNotify> mns = mnRepo.findByBootUserAndNtype(bu, MessageNotify.POST_NTYPE);
 			MessageNotifyDtoList mnl = convertToResourceList(mns, Scenario.FIND_LIST);
 			mnl.forEach(mn -> mn.setUser(udto));

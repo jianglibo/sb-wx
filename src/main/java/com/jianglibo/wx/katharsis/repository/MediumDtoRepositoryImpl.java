@@ -45,7 +45,7 @@ public class MediumDtoRepositoryImpl  extends DtoRepositoryBase<MediumDto, Mediu
 	protected MediumDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("post".equals(rq.getRelationName())) {
 			PostDto dto = new PostDto(rq.getRelationIds().get(0));
-			Post entity = postRepo.findOne(dto.getId());
+			Post entity = postRepo.findOne(dto.getId(), true);
 			List<Medium> media = entity.getMedia();
 			return convertToResourceList(media, media.size(), Scenario.RELATION_LIST);
 		}

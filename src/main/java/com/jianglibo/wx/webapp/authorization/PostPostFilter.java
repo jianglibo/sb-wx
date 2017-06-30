@@ -34,14 +34,12 @@ import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.constant.UrlConstants;
 import com.jianglibo.wx.domain.Medium;
 import com.jianglibo.wx.domain.Post;
-import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.GroupUserRelationFacadeRepository;
 import com.jianglibo.wx.facade.MediumFacadeRepository;
 import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.PostFacadeRepository;
-import com.jianglibo.wx.facade.PostShareFacadeRepository;
 import com.jianglibo.wx.katharsis.exception.NotMultipartContentException;
 import com.jianglibo.wx.util.SecurityUtil;
 import com.jianglibo.wx.vo.RoleNames;
@@ -76,9 +74,6 @@ public class PostPostFilter implements Filter {
 	
 	@Autowired
 	private BootUserFacadeRepository userRepository;
-	
-	@Autowired
-	private PostShareFacadeRepository psRepo;
 	
 	@Autowired
 	private GroupUserRelationFacadeRepository guRepo;
@@ -145,7 +140,7 @@ public class PostPostFilter implements Filter {
 						final Post finalPost = post;
 						mediaIds.addAll(media.stream().map(dto -> dto.getId()).collect(Collectors.toList()));
 						List<Medium> ms = mediaIds.stream().map(id -> {
-							Medium m = mediumRepo.findOne(id);
+							Medium m = mediumRepo.findOne(id, true);
 							m.setPost(finalPost);
 							return mediumRepo.save(m, null);
 							}).collect(Collectors.toList());
@@ -153,14 +148,14 @@ public class PostPostFilter implements Filter {
 						postRepo.save(post,null);
 						
 						final Post p = post;
-						sharedUserIds.stream().map(uid -> new PostShare(p, userRepository.findOne(uid))).forEach(ps -> psRepo.save(ps, null));
-						sharedGroupIds.stream().map(gid -> groupRepo.findOne(gid)).flatMap(g -> guRepo.findByBootGroup(g, new PageFacade(10000L)).getContent().stream()).map(gur -> gur.getBootUser()).map(bu -> new PostShare(p, bu)).forEach(ps -> {
-							try {
-								psRepo.save(ps, null);
-							} catch (Exception e) {
-								logger.info("post {} already shared to {}", p.getId(), ps.getBootUser().getId());
-							}
-						});
+						sharedUserIds.stream()
+							.forEach(uid -> postRepo.saveSharePost(p, userRepository.findOne(uid, true)));
+						sharedGroupIds.stream()
+							.map(gid -> groupRepo.findOne(gid, true))
+							.flatMap(g -> guRepo.findByBootGroup(g, new PageFacade(10000L)).getContent().stream())
+							.map(gur -> gur.getBootUser())
+							.forEach(user -> postRepo.saveSharePost(p, user));
+						
 						response.sendRedirect(getPostRedirectUrl(post));
 					} catch (FileUploadException e) {
 						fileItemProcessor.writeErrotToResponse(response, e);

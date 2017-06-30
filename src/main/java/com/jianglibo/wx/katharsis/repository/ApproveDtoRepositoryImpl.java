@@ -67,7 +67,7 @@ public class ApproveDtoRepositoryImpl  extends DtoRepositoryBase<ApproveDto, App
 		PropertyCopyUtil.applyPatch(entity,dto);
 		
 		if (BootGroup.class.getName().equals(entity.getTargetType())) {
-			BootGroup group = groupRepo.findOne(entity.getTargetId());
+			BootGroup group = groupRepo.findOne(entity.getTargetId(), true);
 			if (group.getCreator().getId().equals(SecurityUtil.getLoginUserId())) { // if group's creator isn't the current user, reject it.
 				switch (entity.getState()) {
 				case APPROVED:
@@ -90,14 +90,14 @@ public class ApproveDtoRepositoryImpl  extends DtoRepositoryBase<ApproveDto, App
 	protected ApproveDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("receiver".equals(rq.getRelationName())) {
 			UserDto userDto = new UserDto(rq.getRelationIds().get(0));
-			BootUser bu = userRepo.findOne(userDto.getId());
+			BootUser bu = userRepo.findOne(userDto.getId(), true);
 			Page<Approve> approves =  getRepository().findReceived(bu, QuerySpecUtil.getPageFacade(querySpec));
 			ApproveDtoList adl = convertToResourceList(approves, Scenario.RELATION_LIST);
 			adl.forEach(a -> a.setReceiver(userDto));
 			return adl;
 		} else if ("requester".equals(rq.getRelationName())) {
 			UserDto userDto = new UserDto(rq.getRelationIds().get(0));
-			BootUser bu = userRepo.findOne(userDto.getId());
+			BootUser bu = userRepo.findOne(userDto.getId(), true);
 			Page<Approve> approves =  getRepository().findSent(bu, QuerySpecUtil.getPageFacade(querySpec));
 			ApproveDtoList adl = convertToResourceList(approves, Scenario.RELATION_LIST);
 			adl.forEach(a -> a.setRequester(userDto));

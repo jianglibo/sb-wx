@@ -9,7 +9,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "unread", uniqueConstraints = { @UniqueConstraint(columnNames = {"obid", "user_id"})})
+@Table(name = "unread", uniqueConstraints = { @UniqueConstraint(columnNames = {"obid","type", "user_id"})})
 public class Unread extends BaseEntity {
 
 	/**
@@ -20,6 +20,8 @@ public class Unread extends BaseEntity {
 	private long obid;
 	
 	private String type;
+	
+	private boolean read;
 	
 	@NotNull
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -53,8 +55,15 @@ public class Unread extends BaseEntity {
 
 	@Override
 	public String[] propertiesOnCreating() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public boolean isRead() {
+		return read;
+	}
+
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 
 }

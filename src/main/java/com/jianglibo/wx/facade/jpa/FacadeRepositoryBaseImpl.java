@@ -26,10 +26,6 @@ public abstract class FacadeRepositoryBaseImpl<T extends BaseEntity, D extends D
 		return new SimplePageable(offset, limit, sortFields);
 	}
 	
-	public T findOne(Long id) {
-		return getRepository().findOne(id);
-	}
-	
 	@Override
 	public long count() {
 		return jpaRepo.count();

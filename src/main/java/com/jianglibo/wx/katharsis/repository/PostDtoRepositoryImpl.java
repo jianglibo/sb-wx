@@ -41,7 +41,9 @@ public class PostDtoRepositoryImpl  extends DtoRepositoryBase<PostDto, PostDtoLi
 
 	@Override
 	protected PostDtoList findAllWithQuerySpec(QuerySpec querySpec) {
-		return null;
+		boolean toAll = (boolean) QuerySpecUtil.getFilterSingleValue(querySpec, "toAll").orElse(true);
+		Page<Post> posts = getRepository().findAllByToAll(toAll, QuerySpecUtil.getPageFacade(querySpec));
+		return convertToResourceList(posts, Scenario.FIND_LIST);
 	}
 
 	@Override
@@ -52,11 +54,11 @@ public class PostDtoRepositoryImpl  extends DtoRepositoryBase<PostDto, PostDtoLi
 	@Override
 	protected PostDtoList findWithRelationAndSpec(RelationQuery rq, QuerySpec querySpec) {
 		if ("creator".equals(rq.getRelationName())) {
-			BootUser user = userRepo.findOne(rq.getRelationIds().get(0));
+			BootUser user = userRepo.findOne(rq.getRelationIds().get(0), true);
 			Page<Post> posts = getRepository().findMine(user, QuerySpecUtil.getPageFacade(querySpec));
 			return convertToResourceList(posts, Scenario.RELATION_LIST);
 		} else if ("sharedUsers".equals(rq.getRelationName())) {
-			BootUser user = userRepo.findOne(rq.getRelationIds().get(0));
+			BootUser user = userRepo.findOne(rq.getRelationIds().get(0), true);
 			Page<PostShare> pss = psRepo.findByBootUser(user, QuerySpecUtil.getPageFacade(querySpec));
 			PostDtoList pdl = convertToResourceList(pss.getContent().stream().map(ps -> ps.getPost()).collect(Collectors.toList()), pss.getTotalResourceCount(), Scenario.RELATION_LIST);
 			

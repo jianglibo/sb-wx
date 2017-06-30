@@ -30,10 +30,10 @@ public class PostToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Pos
 	
 	@Override
 	public void addRelations(PostDto source, Iterable<Long> targetIds, String fieldName) {
-		Post p = postRepo.findOne(source.getId());
+		Post p = postRepo.findOne(source.getId(), true);
 		if ("sharedUsers".equals(fieldName)) {
 			for(Long id : targetIds) {
-				PostShare ps = new PostShare(p, userRepo.findOne(id));
+				PostShare ps = new PostShare(p, userRepo.findOne(id, true));
 				psRepo.save(ps, null);
 			}
 		}
@@ -41,10 +41,10 @@ public class PostToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Pos
 	
 	@Override
 	public void removeRelations(PostDto source, Iterable<Long> targetIds, String fieldName) {
-		Post p = postRepo.findOne(source.getId());
+		Post p = postRepo.findOne(source.getId(), true);
 		if ("sharedUsers".equals(fieldName)) {
 			for(Long id : targetIds) {
-				PostShare ps = psRepo.findByPostAndBootUser(p, userRepo.findOne(id));
+				PostShare ps = psRepo.findByPostAndBootUser(p, userRepo.findOne(id, true));
 				psRepo.delete(ps);
 			}
 		}
@@ -52,11 +52,11 @@ public class PostToUserRepositoryImpl extends RelationshipRepositoryBaseMine<Pos
 	
 	@Override
 	public void setRelations(PostDto source, Iterable<Long> targetIds, String fieldName) {
-		Post p = postRepo.findOne(source.getId());
+		Post p = postRepo.findOne(source.getId(), true);
 		if ("sharedUsers".equals(fieldName)) {
 			psRepo.findByPost(p, new PageFacade(10000L)).getContent().forEach(ps -> psRepo.delete(ps)); 
 			for(Long id : targetIds) {
-				PostShare ps = new PostShare(p, userRepo.findOne(id));
+				PostShare ps = new PostShare(p, userRepo.findOne(id, true));
 				psRepo.save(ps, null);
 			}
 		}

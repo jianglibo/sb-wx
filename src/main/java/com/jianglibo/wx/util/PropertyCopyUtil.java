@@ -39,6 +39,11 @@ public class PropertyCopyUtil {
 			BeanUtils.copyProperties(dto, entity, excludes);
 	}
 
-	
+	public static <E extends BaseEntity, D extends Dto> void copyPropertyWhenCreate(E entity, D dto) {
+		Set<String> ppnames = cmap.computeIfAbsent(entity.getClass(), clazz -> getClassPropertyNames(clazz));
+		Set<String> ss = new HashSet<>(Arrays.asList(entity.propertiesOnCreating()));
+		String[] excludes = ppnames.stream().filter(s -> !ss.contains(s)).toArray(size -> new String[size]);
+		BeanUtils.copyProperties(dto, entity, excludes);
+	}
 	
 }

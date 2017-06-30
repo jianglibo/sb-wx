@@ -38,10 +38,10 @@ public class UserToGroupRepositoryImpl extends RelationshipRepositoryBaseMine<Us
 	 */
 	@Override
 	public void addRelations(UserDto source, Iterable<Long> targetIds, String fieldName) {
-		BootUser bu = userRepo.findOne(source.getId());
+		BootUser bu = userRepo.findOne(source.getId(), true);
 		if ("joinedGroups".equals(fieldName)) {
 			for(Long id : targetIds) {
-				BootGroup gp = groupRepo.findOne(id);
+				BootGroup gp = groupRepo.findOne(id, true);
 				if (gp.isOpenToAll()) {
 					GroupUserRelation gur = new GroupUserRelation(gp, bu);
 					guRepo.save(gur, null);
@@ -58,10 +58,10 @@ public class UserToGroupRepositoryImpl extends RelationshipRepositoryBaseMine<Us
 	 */
 	@Override
 	public void removeRelations(UserDto source, Iterable<Long> targetIds, String fieldName) {
-		BootUser bu = userRepo.findOne(source.getId());
+		BootUser bu = userRepo.findOne(source.getId(), true);
 		if ("joinedGroups".equals(fieldName)) {
 			for(Long id : targetIds) {
-				BootGroup gp = groupRepo.findOne(id);
+				BootGroup gp = groupRepo.findOne(id, true);
 				GroupUserRelation gur = guRepo.findByBootGroupAndBootUser(gp, bu);
 				if (gur != null) {
 					guRepo.delete(gur);

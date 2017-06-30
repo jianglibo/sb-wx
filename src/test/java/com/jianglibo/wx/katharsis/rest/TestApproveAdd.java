@@ -35,16 +35,15 @@ public class TestApproveAdd extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		deleteAllUsers();
+		initTestUser();
 		approveRepo.deleteAll();
 		groupRepo.deleteAll();
-		jwtToken = getAdminJwtToken();
 	}
 	
 	@Test
 	public void t() throws IOException {
-		BootUser requester = createBootUser("b1", "123");
-		BootUser receiver = createBootUser("b2", "123");
+		BootUser requester = tutil.createBootUser("b1", "123");
+		BootUser receiver = tutil.createBootUser("b2", "123");
 		BootGroup bg = new BootGroup("agroup");
 		bg = groupRepo.save(bg);
 		
@@ -54,7 +53,7 @@ public class TestApproveAdd extends KatharsisBase {
 				.addRelation("receiver", JsonApiResourceNames.BOOT_USER, receiver.getId()).build();
 		
 		String s = indentOm.writeValueAsString(jpw);
-		response = postItemWithContent(s, jwtToken);
+		response = postItemWithContent(s, jwt1);
 		List<ErrorData> eds = getErrors(response);
 		assertThat(eds.size(), equalTo(1));
 		assertThat(eds.get(0).getCode(), equalTo(AppErrorCodes.UNSUPPORTED_REQUEST));

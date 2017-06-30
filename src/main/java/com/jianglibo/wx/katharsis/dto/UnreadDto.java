@@ -18,6 +18,8 @@ public class UnreadDto extends DtoBase {
 	@NotNull
 	private long obid;
 	
+	private boolean read;
+	
 	@NotNull
 	private String type;
 	
@@ -48,6 +50,12 @@ public class UnreadDto extends DtoBase {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
+
+	public boolean isRead() {
+		return read;
+	}
+
+	public void setRead(boolean read) {
+		this.read = read;
+	}
 }

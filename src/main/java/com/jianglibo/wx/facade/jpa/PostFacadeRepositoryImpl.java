@@ -18,16 +18,20 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.constant.PreAuthorizeExpression;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Medium;
+import com.jianglibo.wx.domain.MessageNotify;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.domain.Post_;
 import com.jianglibo.wx.domain.Unread;
+import com.jianglibo.wx.facade.BootGroupFacadeRepository;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.MediumFacadeRepository;
+import com.jianglibo.wx.facade.MessageNotifyFacadeRepository;
 import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.facade.PageFacade;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
+import com.jianglibo.wx.facade.UnreadFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.MediumDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.repository.PostRepository;
@@ -51,13 +55,16 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 	private PostShareFacadeRepository psRepo;
 	
 	@Autowired
-	private BootGroupFacadeRepositoryImpl groupRepo;
+	private BootGroupFacadeRepository groupRepo;
 	
 	@Autowired
 	private GroupUserRelationFacadeRepositoryImpl guRepo;
 	
 	@Autowired
-	private UnreadFacadeRepositoryImpl unreadRepo;
+	private UnreadFacadeRepository unreadRepo;
+	
+	@Autowired
+	private MessageNotifyFacadeRepository mnRepo;
 	
 	public PostFacadeRepositoryImpl(PostRepository jpaRepo) {
 		super(jpaRepo);
@@ -86,13 +93,31 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 	}
 	
 	@Override
+	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
 	public Post findOne(Long id, boolean internalCall) {
 		Post post =  super.findOne(id, true);
-		if (post.isToAll() || post.getCreator().getId().equals(SecurityUtil.getLoginUserId())) {
+		// creator allow access.
+		if (post.getCreator().getId().equals(SecurityUtil.getLoginUserId())) {
 			return post;
 		}
-		
+		// user other than creator
 		BootUser currentUser = userRepo.findOne(SecurityUtil.getLoginUserId(), true);
+		Unread unread = unreadRepo.findByBootUserAndTypeAndObid(currentUser, Post.class.getSimpleName(), post.getId());
+		
+		if (unread == null) {
+			unread = new Unread();
+			unread.setId(post.getId());
+			unread.setType(Post.class.getSimpleName());
+			unread.setRead(true);
+			unread.setBootUser(currentUser);
+			unreadRepo.save(unread, null);
+		} else if (!unread.isRead()) {
+			unread.setRead(true);
+			unreadRepo.save(unread, null);
+		}
+		if (post.isToAll()) {
+			return post;
+		}
 		PostShare ps = psRepo.findByPostAndBootUser(post, currentUser);
 		if (ps == null) {
 			throw new AccessDeniedException("you cannot access a post people without share to you.");
@@ -147,6 +172,18 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 			ur.setObid(fe.getId());
 			ur.setType(Post.class.getName());
 			unreadRepo.save(ur, null);
+			
+			MessageNotify mn = mnRepo.findByBootUserAndNtype(user, Post.class.getSimpleName());
+			if (mn == null) {
+				mn = new MessageNotify();
+				mn.setNumber(0);
+				mn.setBootUser(user);
+				mn.setNtype(Post.class.getSimpleName());
+				mn = mnRepo.save(mn, null);
+			}
+			
+			mn.setNumber(mn.getNumber() + 1);
+			mnRepo.save(mn, null);
 		} catch (Exception e) {
 			
 		}

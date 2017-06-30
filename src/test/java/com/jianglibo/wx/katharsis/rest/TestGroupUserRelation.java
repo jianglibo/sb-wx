@@ -36,9 +36,9 @@ public class TestGroupUserRelation  extends KatharsisBase {
 	@Test
 	public void getMembersRelation() throws Exception {
 		
-		BootUser au = createBootUser("aaa", "1234");
-		BootUser bu = createBootUser("bbb", "1234");
-		BootUser cu = createBootUser("ccc", "1234");
+		BootUser au = tutil.createBootUser("aaa", "1234");
+		BootUser bu = tutil.createBootUser("bbb", "1234");
+		BootUser cu = tutil.createBootUser("ccc", "1234");
 
 		
 		BootGroup gp = new BootGroup("agroup");
@@ -63,7 +63,7 @@ public class TestGroupUserRelation  extends KatharsisBase {
 		response = requestForBody(jwtToken1, getItemUrl(gp.getId()) + "/members");
 		assertAccessDenied(response);
 		
-		BootUser du = createBootUser("ddd", "1234");
+		BootUser du = tutil.createBootUser("ddd", "1234");
 		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", du.getId());
 		
 		String  body = indentOm.writeValueAsString(jbw);

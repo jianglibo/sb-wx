@@ -21,8 +21,8 @@ public class TestGrouptApi  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
+		initTestUser();
 		delteAllGroups();
-		jwtToken = getAdminJwtToken();
 	}
 	
 	@Test
@@ -38,7 +38,7 @@ public class TestGrouptApi  extends KatharsisBase {
 		String bodys = indentOm.writeValueAsString(body);
 		writeDto(bodys, getResourceName(), "postcontent");
 		
-		response = postItemWithContent(bodys, jwtToken);
+		response = postItemWithContent(bodys, jwt1);
 		
 		writeDto(response, getResourceName(), ActionNames.POST_RESULT);
 		
@@ -48,13 +48,13 @@ public class TestGrouptApi  extends KatharsisBase {
 		assertThat(newGroup.getThumbUrl(), equalTo("abc"));
 		assertTrue(newGroup.isOpenToAll());
 		
-		response = requestForBody(jwtToken, getBaseURI());
+		response = requestForBody(jwt1, getBaseURI());
 		writeDto(response, getResourceName(), ActionNames.GET_LIST);
 		
-		response = requestForBody(jwtToken, getItemUrl(newGroup.getId()));
+		response = requestForBody(jwt1, getItemUrl(newGroup.getId()));
 		
 		writeDto(response, getResourceName(), ActionNames.GET_ONE);
-		deleteByExchange(jwtToken, getItemUrl(newGroup.getId()));
+		deleteByExchange(jwt1, getItemUrl(newGroup.getId()));
 	}
 
 	@Override

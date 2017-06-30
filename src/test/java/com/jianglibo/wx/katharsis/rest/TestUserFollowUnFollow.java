@@ -30,8 +30,8 @@ public class TestUserFollowUnFollow  extends KatharsisBase {
 	
 	@Test
 	public void t() throws Exception {
-		BootUser befollowed = loginAsAdmin();
-		BootUser follower = createBootUser("hello", "hello");
+		BootUser befollowed = tutil.loginAsAdmin();
+		BootUser follower = tutil.createBootUser("hello", "hello");
 		
 		// you can only initiative follow a user. cannot force a user to follow you.
 		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", befollowed.getId());
@@ -53,7 +53,7 @@ public class TestUserFollowUnFollow  extends KatharsisBase {
 		assertItemNumber(response, UserDto.class, 0);
 		
 		
-		IntStream.range(0, 25).mapToObj(i -> createBootUser("hello" + i, "hello")).map(u -> new FollowRelation(u, befollowed)).forEach(fr -> frRepo.save(fr));
+		IntStream.range(0, 25).mapToObj(i -> tutil.createBootUser("hello" + i, "hello")).map(u -> new FollowRelation(u, befollowed)).forEach(fr -> frRepo.save(fr));
 		response = requestForBody(jwtToken, getItemUrl(befollowed.getId()) + "/followers");
 		assertMetaNumber(response, 25);
 

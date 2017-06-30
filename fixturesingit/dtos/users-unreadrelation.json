@@ -1,27 +1,29 @@
 {
   "data" : [ {
-    "id" : "262144",
+    "id" : "1",
     "type" : "unreads",
     "attributes" : {
-      "createdAt" : 1498567923051,
-      "type" : "post",
-      "obid" : 55
+      "createdAt" : 1498811054277,
+      "type" : "Post",
+      "obid" : 55,
+      "dtoAction" : null,
+      "dtoApplyTo" : null
     },
     "relationships" : {
       "user" : {
         "links" : {
-          "self" : "http://localhost:88/jsonapi/unreads/262144/relationships/user",
-          "related" : "http://localhost:88/jsonapi/unreads/262144/user"
+          "self" : "http://localhost/jsonapi/unreads/1/relationships/user",
+          "related" : "http://localhost/jsonapi/unreads/1/user"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost:88/jsonapi/unreads/262144"
+      "self" : "http://localhost/jsonapi/unreads/1"
     }
   } ],
   "links" : {
-    "first" : "http://localhost:88/jsonapi/unreads/?page[limit]=20&filter[unreads][user][id][EQ]=294914&include[unreads]=user&filter[unreads][type][EQ]=post",
-    "last" : "http://localhost:88/jsonapi/unreads/?page[limit]=20&filter[unreads][user][id][EQ]=294914&include[unreads]=user&filter[unreads][type][EQ]=post",
+    "first" : "http://localhost/jsonapi/unreads/?page[limit]=20&filter[unreads][user][id][EQ]=4&include[unreads]=user&filter[unreads][type][EQ]=Post",
+    "last" : "http://localhost/jsonapi/unreads/?page[limit]=20&filter[unreads][user][id][EQ]=4&include[unreads]=user&filter[unreads][type][EQ]=Post",
     "next" : null,
     "prev" : null
   },

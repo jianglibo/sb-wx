@@ -32,8 +32,8 @@ public class TestUserReceivedPostRelation  extends KatharsisBase {
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		BootUser user1 = createUser1();
-		BootUser user2 = createUser2();
+		BootUser user1 = tutil.createUser1();
+		BootUser user2 = tutil.createUser2();
 		
 		Post post1 = new Post();
 		post1.setTitle("title");
@@ -49,14 +49,14 @@ public class TestUserReceivedPostRelation  extends KatharsisBase {
 		psRepo.save(new PostShare(post1, user1));
 		psRepo.save(new PostShare(post2, user1));
 		
-		String jwt1 = getJwtToken(USER_1, PASSWORD);
+		String jwt1 = getJwtToken(tutil.USER_1, tutil.PASSWORD);
 		response = requestForBody(jwt1, getItemUrl(user1.getId()) + "/receivedPosts");
 		
 		writeDto(response.getBody(), getResourceName(), "getreceivedpostsrelation");
 		List<PostDto> posts = getList(response, PostDto.class);
 		assertThat(posts.size(), equalTo(2));
 		
-		String jwt2 = getJwtToken(USER_2, PASSWORD);
+		String jwt2 = getJwtToken(tutil.USER_2, tutil.PASSWORD);
 		response = requestForBody(jwt2, getItemUrl(user1.getId()) + "/receivedPosts");
 		assertAccessDenied(response);
 		
@@ -69,7 +69,7 @@ public class TestUserReceivedPostRelation  extends KatharsisBase {
 		assertData(response);
 		
 		// other users are denied.		
-		BootUser user3 = createBootUser("user3", "12345");
+		BootUser user3 = tutil.createBootUser("user3", "12345");
 		String jwt3 = getJwtToken("user3", "12345");
 		response = requestForBody(jwt3, getItemUrl(JsonApiResourceNames.POST, posts.get(0).getId()));
 		assertAccessDenied(response);

@@ -48,8 +48,8 @@ public class TestPostGroupRelation  extends KatharsisBase {
 	
 	@Test
 	public void tshareToGroup() throws JsonParseException, JsonMappingException, IOException {
-		BootUser b1 = createBootUser("b1", "123");
-		BootUser b2 = createBootUser("b2", "123");
+		BootUser b1 = tutil.createBootUser("b1", "123");
+		BootUser b2 = tutil.createBootUser("b2", "123");
 		
 		BootGroup bg = new BootGroup("group");
 		groupRepo.save(bg);

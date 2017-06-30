@@ -92,7 +92,6 @@ public class UserDto extends DtoBase {
     
     @JsonApiRelation(lookUp=LookupIncludeBehavior.NONE,serialize=SerializeType.LAZY, opposite="user")
     private List<UnreadDto> unreads;
-
     
     public List<PostDto> getPosts() {
 		return posts;

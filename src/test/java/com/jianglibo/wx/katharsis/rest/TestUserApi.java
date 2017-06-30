@@ -37,8 +37,7 @@ public class TestUserApi  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		deleteAllUsers();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
@@ -46,7 +45,7 @@ public class TestUserApi  extends KatharsisBase {
 		long c= bootUserRepo.count();
 		assertThat(c, equalTo(1L));
 		
-		BootUser bu = createBootUser("b1", "123", "a", "b", "c");
+		BootUser bu = tutil.createBootUser("b1", "123", "a", "b", "c");
 		
 		Long[] roleids = bu.getRoles().stream().map(r -> r.getId()).toArray(size -> new Long[size]);
 		
@@ -84,7 +83,7 @@ public class TestUserApi  extends KatharsisBase {
 		long c= bootUserRepo.count();
 		assertThat(c, equalTo(1L));
 		
-		BootUser bu = createBootUser("b111111111", "1231111111", "a", "b", "c");
+		BootUser bu = tutil.createBootUser("b111111111", "1231111111", "a", "b", "c");
 		
 		Long[] roleids = bu.getRoles().stream().map(r -> r.getId()).toArray(size -> new Long[size]);
 		
@@ -113,8 +112,7 @@ public class TestUserApi  extends KatharsisBase {
 	
 	@Test
 	public void tDeleteSelf() throws JsonParseException, JsonMappingException, IOException {
-		BootUser bu = bootUserRepo.findByName("admin");
-		ResponseEntity<String> response = deleteByExchange(jwtToken, getItemUrl(bu.getId()));
+		ResponseEntity<String> response = deleteByExchange(jwt1, getItemUrl(user1.getId()));
 		getErrors(response);
 	}
 

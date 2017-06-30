@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.domain.BootUser;
-import com.jianglibo.wx.domain.MessageNotify;
 import com.jianglibo.wx.domain.Unread;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.UnreadFacadeRepository;

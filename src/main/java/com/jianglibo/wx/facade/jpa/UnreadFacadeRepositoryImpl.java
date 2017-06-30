@@ -50,4 +50,8 @@ public class UnreadFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Unread,
 	public long countByBootUserAndType(BootUser user, String type) {
 		return getRepository().countByBootUserAndType(user, type);
 	}
+
+	public Unread findByBootUserAndTypeAndObid(BootUser user, String type, Long id) {
+		return getRepository().findByBootUserAndTypeAndObid(user,type,id);
+	}
 }

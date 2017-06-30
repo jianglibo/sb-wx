@@ -6,5 +6,7 @@ import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.MessageNotify;
 
 public interface MessageNotifyRepository extends RepositoryBase<MessageNotify> {
-	List<MessageNotify> findByBootUserAndNtype(BootUser user, String ntype);
+	MessageNotify findByBootUserAndNtype(BootUser user, String ntype);
+
+	List<MessageNotify> findByBootUser(BootUser user, String ntype);
 }

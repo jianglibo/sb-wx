@@ -7,5 +7,7 @@ import com.jianglibo.wx.katharsis.dto.MessageNotifyDto;
 
 
 public interface MessageNotifyFacadeRepository extends FacadeRepositoryBase<MessageNotify, MessageNotifyDto> {
-	Page<MessageNotify> findByBootUserAndNtype(BootUser user, String ntype);
+	MessageNotify findByBootUserAndNtype(BootUser user, String ntype);
+
+	Page<MessageNotify> findByBootUser(BootUser bu, String simpleName);
 }

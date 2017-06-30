@@ -25,8 +25,8 @@ public class TestUserRoleRelation  extends KatharsisBase {
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		createBootUser("b1", "123", "a", "b", "c");
-		BootUser bu1 = createBootUser("b2", "123");
+		tutil.createBootUser("b1", "123", "a", "b", "c");
+		BootUser bu1 = tutil.createBootUser("b2", "123");
 		
 		
 		

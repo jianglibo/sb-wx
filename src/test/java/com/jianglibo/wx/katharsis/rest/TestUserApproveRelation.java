@@ -32,8 +32,8 @@ public class TestUserApproveRelation  extends KatharsisBase {
 	
 	@Test
 	public void tReceivedApproves() throws JsonParseException, JsonMappingException, IOException {
-		BootUser bu1 = createBootUser("b1", "123", "a", "b", "c");
-		BootUser bu2 = createBootUser("b2", "123");
+		BootUser bu1 = tutil.createBootUser("b1", "123", "a", "b", "c");
+		BootUser bu2 = tutil.createBootUser("b2", "123");
 		
 		jwtToken = getJwtToken("b1", "123");
 		response = requestForBody(jwtToken, getItemUrl(bu1.getId()) + "/receivedApproves");

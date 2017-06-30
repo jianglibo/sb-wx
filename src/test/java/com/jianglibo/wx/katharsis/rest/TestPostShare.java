@@ -39,8 +39,8 @@ public class TestPostShare  extends KatharsisBase {
 		post.setContent("content");
 		post.setCreator(bu);
 		postRepo.save(post);
-		BootUser b1 = createBootUser("b1", "123");
-		BootUser b2 = createBootUser("b2", "123");
+		BootUser b1 = tutil.createBootUser("b1", "123");
+		BootUser b2 = tutil.createBootUser("b2", "123");
 		
 		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", b1.getId(), b2.getId());
 		String body = indentOm.writeValueAsString(jbw);

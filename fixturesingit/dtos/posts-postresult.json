@@ -1,10 +1,10 @@
 {
   "data" : {
-    "id" : "196609",
+    "id" : "884737",
     "type" : "posts",
     "attributes" : {
       "toAll" : false,
-      "createdAt" : 1498785324289,
+      "createdAt" : 1498810388124,
       "read" : false,
       "title" : "title",
       "content" : "content",
@@ -15,36 +15,36 @@
       "sharedUsers" : {
         "data" : [ ],
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/196609/sharedUsers"
+          "self" : "http://localhost/jsonapi/posts/884737/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/884737/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/196609/creator"
+          "self" : "http://localhost/jsonapi/posts/884737/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/884737/creator"
         }
       },
       "sharedGroups" : {
         "data" : [ ],
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/sharedGroups",
-          "related" : "http://localhost/jsonapi/posts/196609/sharedGroups"
+          "self" : "http://localhost/jsonapi/posts/884737/relationships/sharedGroups",
+          "related" : "http://localhost/jsonapi/posts/884737/sharedGroups"
         }
       },
       "media" : {
         "data" : [ {
-          "id" : "131074",
+          "id" : "163842",
           "type" : "medium"
         } ],
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/media",
-          "related" : "http://localhost/jsonapi/posts/196609/media"
+          "self" : "http://localhost/jsonapi/posts/884737/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/884737/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/posts/196609"
+      "self" : "http://localhost/jsonapi/posts/884737"
     }
   }
 }

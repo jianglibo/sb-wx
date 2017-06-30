@@ -11,4 +11,5 @@ public interface UnreadFacadeRepository extends FacadeRepositoryBase<Unread, Unr
     List<Unread> findByBootUserAndType(BootUser user, String type, long offset, Long limit, SortBroker...sortBrokers);
     long countByBootUserAndType(BootUser user, String type);
     List<Unread> findAll();
+	Unread findByBootUserAndTypeAndObid(BootUser user, String type, Long id);
 }

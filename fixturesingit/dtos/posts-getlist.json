@@ -1,53 +1,12 @@
 {
-  "data" : [ {
-    "id" : "196609",
-    "type" : "posts",
-    "attributes" : {
-      "toAll" : false,
-      "createdAt" : 1498785324289,
-      "read" : false,
-      "title" : "title",
-      "content" : "content",
-      "dtoAction" : null,
-      "dtoApplyTo" : null
-    },
-    "relationships" : {
-      "sharedUsers" : {
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/196609/sharedUsers"
-        }
-      },
-      "creator" : {
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/196609/creator"
-        }
-      },
-      "sharedGroups" : {
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/sharedGroups",
-          "related" : "http://localhost/jsonapi/posts/196609/sharedGroups"
-        }
-      },
-      "media" : {
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/media",
-          "related" : "http://localhost/jsonapi/posts/196609/media"
-        }
-      }
-    },
-    "links" : {
-      "self" : "http://localhost/jsonapi/posts/196609"
-    }
-  } ],
+  "data" : [ ],
   "links" : {
-    "first" : "http://localhost/jsonapi/posts/?page[limit]=20",
-    "last" : "http://localhost/jsonapi/posts/?page[limit]=20",
+    "first" : null,
+    "last" : null,
     "next" : null,
     "prev" : null
   },
   "meta" : {
-    "totalResourceCount" : 1
+    "totalResourceCount" : 0
   }
 }

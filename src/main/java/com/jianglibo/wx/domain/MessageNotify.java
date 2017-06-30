@@ -16,8 +16,6 @@ public class MessageNotify extends BaseEntity {
 	 */
 	private static final long serialVersionUID = 493332625980265824L;
 	
-	public static String POST_NTYPE = "post";
-	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	private BootUser bootUser;

@@ -45,7 +45,6 @@ import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.util.UuidUtil;
-import com.jianglibo.wx.vo.RoleNames;
 
 import io.katharsis.client.KatharsisClient;
 import io.katharsis.core.internal.boot.KatharsisBoot;
@@ -57,8 +56,6 @@ public abstract class KatharsisBase extends Tbase {
 	private static String mt = "application/vnd.api+json;charset=UTF-8";
 	
 	private static Path dtosPath = Paths.get("fixturesingit", "dtos");
-	
-	protected String jwtToken;
 	
 	protected static class ActionNames {
 		public static String POST_RESULT = "postresult";
@@ -72,6 +69,12 @@ public abstract class KatharsisBase extends Tbase {
 	}
 	
 	protected ResponseEntity<String> response;
+	
+	protected BootUser user1;
+	protected BootUser user2;
+	
+	protected String jwt1;
+	protected String jwt2;
 	
 	@Autowired
 	@Qualifier("indentOm")
@@ -300,9 +303,15 @@ public abstract class KatharsisBase extends Tbase {
 		return requestHeaders;
 	}
 	
-	public String getAdminJwtToken() throws IOException {
-		return getJwtToken("tadmin", "123456", RoleNames.ROLE_ADMINISTRATOR);
+
+	public void initTestUser() throws IOException {
+		deleteAllUsers();
+		user1 = tutil.createUser1();
+		user2 = tutil.createUser1();
+		jwt1 = getJwtToken(Tutil.USER_1, Tutil.PASSWORD);
+		jwt2 = getJwtToken(Tutil.USER_2, Tutil.PASSWORD);
 	}
+
 	
 	public String getJwtToken(String username, String password, String...roles) throws IOException {
 	
@@ -312,7 +321,7 @@ public abstract class KatharsisBase extends Tbase {
 				.build();
 		String c = indentOm.writeValueAsString(jaw);
 		
-		createBootUser(username, password, roles);
+		tutil.createBootUser(username, password, roles);
 		
 		HttpEntity<String> request = new HttpEntity<String>(c);
 		ResponseEntity<String> response = restTemplate.postForEntity(getBaseURI(JsonApiResourceNames.LOGIN_ATTEMPT), request, String.class);

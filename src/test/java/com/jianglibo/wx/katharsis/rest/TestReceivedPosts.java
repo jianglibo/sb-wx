@@ -36,7 +36,7 @@ public class TestReceivedPosts extends KatharsisBase {
 		post.setContent("content");
 		post.setCreator(bu);
 		postRepo.save(post);
-		BootUser b1 = createBootUser("b1", "123");
+		BootUser b1 = tutil.createBootUser("b1", "123");
 		PostShare ps = new PostShare(post, b1);
 		psRepo.save(ps);
 

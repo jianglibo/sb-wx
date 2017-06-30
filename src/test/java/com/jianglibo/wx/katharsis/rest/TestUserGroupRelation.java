@@ -29,7 +29,7 @@ public class TestUserGroupRelation  extends KatharsisBase {
 	
 	@Test
 	public void tOpenGroup() throws JsonParseException, JsonMappingException, IOException {
-		BootUser bu1 = createBootUser("b2", "123");
+		BootUser bu1 = tutil.createBootUser("b2", "123");
 		
 		BootGroup bg = new BootGroup("agroup");
 		bg.setOpenToAll(true);
@@ -72,7 +72,7 @@ public class TestUserGroupRelation  extends KatharsisBase {
 	
 	@Test
 	public void tCloseGroup() throws JsonParseException, JsonMappingException, IOException {
-		BootUser bu1 = createBootUser("b2", "123");
+		BootUser bu1 = tutil.createBootUser("b2", "123");
 		
 		BootGroup bg = new BootGroup("agroup");
 		bg.setOpenToAll(false);

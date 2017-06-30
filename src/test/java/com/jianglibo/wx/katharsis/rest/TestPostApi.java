@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.junit.Before;
@@ -46,27 +45,7 @@ public class TestPostApi  extends KatharsisBase {
 		unreadRepo.deleteAll();
 		jwtToken = getAdminJwtToken();
 	}
-	
-	@Test
-	public void tGetList() throws IOException {
-		BootUser b1 = createBootUser("b1", "123");
-		createPost(b1, true);
-		String jwt = getJwtToken("b1", "123");
-		response = requestForBody(jwt, getBaseURI());
-		List<PostDto> posts = getList(response, PostDto.class);
-		assertThat(posts.size(), equalTo(1));
-	}
-	
-	@Test
-	public void tGetListNoToAll() throws IOException {
-		BootUser b1 = createBootUser("b1", "123");
-		createPost(b1, false);
-		String jwt = getJwtToken("b1", "123");
-		response = requestForBody(jwt, getBaseURI());
-		List<PostDto> posts = getList(response, PostDto.class);
-		assertThat(posts.size(), equalTo(0));
-	}
-	
+
 	@Test
 	public void tAddOneByForm() throws JsonParseException, JsonMappingException, IOException {
 		HttpResponse apacheResponse = uploadFile(jwtToken, Paths.get("fixturesingit", "v.js"));
@@ -75,11 +54,11 @@ public class TestPostApi  extends KatharsisBase {
 		
 		MediumDto m = getList(response, MediumDto.class).get(0);
 		
-		BootUser b1 = createBootUser("b1", "123");
-		BootUser b2 = createBootUser("b2", "123");
+		BootUser b1 = tutil.createBootUser("b1", "123");
+		BootUser b2 = tutil.createBootUser("b2", "123");
 		
-		BootUser b3 = createBootUser("b3", "123");
-		BootUser b4 = createBootUser("b4", "123");
+		BootUser b3 = tutil.createBootUser("b3", "123");
+		BootUser b4 = tutil.createBootUser("b4", "123");
 		
 		BootGroup bg = new BootGroup("group");
 		bg.setCreator(b1);
@@ -119,11 +98,11 @@ public class TestPostApi  extends KatharsisBase {
 		
 		MediumDto m = getList(response, MediumDto.class).get(0);
 		
-		BootUser b1 = createBootUser("b1", "123");
-		BootUser b2 = createBootUser("b2", "123");
+		BootUser b1 = tutil.createBootUser("b1", "123");
+		BootUser b2 = tutil.createBootUser("b2", "123");
 		
-		BootUser b3 = createBootUser("b3", "123");
-		BootUser b4 = createBootUser("b4", "123");
+		BootUser b3 = tutil.createBootUser("b3", "123");
+		BootUser b4 = tutil.createBootUser("b4", "123");
 		
 		BootGroup bg = new BootGroup("group");
 		bg.setCreator(b1);

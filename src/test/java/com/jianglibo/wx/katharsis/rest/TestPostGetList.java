@@ -33,7 +33,7 @@ public class TestPostGetList  extends KatharsisBase {
 	
 	@Test
 	public void tGetList() throws IOException {
-		BootUser b1 = createBootUser("b1", "123");
+		BootUser b1 = tutil.createBootUser("b1", "123");
 		createPost(b1, true);
 		String jwt = getJwtToken("b1", "123");
 		response = requestForBody(jwt, getBaseURI() + "?filter[toAll]=true&page[offset]=0&page[limit]=19");
@@ -51,7 +51,7 @@ public class TestPostGetList  extends KatharsisBase {
 	
 	@Test
 	public void tGetListNone() throws IOException {
-		BootUser b1 = createBootUser("b1", "123");
+		BootUser b1 = tutil.createBootUser("b1", "123");
 		createPost(b1, false);
 		String jwt = getJwtToken("b1", "123");
 		response = requestForBody(jwt, getBaseURI());

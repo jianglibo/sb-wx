@@ -25,36 +25,36 @@ public class TestUserFollowUnFollow  extends KatharsisBase {
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllUsers();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
 	public void t() throws Exception {
-		BootUser befollowed = tutil.loginAsAdmin();
-		BootUser follower = tutil.createBootUser("hello", "hello");
+		BootUser befollowed = user1;
+		BootUser follower = user2;
 		
 		// you can only initiative follow a user. cannot force a user to follow you.
 		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", befollowed.getId());
 		
-		response = addRelationWithContent(indentOm.writeValueAsString(jbw), "followeds", follower.getId(), jwtToken);
+		response = addRelationWithContent(indentOm.writeValueAsString(jbw), "followeds", follower.getId(), jwt1);
 		assertResponseCode(response, 204);
-		response = requestForBody(jwtToken, getItemUrl(befollowed.getId()) + "/followers");
+		response = requestForBody(jwt1, getItemUrl(befollowed.getId()) + "/followers");
 		writeDto(response.getBody(), getResourceName(), "followers");
 		assertItemNumber(response, UserDto.class, 1);
 		
-		response = requestForBody(jwtToken, getItemUrl(follower.getId()) + "/followeds");
+		response = requestForBody(jwt1, getItemUrl(follower.getId()) + "/followeds");
 		writeDto(response.getBody(), getResourceName(), "followeds");
 		assertItemNumber(response, UserDto.class, 1);
 
 		
-		response = deleteRelationWithContent(indentOm.writeValueAsString(jbw), "followeds", follower.getId(), jwtToken);
+		response = deleteRelationWithContent(indentOm.writeValueAsString(jbw), "followeds", follower.getId(), jwt1);
 		assertResponseCode(response, 204);
-		response = requestForBody(jwtToken, getItemUrl(befollowed.getId()) + "/followers");
+		response = requestForBody(jwt1, getItemUrl(befollowed.getId()) + "/followers");
 		assertItemNumber(response, UserDto.class, 0);
 		
 		
 		IntStream.range(0, 25).mapToObj(i -> tutil.createBootUser("hello" + i, "hello")).map(u -> new FollowRelation(u, befollowed)).forEach(fr -> frRepo.save(fr));
-		response = requestForBody(jwtToken, getItemUrl(befollowed.getId()) + "/followers");
+		response = requestForBody(jwt1, getItemUrl(befollowed.getId()) + "/followers");
 		assertMetaNumber(response, 25);
 
 	}

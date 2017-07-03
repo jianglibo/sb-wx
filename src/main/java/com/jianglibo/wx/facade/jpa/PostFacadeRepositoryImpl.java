@@ -102,19 +102,17 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 		}
 		// user other than creator
 		BootUser currentUser = userRepo.findOne(SecurityUtil.getLoginUserId(), true);
-		Unread unread = unreadRepo.findByBootUserAndTypeAndObid(currentUser, Post.class.getSimpleName(), post.getId());
+		boolean hasRead = unreadRepo.userHasReadThisPost(currentUser, post.getId());
 		
-		if (unread == null) {
-			unread = new Unread();
-			unread.setId(post.getId());
+		if (!hasRead) {
+			Unread unread = new Unread();
+			unread.setObid(post.getId());
 			unread.setType(Post.class.getSimpleName());
 			unread.setRead(true);
 			unread.setBootUser(currentUser);
 			unreadRepo.save(unread, null);
-		} else if (!unread.isRead()) {
-			unread.setRead(true);
-			unreadRepo.save(unread, null);
 		}
+
 		if (post.isToAll()) {
 			return post;
 		}

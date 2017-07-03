@@ -28,17 +28,17 @@ public class TestUserNotifiesRelation  extends KatharsisBase {
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllUsers();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
 	public void t() throws Exception {
-		BootUser follower = tutil.createBootUser("hello", "hello");
+		BootUser follower = user1;
 		MessageNotify mn = new MessageNotify();
 		mn.setBootUser(follower);
 		mn.setNtype(Post.class.getSimpleName());
 		mn = mnRepo.save(mn);
-		response = requestForBody(jwtToken, getItemUrl(follower.getId()) + "/notifies");
+		response = requestForBody(jwt1, getItemUrl(follower.getId()) + "/notifies");
 		writeDto(response.getBody(), getResourceName(), "notifiesrelation");
 		List<MessageNotifyDto> notifies = getList(response, MessageNotifyDto.class);
 		assertThat(notifies.size(), equalTo(1));

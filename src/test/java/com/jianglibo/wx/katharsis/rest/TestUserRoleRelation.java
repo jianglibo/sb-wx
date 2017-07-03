@@ -20,7 +20,7 @@ public class TestUserRoleRelation  extends KatharsisBase {
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllUsers();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
@@ -29,16 +29,15 @@ public class TestUserRoleRelation  extends KatharsisBase {
 		BootUser bu1 = tutil.createBootUser("b2", "123");
 		
 		
-		
 		JsonApiListBodyWrapper jl = new JsonApiListBodyWrapper(JsonApiResourceNames.ROLE, roleRepo.findByName("ROLE_A").getId(), roleRepo.findByName("ROLE_B").getId());
 		String s = indentOm.writeValueAsString(jl);
-		response = addRelationWithContent(s, "roles", bu1.getId(), jwtToken);
+		response = addRelationWithContent(s, "roles", bu1.getId(), jwt1);
 		assertResponseCode(response, 204);
 		
 		bu1 = bootUserRepo.findOne(bu1.getId());
 		assertThat(bu1.getRoles().size(), equalTo(3));
 		
-		response = deleteRelationWithContent(s, "roles", bu1.getId(), jwtToken);
+		response = deleteRelationWithContent(s, "roles", bu1.getId(), adminJwt);
 		assertResponseCode(response, 204);
 		
 		bu1 = bootUserRepo.findOne(bu1.getId());

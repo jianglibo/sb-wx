@@ -27,7 +27,7 @@ public class TestPostShare  extends KatharsisBase {
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllPost();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
@@ -39,10 +39,8 @@ public class TestPostShare  extends KatharsisBase {
 		post.setContent("content");
 		post.setCreator(bu);
 		postRepo.save(post);
-		BootUser b1 = tutil.createBootUser("b1", "123");
-		BootUser b2 = tutil.createBootUser("b2", "123");
 		
-		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", b1.getId(), b2.getId());
+		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", user1.getId(), user2.getId());
 		String body = indentOm.writeValueAsString(jbw);
 		writeDto(body, getResourceName(), "altersharedusers");
 		response = addRelationWithContent(body, "sharedUsers", post.getId(), jwtToken);
@@ -51,7 +49,7 @@ public class TestPostShare  extends KatharsisBase {
 		response = requestForBody(jwtToken, getItemUrl(post.getId()) + "/sharedUsers");
 		assertItemNumber(response, UserDto.class, 2);
 		
-		jbw = new JsonApiListBodyWrapper("users", b1.getId());
+		jbw = new JsonApiListBodyWrapper("users", user1.getId());
 		body = indentOm.writeValueAsString(jbw);
 				
 		response = deleteRelationWithContent(body, "sharedUsers", post.getId(), jwtToken);

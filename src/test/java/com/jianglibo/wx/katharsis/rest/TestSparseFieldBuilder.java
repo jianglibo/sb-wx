@@ -15,7 +15,6 @@ public class TestSparseFieldBuilder {
 		String s = sfb.resouceFields("users", "id", "email").resouceFields("posts", "id").build();
 		assertThat(s, equalTo("?fields[users]=id,email&fields[posts]=id"));
 		
-		
 		sfb = new MyJsonApiUrlBuilder("?");
 		s = sfb.resouceFields("users", "id", "email").resouceFields("posts", "id").includes("users", "abc").build();
 		assertThat(s, equalTo("?include=users,abc&fields[users]=id,email&fields[posts]=id"));

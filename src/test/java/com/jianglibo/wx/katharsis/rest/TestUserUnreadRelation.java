@@ -11,7 +11,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
-import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.Unread;
 import com.jianglibo.wx.katharsis.dto.UnreadDto;
@@ -27,26 +26,23 @@ public class TestUserUnreadRelation  extends KatharsisBase {
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllUsers();
 		unreadRepo.deleteAll();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		tutil.createBootUser("b1", "123", "a", "b", "c");
-		BootUser bu1 = tutil.createBootUser("b2", "123");
-		
 		Unread ur = new Unread();
 		ur.setObid(55L);
 		ur.setType(Post.class.getSimpleName());
-		ur.setBootUser(bu1);
+		ur.setBootUser(user1);
 		unreadRepo.save(ur);
 		
-		response = requestForBody(jwtToken, getItemUrl(bu1.getId()) + "/unreads");
+		response = requestForBody(jwt1, getItemUrl(user1.getId()) + "/unreads");
 		writeDto(response.getBody(), getResourceName(), "unreadrelation");
 		assertItemNumber(response, UnreadDto.class, 0);
 		
 		String filterUrl = new MyJsonApiUrlBuilder("?").filters("type", Post.class.getSimpleName()).build();
-		response = requestForBody(jwtToken, getItemUrl(bu1.getId()) + "/unreads" + filterUrl);
+		response = requestForBody(jwt1, getItemUrl(user1.getId()) + "/unreads" + filterUrl);
 		writeDto(response.getBody(), getResourceName(), "unreadrelation");
 		assertItemNumber(response, UnreadDto.class, 1);
 	}

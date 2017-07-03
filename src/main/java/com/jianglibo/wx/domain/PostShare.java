@@ -54,7 +54,6 @@ public class PostShare extends BaseEntity {
 
 	@Override
 	public String[] propertiesOnCreating() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

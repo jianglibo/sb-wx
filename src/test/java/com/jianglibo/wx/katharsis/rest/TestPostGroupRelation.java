@@ -20,7 +20,6 @@ import com.jianglibo.wx.JsonApiPostBodyWrapperBuilder;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootGroup;
-import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.GroupUserRelation;
 import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.katharsis.dto.PostDto;
@@ -43,21 +42,19 @@ public class TestPostGroupRelation  extends KatharsisBase {
 		deleteAllUsers();
 		deleteAllPost();
 		groupRepo.deleteAll();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
 	public void tshareToGroup() throws JsonParseException, JsonMappingException, IOException {
-		BootUser b1 = tutil.createBootUser("b1", "123");
-		BootUser b2 = tutil.createBootUser("b2", "123");
-		
 		BootGroup bg = new BootGroup("group");
+		bg.setCreator(user1);
 		groupRepo.save(bg);
 		
-		GroupUserRelation gur = new GroupUserRelation(bg, b1);
+		GroupUserRelation gur = new GroupUserRelation(bg, user1);
 		guRepo.save(gur);
 		
-		gur = new GroupUserRelation(bg, b2);
+		gur = new GroupUserRelation(bg, user2);
 		guRepo.save(gur);
 		
 		JsonApiPostBodyWrapper<CreateListBody> jbw = JsonApiPostBodyWrapperBuilder.getListRelationBuilder(getResourceName())
@@ -74,11 +71,8 @@ public class TestPostGroupRelation  extends KatharsisBase {
 		
 		response = addRelationWithContent(indentOm.writeValueAsString(jb), "sharedGroups", newPost.getId(), jwtToken);
 		
-		b1 = bootUserRepo.findOne(b1.getId());
-		b2 = bootUserRepo.findOne(b2.getId());
-		
-		List<PostShare> ps1 = psRepo.findAllByBootUser(b1);
-		List<PostShare> ps2 = psRepo.findAllByBootUser(b2);
+		List<PostShare> ps1 = psRepo.findAllByBootUser(user1);
+		List<PostShare> ps2 = psRepo.findAllByBootUser(user2);
 		
 		assertThat(ps1.size(), equalTo(1));
 		assertThat(ps2.size(), equalTo(1));

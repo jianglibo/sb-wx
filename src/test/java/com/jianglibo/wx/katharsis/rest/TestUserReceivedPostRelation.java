@@ -32,8 +32,6 @@ public class TestUserReceivedPostRelation  extends KatharsisBase {
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		BootUser user1 = tutil.createUser1();
-		BootUser user2 = tutil.createUser2();
 		
 		Post post1 = new Post();
 		post1.setTitle("title");

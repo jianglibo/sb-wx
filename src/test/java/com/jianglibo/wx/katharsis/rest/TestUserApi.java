@@ -59,7 +59,7 @@ public class TestUserApi  extends KatharsisBase {
 		String s = indentOm.writeValueAsString(jbw);
 		writeDto(s, JsonApiResourceNames.BOOT_USER, "postcontent");
 		
-		ResponseEntity<String> response = postItemWithContent(s, jwtToken);
+		ResponseEntity<String> response = postItemWithContent(s, jwt1);
 		
 		writeDto(response, getResourceName(), ActionNames.POST_RESULT);
 		assertThat(response.getStatusCodeValue(), equalTo(HttpStatus.CREATED.value()));
@@ -71,10 +71,10 @@ public class TestUserApi  extends KatharsisBase {
 		assertThat(newUser.getName(), equalTo("name1334"));
 		assertTrue("password should be empty.", newUser.getPassword() == null || newUser.getPassword().isEmpty());
 		assertThat("id should great than 0.", newUser.getId(), greaterThan(0L));
-		response = requestForBody(jwtToken, getItemUrl(newUser.getId()));
+		response = requestForBody(jwt1, getItemUrl(newUser.getId()));
 		writeDto(response, getResourceName(), ActionNames.GET_ONE);
 		
-		response = deleteByExchange(jwtToken, getItemUrl(newUser.getId()));
+		response = deleteByExchange(jwt1, getItemUrl(newUser.getId()));
 		assertThat(bootUserRepo.count(), equalTo(c + 1));
 	}
 	
@@ -97,7 +97,7 @@ public class TestUserApi  extends KatharsisBase {
 				.addRelation("roles", JsonApiResourceNames.ROLE, roleids).build();
 		
 		String s = indentOm.writeValueAsString(jbw);
-		response = patchByExchange(s, jwtToken, getItemUrl(bu.getId()));
+		response = patchByExchange(s, jwt1, getItemUrl(bu.getId()));
 		writeDto(response, getResourceName(), ActionNames.PATCH_RESULT);
 		
 		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken("b111111111",	"akka123456");
@@ -106,7 +106,7 @@ public class TestUserApi  extends KatharsisBase {
 	
 	@Test
 	public void tGet() throws JsonParseException, JsonMappingException, IOException {
-		ResponseEntity<String> response = requestForBody(jwtToken, getBaseURI());
+		ResponseEntity<String> response = requestForBody(jwt1, getBaseURI());
 		writeDto(response, getResourceName(), ActionNames.GET_LIST);
 	}
 	

@@ -29,17 +29,15 @@ public class TestRoleApi  extends KatharsisBase {
 	
 	private String role1 = "ROLE_USER_T1";
 	
-	private String jwtToken;
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		jwtToken = getAdminJwtToken();
-		ResponseEntity<String> response = requestForBody(jwtToken, getBaseURI());
+		ResponseEntity<String> response = requestForBody(jwt1, getBaseURI());
 		String body = response.getBody();
 		originRoles = getList(body, RoleDto.class);
 		Optional<RoleDto> ro = originRoles.stream().filter(r -> role1.equals(r.getName())).findAny(); 
 		if (ro.isPresent()) {
-			deleteByExchange(jwtToken, getItemUrl(ro.get().getId()));
+			deleteByExchange(jwt1, getItemUrl(ro.get().getId()));
 			originRoles.remove(ro.get());
 		}
 	}
@@ -47,7 +45,7 @@ public class TestRoleApi  extends KatharsisBase {
 	
 	@Test
 	public void tAddOneNoName() throws JsonParseException, JsonMappingException, IOException {
-		ResponseEntity<String> response = postItemWithExplicitFixtures("rolenoname", jwtToken);
+		ResponseEntity<String> response = postItemWithExplicitFixtures("rolenoname", jwt1);
 		writeDto(response, getResourceName(), ActionNames.POST_ERROR);
 		Document d = toDocument(response.getBody());
 		List<ErrorData> eds = d.getErrors();
@@ -57,24 +55,24 @@ public class TestRoleApi  extends KatharsisBase {
 	
 	@Test
 	public void tAdmionAddOne() throws JsonParseException, JsonMappingException, IOException {
-		ResponseEntity<String> response = postItem(jwtToken);
+		ResponseEntity<String> response = postItem(jwt1);
 		response.getHeaders().containsKey(JwtUtil.REFRESH_HEADER_NAME);
 		writeDto(response, getResourceName(), ActionNames.POST_RESULT);
 		assertThat(response.getStatusCodeValue(), equalTo(HttpStatus.CREATED.value()));
 		RoleDto newRole = getOne(response.getBody(), RoleDto.class);
 		assertThat(newRole.getName(), equalTo(role1));
 		// again
-		response = postItem(jwtToken);
+		response = postItem(jwt1);
 		String body = response.getBody();
 		
 		Document d = toDocument(body);
 		assertThat(d.getErrors().get(0).getCode(), equalTo("-104"));
 		assertThat(response.getStatusCodeValue(), equalTo(AppExceptionMapper.APP_ERROR_STATUS_CODE));
-		response = requestForBody(jwtToken, getBaseURI());
+		response = requestForBody(jwt1, getBaseURI());
 		writeDto(response, getResourceName(), ActionNames.GET_LIST);
-		response = requestForBody(jwtToken, getItemUrl(newRole.getId()));
+		response = requestForBody(jwt1, getItemUrl(newRole.getId()));
 		writeDto(response, getResourceName(), ActionNames.GET_ONE);
-		deleteByExchange(jwtToken, getItemUrl(newRole.getId()));
+		deleteByExchange(jwt1, getItemUrl(newRole.getId()));
 	}
 	
 	@Test

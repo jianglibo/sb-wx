@@ -13,7 +13,6 @@ import com.jianglibo.wx.JsonApiListBodyWrapper;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootGroup;
-import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.katharsis.dto.ApproveDto;
 import com.jianglibo.wx.katharsis.dto.GroupDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
@@ -24,15 +23,14 @@ public class TestUserGroupRelation  extends KatharsisBase {
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllUsers();
 		groupRepo.deleteAll();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
 	public void tOpenGroup() throws JsonParseException, JsonMappingException, IOException {
-		BootUser bu1 = tutil.createBootUser("b2", "123");
-		
 		BootGroup bg = new BootGroup("agroup");
 		bg.setOpenToAll(true);
+		bg.setCreator(user1);
 		bg = groupRepo.save(bg);
 		
 		assertTrue(bg.getMembers().isEmpty());
@@ -41,41 +39,40 @@ public class TestUserGroupRelation  extends KatharsisBase {
 		
 		String s = indentOm.writeValueAsString(jl);
 		
-		response = addRelationWithContent(s, "joinedGroups", bu1.getId(), jwtToken);
+		response = addRelationWithContent(s, "joinedGroups", user1.getId(), jwt1);
 		assertResponseCode(response, 204);
 		
 		// because group is opening to all, no approve created.
-		response = requestForBody(jwtToken, getBaseURI() + "/" + bu1.getId()  + "/sentApproves");
+		response = requestForBody(jwt1, getBaseURI() + "/" + user1.getId()  + "/sentApproves");
 		assertItemNumber(response, ApproveDto.class, 0);
 
 		
 		// user's joined group should be 1.
-		response = requestForBody(jwtToken, getBaseURI() + "/" + bu1.getId()  + "/joinedGroups");
+		response = requestForBody(jwt1, getBaseURI() + "/" + user1.getId()  + "/joinedGroups");
 		assertItemNumber(response, GroupDto.class, 1);
 		
 		// group's members should be 1.
-		response = requestForBody(jwtToken, getBaseURI(JsonApiResourceNames.BOOT_GROUP) + "/" + bg.getId()  + "/members");
+		response = requestForBody(jwt1, getBaseURI(JsonApiResourceNames.BOOT_GROUP) + "/" + bg.getId()  + "/members");
 		assertItemNumber(response, UserDto.class, 1);
 		
 		
-		response = deleteRelationWithContent(s, "joinedGroups", bu1.getId(), jwtToken);
+		response = deleteRelationWithContent(s, "joinedGroups", user1.getId(), jwt1);
 		assertResponseCode(response, 204);
 		
 		// user's joined group should be 0.
-		response = requestForBody(jwtToken, getBaseURI() + "/" + bu1.getId()  + "/joinedGroups");
+		response = requestForBody(jwt1, getBaseURI() + "/" + user1.getId()  + "/joinedGroups");
 		assertItemNumber(response, GroupDto.class, 0);
 		
 		// group's members should be 0.
-		response = requestForBody(jwtToken, getBaseURI(JsonApiResourceNames.BOOT_GROUP) + "/" + bg.getId()  + "/members");
+		response = requestForBody(jwt1, getBaseURI(JsonApiResourceNames.BOOT_GROUP) + "/" + bg.getId()  + "/members");
 		assertItemNumber(response, UserDto.class, 0);
 	}
 	
 	@Test
 	public void tCloseGroup() throws JsonParseException, JsonMappingException, IOException {
-		BootUser bu1 = tutil.createBootUser("b2", "123");
-		
 		BootGroup bg = new BootGroup("agroup");
 		bg.setOpenToAll(false);
+		bg.setCreator(user1);
 		bg = groupRepo.save(bg);
 		
 		assertTrue(bg.getMembers().isEmpty());
@@ -84,11 +81,11 @@ public class TestUserGroupRelation  extends KatharsisBase {
 		
 		String s = indentOm.writeValueAsString(jl);
 		
-		response = addRelationWithContent(s, "joinedGroups", bu1.getId(), jwtToken);
+		response = addRelationWithContent(s, "joinedGroups", user1.getId(), jwt1);
 		assertResponseCode(response, 204);
 		
 		// because group isn't opening to all, no approve created.
-		response = requestForBody(jwtToken, getBaseURI() + "/" + bu1.getId()  + "/sentApproves");
+		response = requestForBody(jwt1, getBaseURI() + "/" + user1.getId()  + "/sentApproves");
 		writeDto(response.getBody(), getResourceName(), "sentApproves");
 		assertItemNumber(response, ApproveDto.class, 1);
 	}

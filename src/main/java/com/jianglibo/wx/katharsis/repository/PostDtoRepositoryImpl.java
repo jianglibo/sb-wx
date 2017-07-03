@@ -11,10 +11,12 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
+import com.jianglibo.wx.domain.Unread;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.facade.PostFacadeRepository;
 import com.jianglibo.wx.facade.PostShareFacadeRepository;
+import com.jianglibo.wx.facade.UnreadFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
 import com.jianglibo.wx.katharsis.dto.converter.DtoConverter.Scenario;
@@ -33,6 +35,9 @@ public class PostDtoRepositoryImpl  extends DtoRepositoryBase<PostDto, PostDtoLi
 	
 	@Autowired
 	private BootUserFacadeRepository userRepo;
+	
+	@Autowired
+	private UnreadFacadeRepository unreadRepo;
 	
 	@Autowired
 	public PostDtoRepositoryImpl(PostFacadeRepository repository, PostDtoConverter converter) {
@@ -60,10 +65,16 @@ public class PostDtoRepositoryImpl  extends DtoRepositoryBase<PostDto, PostDtoLi
 		} else if ("sharedUsers".equals(rq.getRelationName())) {
 			BootUser user = userRepo.findOne(rq.getRelationIds().get(0), true);
 			Page<PostShare> pss = psRepo.findByBootUser(user, QuerySpecUtil.getPageFacade(querySpec));
-			PostDtoList pdl = convertToResourceList(pss.getContent().stream().map(ps -> ps.getPost()).collect(Collectors.toList()), pss.getTotalResourceCount(), Scenario.RELATION_LIST);
+			List<Post> postlist = pss.getContent().stream().map(ps -> ps.getPost()).collect(Collectors.toList());
+			Page<Post> posts = new Page<>(pss.getTotalResourceCount(), postlist);
 			
+			PostDtoList pdl = convertToResourceList(posts, Scenario.RELATION_LIST);
 			List<UserDto> users = Arrays.asList(new UserDto(user.getId()));
-			pdl.forEach(p -> p.setSharedUsers(users));
+			pdl.forEach(p -> {
+				p.setSharedUsers(users);
+				boolean hasRead = unreadRepo.userHasReadThisPost(user, p.getId());
+				p.setRead(hasRead);
+			});
 			return pdl;
 		}
 		return null;

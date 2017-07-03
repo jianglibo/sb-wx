@@ -28,24 +28,22 @@ public class TestPostGetList  extends KatharsisBase {
 		deleteAllPost();
 		groupRepo.deleteAll();
 		unreadRepo.deleteAll();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
 	public void tGetList() throws IOException {
-		BootUser b1 = tutil.createBootUser("b1", "123");
-		createPost(b1, true);
-		String jwt = getJwtToken("b1", "123");
-		response = requestForBody(jwt, getBaseURI() + "?filter[toAll]=true&page[offset]=0&page[limit]=19");
+		createPost(user1, true);
+		response = requestForBody(jwt1, getBaseURI() + "?filter[toAll]=true&page[offset]=0&page[limit]=19");
 		List<PostDto> posts = getList(response, PostDto.class);
 		assertThat(posts.size(), equalTo(1));
 		
-		response = requestForBody(jwt, getBaseURI() + "?filter[toAll]=true&page[offset]=19&page[limit]=19");
+		response = requestForBody(jwt1, getBaseURI() + "?filter[toAll]=true&page[offset]=19&page[limit]=19");
 		posts = getList(response, PostDto.class);
 		assertThat(posts.size(), equalTo(0));
 
 		
-		response = requestForBody(jwt, getBaseURI() + "?filter[toAll]=false");
+		response = requestForBody(jwt1, getBaseURI() + "?filter[toAll]=false");
 		assertAccessDenied(response);
 	}
 	

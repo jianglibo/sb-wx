@@ -13,7 +13,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
-import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 
@@ -21,14 +20,11 @@ public class TestUserMyPostRelation  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		deleteAllUsers();
+		initTestUser();
 	}
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		BootUser user1 = tutil.createBootUser("b1", "123", "a", "b", "c");
-		BootUser user2 = tutil.createBootUser("b2", "123");
-		
 		Post post1 = new Post();
 		post1.setTitle("title");
 		post1.setContent("content");
@@ -41,14 +37,12 @@ public class TestUserMyPostRelation  extends KatharsisBase {
 		post2.setCreator(user1);
 		post2 = postRepo.save(post2);
 		
-		String jwt = getJwtToken("b1", "123");
-		response = requestForBody(jwt, getItemUrl(user1.getId()) + "/posts");
+		response = requestForBody(jwt1, getItemUrl(user1.getId()) + "/posts");
 		writeDto(response.getBody(), getResourceName(), "getpostsrelation");
 		List<PostDto> posts = getList(response, PostDto.class);
 		assertThat(posts.size(), equalTo(2));
 		
-		String jwt1 = getJwtToken("b2", "123");
-		response = requestForBody(jwt1, getItemUrl(user1.getId()) + "/posts");
+		response = requestForBody(jwt2, getItemUrl(user1.getId()) + "/posts");
 		assertAccessDenied(response);
 		
 	}

@@ -24,23 +24,21 @@ public class TestReceivedPosts extends KatharsisBase {
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		deleteAllUsers();
-		jwtToken = getAdminJwtToken();
+		initTestUser();
 	}
 	
 	@Test
 	public void t() throws IOException {
-		BootUser bu = bootUserRepo.findByName("admin");
-		
 		Post post = new Post();
 		post.setTitle("title");
 		post.setContent("content");
-		post.setCreator(bu);
+		post.setCreator(user1);
 		postRepo.save(post);
 		BootUser b1 = tutil.createBootUser("b1", "123");
 		PostShare ps = new PostShare(post, b1);
 		psRepo.save(ps);
 
-		response = requestForBody(jwtToken, getItemUrl(b1.getId()) + "/receivedPosts");
+		response = requestForBody(jwt1, getItemUrl(b1.getId()) + "/receivedPosts");
 		
 		writeDto(response, JsonApiResourceNames.BOOT_USER, "getreceived");
 		assertItemNumber(response, Post.class, 1);

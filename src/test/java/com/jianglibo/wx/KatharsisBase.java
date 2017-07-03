@@ -45,6 +45,7 @@ import com.jianglibo.wx.constant.AppErrorCodes;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.util.UuidUtil;
+import com.jianglibo.wx.vo.RoleNames;
 
 import io.katharsis.client.KatharsisClient;
 import io.katharsis.core.internal.boot.KatharsisBoot;
@@ -72,6 +73,10 @@ public abstract class KatharsisBase extends Tbase {
 	
 	protected BootUser user1;
 	protected BootUser user2;
+	
+	protected BootUser adminUser;
+	
+	protected String adminJwt;
 	
 	protected String jwt1;
 	protected String jwt2;
@@ -307,9 +312,11 @@ public abstract class KatharsisBase extends Tbase {
 	public void initTestUser() throws IOException {
 		deleteAllUsers();
 		user1 = tutil.createUser1();
-		user2 = tutil.createUser1();
+		user2 = tutil.createUser2();
+		adminUser = tutil.createBootUser("admin", "123456", RoleNames.ROLE_ADMINISTRATOR);
 		jwt1 = getJwtToken(Tutil.USER_1, Tutil.PASSWORD);
 		jwt2 = getJwtToken(Tutil.USER_2, Tutil.PASSWORD);
+		adminJwt = getJwtToken("amdin", "123456");
 	}
 
 	

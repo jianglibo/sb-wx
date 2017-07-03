@@ -8,8 +8,8 @@ import com.jianglibo.wx.katharsis.dto.UnreadDto;
 
 
 public interface UnreadFacadeRepository extends FacadeRepositoryBase<Unread, UnreadDto> {
-    List<Unread> findByBootUserAndType(BootUser user, String type, long offset, Long limit, SortBroker...sortBrokers);
-    long countByBootUserAndType(BootUser user, String type);
+    Page<Unread> findByBootUserAndType(BootUser user, String type, PageFacade pf);
+    
     List<Unread> findAll();
-	Unread findByBootUserAndTypeAndObid(BootUser user, String type, Long id);
+    boolean userHasReadThisPost(BootUser user, Long id);
 }

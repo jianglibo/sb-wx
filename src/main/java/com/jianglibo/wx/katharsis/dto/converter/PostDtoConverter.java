@@ -22,17 +22,6 @@ public class PostDtoConverter implements DtoConverter<Post, PostDto> {
 	@Autowired
 	private MediumDtoConverter mediumConverter;
 
-//	@Override
-//	public Post dto2Entity(PostDto dto) {
-//		Post entity = new Post();
-//		BeanUtils.copyProperties(dto, entity, "creator", "media");
-//		dto.getMedia().stream().map(mdto -> {
-//			Medium m = mediumRepo.findOne(mdto.getId());
-//			return m;
-//			});
-//		return entity;
-//	}
-
 	@Override
 	public PostDto entity2Dto(Post entity, Scenario scenario) {
 		PostDto dto = new PostDto();
@@ -40,6 +29,9 @@ public class PostDtoConverter implements DtoConverter<Post, PostDto> {
 		dto.setCreator(userConverter.entity2Dto(entity.getCreator(), scenario));
 		if (entity.getMedia() != null) {
 			dto.setMedia(entity.getMedia().stream().map(en -> mediumConverter.entity2Dto(en, Scenario.RELATION_LIST)).collect(Collectors.toList()));
+		}
+		if (scenario == Scenario.FIND_ONE) {
+			dto.setRead(true);
 		}
 		return dto;
 	}

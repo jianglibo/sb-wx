@@ -37,7 +37,7 @@ public class PostShareFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post
 	}
 
 	@Override
-	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED + "and (#entity.id == principal.id)")
+	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED + " and (#entity.id == principal.id)")
 	public Page<PostShare> findByBootUser(@P("entity")BootUser user, PageFacade pf) {
 		org.springframework.data.domain.Page<PostShare> opage = getRepository().findAllByBootUser(user, new SimplePageable(pf));
 		return new Page<>(opage.getTotalElements(), opage.getContent());

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Unread;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
+import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.facade.UnreadFacadeRepository;
 import com.jianglibo.wx.katharsis.dto.UnreadDto;
 import com.jianglibo.wx.katharsis.dto.UserDto;
@@ -57,9 +58,8 @@ public class UnreadDtoRepositoryImpl  extends DtoRepositoryBase<UnreadDto, Unrea
 			}
 			UserDto udto = new UserDto(rq.getRelationIds().get(0));
 			BootUser bu = userRepo.findOne(udto.getId(), true);
-			List<Unread> unreads = unreadRepo.findByBootUserAndType(bu, type, querySpec.getOffset(), querySpec.getLimit(), QuerySpecUtil.getSortBrokers(querySpec));
-			long count = unreadRepo.countByBootUserAndType(bu, type);
-			UnreadDtoList urdl = convertToResourceList(unreads, count, Scenario.FIND_LIST);
+			Page<Unread> unreads = unreadRepo.findByBootUserAndType(bu, type, QuerySpecUtil.getPageFacade(querySpec));
+			UnreadDtoList urdl = convertToResourceList(unreads, Scenario.FIND_LIST);
 			urdl.forEach(mn -> mn.setUser(udto));
 			return urdl;
 		}

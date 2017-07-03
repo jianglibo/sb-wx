@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.MessageNotify;
-import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.MessageNotifyFacadeRepository;
 import com.jianglibo.wx.facade.Page;
@@ -50,7 +49,7 @@ public class MessageNotifyDtoRepositoryImpl  extends DtoRepositoryBase<MessageNo
 		if ("user".equals(rq.getRelationName())) {
 			UserDto udto = new UserDto(rq.getRelationIds().get(0));
 			BootUser bu = userRepo.findOne(udto.getId(), true);
-			Page<MessageNotify> mns = mnRepo.findByBootUser(bu, Post.class.getSimpleName());
+			Page<MessageNotify> mns = mnRepo.findByBootUser(bu);
 			MessageNotifyDtoList mnl = convertToResourceList(mns, Scenario.FIND_LIST);
 			mnl.forEach(mn -> mn.setUser(udto));
 			return mnl;

@@ -31,8 +31,8 @@ public class MessageNotifyFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<
 	}
 
 	@Override
-	public Page<MessageNotify> findByBootUser(BootUser user, String ntype) {
-		List<MessageNotify> mns = getRepository().findByBootUser(user, ntype);
+	public Page<MessageNotify> findByBootUser(BootUser user) {
+		List<MessageNotify> mns = getRepository().findByBootUser(user);
 		return new Page<>(mns.size(), mns);
 	}
 

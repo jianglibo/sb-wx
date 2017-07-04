@@ -1,40 +1,7 @@
 {
-  "data" : [ {
-    "id" : "229376",
-    "type" : "posts",
-    "attributes" : {
-      "createdAt" : 1498097900230,
-      "media" : [ ],
-      "title" : "title",
-      "content" : "content",
-      "dtoAction" : null,
-      "dtoApplyTo" : null
-    },
-    "relationships" : {
-      "sharedUsers" : {
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/229376/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/229376/sharedUsers"
-        }
-      },
-      "creator" : {
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/229376/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/229376/creator"
-        }
-      }
-    },
-    "links" : {
-      "self" : "http://localhost/jsonapi/posts/229376"
-    }
-  } ],
-  "links" : {
-    "first" : "http://localhost/jsonapi/posts/?include[posts]=sharedUsers&page[limit]=20&filter[posts][sharedUsers][id][EQ]=327681",
-    "last" : "http://localhost/jsonapi/posts/?include[posts]=sharedUsers&page[limit]=20&filter[posts][sharedUsers][id][EQ]=327681",
-    "next" : null,
-    "prev" : null
-  },
-  "meta" : {
-    "totalResourceCount" : 1
-  }
+  "errors" : [ {
+    "code" : "E4001001",
+    "title" : "org.springframework.security.access.AccessDeniedException",
+    "detail" : "不允许访问"
+  } ]
 }

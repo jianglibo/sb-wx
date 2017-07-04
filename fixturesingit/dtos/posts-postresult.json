@@ -1,50 +1,7 @@
 {
-  "data" : {
-    "id" : "884737",
-    "type" : "posts",
-    "attributes" : {
-      "toAll" : false,
-      "createdAt" : 1498810388124,
-      "read" : false,
-      "title" : "title",
-      "content" : "content",
-      "dtoAction" : null,
-      "dtoApplyTo" : null
-    },
-    "relationships" : {
-      "sharedUsers" : {
-        "data" : [ ],
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/884737/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/884737/sharedUsers"
-        }
-      },
-      "creator" : {
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/884737/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/884737/creator"
-        }
-      },
-      "sharedGroups" : {
-        "data" : [ ],
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/884737/relationships/sharedGroups",
-          "related" : "http://localhost/jsonapi/posts/884737/sharedGroups"
-        }
-      },
-      "media" : {
-        "data" : [ {
-          "id" : "163842",
-          "type" : "medium"
-        } ],
-        "links" : {
-          "self" : "http://localhost/jsonapi/posts/884737/relationships/media",
-          "related" : "http://localhost/jsonapi/posts/884737/media"
-        }
-      }
-    },
-    "links" : {
-      "self" : "http://localhost/jsonapi/posts/884737"
-    }
-  }
+  "errors" : [ {
+    "code" : "E4001001",
+    "title" : "org.springframework.security.access.AccessDeniedException",
+    "detail" : "不允许访问"
+  } ]
 }

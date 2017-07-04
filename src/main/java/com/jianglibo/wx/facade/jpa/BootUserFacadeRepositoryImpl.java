@@ -4,6 +4,7 @@ package com.jianglibo.wx.facade.jpa;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,9 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	
 	@Autowired
 	private GroupUserRelationFacadeRepository gurRepo;
+	
+	@Autowired
+	private BootUserFacadeRepository userRepo;
 
 	@Autowired
 	public BootUserFacadeRepositoryImpl(BootUserRepository jpaRepo) {
@@ -111,8 +115,18 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ADMINISTRATOR') or (#group.creator.id == principal.id)")
 	public Page<BootUser> findAllByGroup(@P("group") BootGroup group, PageFacade pf) {
+		boolean allow = false;
+		if (group.getCreator().getId().equals(SecurityUtil.getLoginUserId()) || SecurityUtil.hasRole(RoleNames.ROLE_ADMINISTRATOR)) {
+			allow = true;
+		}
+		if (!allow) {
+			BootUser user = userRepo.findOne(SecurityUtil.getLoginUserId(), true);
+			GroupUserRelation gr = gurRepo.findByBootGroupAndBootUser(group, user);
+			if (gr == null) {
+				throw new AccessDeniedException("only group members can browser group members.");
+			}
+		}
 		Page<GroupUserRelation> page = gurRepo.findByBootGroup(group,pf);
 		return new Page<>(page.getTotalResourceCount(), page.getContent().stream().map(gur -> gur.getBootUser()).collect(Collectors.toList()));
 	}

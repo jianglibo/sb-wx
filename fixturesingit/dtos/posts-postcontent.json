@@ -8,22 +8,22 @@
     "relationships" : {
       "sharedUsers" : {
         "data" : [ {
-          "id" : "2326530",
+          "id" : "884774",
           "type" : "users"
         }, {
-          "id" : "2326531",
+          "id" : "884775",
           "type" : "users"
         } ]
       },
       "sharedGroups" : {
         "data" : [ {
-          "id" : "458753",
+          "id" : "3",
           "type" : "groups"
         } ]
       },
       "media" : {
         "data" : [ {
-          "id" : "163842",
+          "id" : "3",
           "type" : "medium"
         } ]
       }

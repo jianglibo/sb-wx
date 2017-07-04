@@ -1,12 +1,12 @@
 {
   "data" : [ {
-    "id" : "327680",
+    "id" : "163840",
     "type" : "approves",
     "attributes" : {
-      "createdAt" : 1498729286083,
-      "targetId" : null,
+      "createdAt" : 1499156448655,
+      "targetId" : 163841,
       "targetType" : "com.jianglibo.wx.domain.BootGroup",
-      "state" : "REQUEST_PENDING",
+      "state" : "PENDING",
       "dtoAction" : null,
       "descriptionTpl" : null,
       "dtoApplyTo" : null
@@ -14,24 +14,24 @@
     "relationships" : {
       "requester" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/approves/327680/relationships/requester",
-          "related" : "http://localhost/jsonapi/approves/327680/requester"
+          "self" : "http://localhost/jsonapi/approves/163840/relationships/requester",
+          "related" : "http://localhost/jsonapi/approves/163840/requester"
         }
       },
       "receiver" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/approves/327680/relationships/receiver",
-          "related" : "http://localhost/jsonapi/approves/327680/receiver"
+          "self" : "http://localhost/jsonapi/approves/163840/relationships/receiver",
+          "related" : "http://localhost/jsonapi/approves/163840/receiver"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/approves/327680"
+      "self" : "http://localhost/jsonapi/approves/163840"
     }
   } ],
   "links" : {
-    "first" : "http://localhost/jsonapi/approves/?page[limit]=20&include[approves]=requester&filter[approves][requester][id][EQ]=1900546",
-    "last" : "http://localhost/jsonapi/approves/?page[limit]=20&include[approves]=requester&filter[approves][requester][id][EQ]=1900546",
+    "first" : "http://localhost/jsonapi/approves/?page[limit]=20&include[approves]=requester&filter[approves][requester][id][EQ]=1048581",
+    "last" : "http://localhost/jsonapi/approves/?page[limit]=20&include[approves]=requester&filter[approves][requester][id][EQ]=1048581",
     "next" : null,
     "prev" : null
   },

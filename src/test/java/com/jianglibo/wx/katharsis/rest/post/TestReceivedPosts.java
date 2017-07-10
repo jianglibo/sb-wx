@@ -1,4 +1,4 @@
-package com.jianglibo.wx.katharsis.rest;
+package com.jianglibo.wx.katharsis.rest.post;
 
 import java.io.IOException;
 

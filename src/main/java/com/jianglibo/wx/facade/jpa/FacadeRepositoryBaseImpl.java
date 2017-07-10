@@ -41,10 +41,10 @@ public abstract class FacadeRepositoryBaseImpl<T extends BaseEntity, D extends D
 		jpaRepo.delete(entity);
 	}
 	
-	@Override
-	public void delete(Long id) {
-		jpaRepo.delete(id);
-	}
+//	@Override
+//	public void delete(Long id) {
+//		jpaRepo.delete(id);
+//	}
 
 	@Override
 	public T findOne(Long id, boolean internalCall) {

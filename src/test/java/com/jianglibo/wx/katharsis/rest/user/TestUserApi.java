@@ -1,4 +1,4 @@
-package com.jianglibo.wx.katharsis.rest;
+package com.jianglibo.wx.katharsis.rest.user;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -42,11 +42,7 @@ public class TestUserApi  extends KatharsisBase {
 	
 	@Test
 	public void tAddOne() throws JsonParseException, JsonMappingException, IOException {
-		long c= bootUserRepo.count();
-		assertThat(c, equalTo(1L));
-		
 		BootUser bu = tutil.createBootUser("b1", "123", "a", "b", "c");
-		
 		Long[] roleids = bu.getRoles().stream().map(r -> r.getId()).toArray(size -> new Long[size]);
 		
 		JsonApiPostBodyWrapper<CreateListBody> jbw = JsonApiPostBodyWrapperBuilder.getListRelationBuilder(getResourceName())
@@ -59,10 +55,12 @@ public class TestUserApi  extends KatharsisBase {
 		String s = indentOm.writeValueAsString(jbw);
 		writeDto(s, JsonApiResourceNames.BOOT_USER, "postcontent");
 		
-		ResponseEntity<String> response = postItemWithContent(s, jwt1);
+		// every can add a new user.
+		ResponseEntity<String> response = postItemWithContent(s, null);
 		
 		writeDto(response, getResourceName(), ActionNames.POST_RESULT);
 		assertThat(response.getStatusCodeValue(), equalTo(HttpStatus.CREATED.value()));
+		
 		UserDto newUser = getOne(response.getBody(), UserDto.class);
 		
 		BootUser u = bootUserRepo.findOne(newUser.getId());
@@ -75,15 +73,15 @@ public class TestUserApi  extends KatharsisBase {
 		writeDto(response, getResourceName(), ActionNames.GET_ONE);
 		
 		response = deleteByExchange(jwt1, getItemUrl(newUser.getId()));
-		assertThat(bootUserRepo.count(), equalTo(c + 1));
 	}
 	
 	@Test
 	public void tChangePasswd() throws JsonParseException, JsonMappingException, IOException {
-		long c= bootUserRepo.count();
-		assertThat(c, equalTo(1L));
+		String uname = "b111111111";
+		String upass = "1231111111";
+		String nupass = "akka123456";
 		
-		BootUser bu = tutil.createBootUser("b111111111", "1231111111", "a", "b", "c");
+		BootUser bu = tutil.createBootUser(uname, upass, "a", "b", "c");
 		
 		Long[] roleids = bu.getRoles().stream().map(r -> r.getId()).toArray(size -> new Long[size]);
 		
@@ -91,16 +89,20 @@ public class TestUserApi  extends KatharsisBase {
 				.addAttributePair("name", "name1334")
 				.addAttributePair("email", "ab@c.com")
 				.addAttributePair("mobile", "13777777777")
-				.addAttributePair("password", "akka123456")
+				.addAttributePair("password", nupass)
 				.addAttributePair("dtoAction", "modify")
 				.addAttributePair("dtoApplyTo", "password")
 				.addRelation("roles", JsonApiResourceNames.ROLE, roleids).build();
 		
 		String s = indentOm.writeValueAsString(jbw);
+		// user1 don't allow to change bu's password.
 		response = patchByExchange(s, jwt1, getItemUrl(bu.getId()));
-		writeDto(response, getResourceName(), ActionNames.PATCH_RESULT);
+		assertAccessDenied(response);
 		
-		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken("b111111111",	"akka123456");
+		String jwt = getJwtToken(uname, upass, "a","b","c");
+		response = patchByExchange(s, jwt, getItemUrl(bu.getId()));
+		writeDto(response, getResourceName(), ActionNames.PATCH_RESULT);
+		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken("b111111111",	nupass);
 		getAuthenticationManager().authenticate(authRequest);
 	}
 	

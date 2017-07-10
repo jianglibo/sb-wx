@@ -16,6 +16,8 @@ public class PreAuthorizeExpression {
 	
 	public static final String ENTITY_ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE = "hasRole('ADMINISTRATOR') or (#entity.id == principal.id)";
 	
+	public static final String ENTITY_CREATOR_ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE = "hasRole('ADMINISTRATOR') or (#entity.creator.id == principal.id)";
+	
 	public static final String RETURN_OBJECT_EQ = "returnObject";
 	
 	public static final String PRINCIPAL_ID = "principal.id";

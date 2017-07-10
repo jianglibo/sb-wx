@@ -33,9 +33,6 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	private GroupUserRelationFacadeRepository gurRepo;
 	
 	@Autowired
-	private BootUserFacadeRepository userRepo;
-
-	@Autowired
 	public BootUserFacadeRepositoryImpl(BootUserRepository jpaRepo) {
 		super(jpaRepo);
 	}
@@ -44,12 +41,6 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
     @PreAuthorize("hasRole('ADMINISTRATOR') and (#entity.id != principal.id)")
 	public void delete(@P("entity") BootUser entity) {
 		super.delete(entity);
-	}
-	
-	@Override
-    @PreAuthorize("hasRole('ADMINISTRATOR') and (#id != principal.id)")
-	public void delete(@P("id") Long id) {
-		super.delete(id);
 	}
 
 
@@ -121,7 +112,7 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 			allow = true;
 		}
 		if (!allow) {
-			BootUser user = userRepo.findOne(SecurityUtil.getLoginUserId(), true);
+			BootUser user = findOne(SecurityUtil.getLoginUserId(), true);
 			GroupUserRelation gr = gurRepo.findByBootGroupAndBootUser(group, user);
 			if (gr == null) {
 				throw new AccessDeniedException("only group members can browser group members.");

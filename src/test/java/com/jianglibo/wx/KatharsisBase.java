@@ -54,6 +54,7 @@ import io.katharsis.resource.Document;
 
 public abstract class KatharsisBase extends Tbase {
 	
+	@SuppressWarnings("unused")
 	private static String mt = "application/vnd.api+json;charset=UTF-8";
 	
 	private static Path dtosPath = Paths.get("fixturesingit", "dtos");
@@ -218,6 +219,7 @@ public abstract class KatharsisBase extends Tbase {
 	
 	public void writeDto(String content, String resourceName, String action) {
 		try {
+			@SuppressWarnings("unchecked")
 			Map<String, Object> v = indentOm.readValue(content.getBytes(StandardCharsets.UTF_8), Map.class);
 			content = indentOm.writeValueAsString(v);
 			Files.write(dtosPath.resolve(resourceName + "-" + action + ".json"), content.getBytes(StandardCharsets.UTF_8));
@@ -280,7 +282,12 @@ public abstract class KatharsisBase extends Tbase {
 	}
 	
 	public ResponseEntity<String> postItemWithContent(String content, String jwtToken) throws IOException {
-		HttpEntity<String> request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
+		HttpEntity<String> request;
+		if (jwtToken != null && !jwtToken.trim().isEmpty()) {
+			request = new HttpEntity<String>(content, getAuthorizationHaders(jwtToken));
+		} else {
+			request = new HttpEntity<String>(content);
+		}
 		return restTemplate.postForEntity(getBaseURI(), request, String.class);
 	}
 	
@@ -310,6 +317,7 @@ public abstract class KatharsisBase extends Tbase {
 	
 
 	public void initTestUser() throws IOException {
+		delteAllGroups();
 		deleteAllUsers();
 		user1 = tutil.createUser1();
 		user2 = tutil.createUser2();
@@ -342,16 +350,18 @@ public abstract class KatharsisBase extends Tbase {
 		return objectMapper.readValue(responseBody, Document.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> T getOne(String responseBody, Class<T> targetClass) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = kboot.getObjectMapper();
 		Document document = objectMapper.readValue(responseBody, Document.class);
-		return (T) katharsisClient.getDocumentMapper().fromDocument(document, false);
+		return ((T) katharsisClient.getDocumentMapper().fromDocument(document, false));
 	}
 	
 	public <T> T getOne(ResponseEntity<String> response, Class<T> targetClass) throws JsonParseException, JsonMappingException, IOException {
 		return getOne(response.getBody(), targetClass);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> List<T> getList(String responseBody, Class<T> targetClass) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = kboot.getObjectMapper();
 		Document document = objectMapper.readValue(responseBody, Document.class);
@@ -423,6 +433,7 @@ public abstract class KatharsisBase extends Tbase {
 		return objectMapper.readValue(ns, Document.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected String replaceRelationshipIdReturnString(String origin,String relationName, Long id) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(origin, Map.class);
 		
@@ -436,6 +447,7 @@ public abstract class KatharsisBase extends Tbase {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	protected String replaceEmbeddedListIdReturnString(String origin,String propertyName, Long...ids) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(origin, Map.class);
 		
@@ -456,6 +468,7 @@ public abstract class KatharsisBase extends Tbase {
 
 
 	
+	@SuppressWarnings("unchecked")
 	protected String replaceRelationshipIdReturnString(String origin,String key, String value, String...paths) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(origin, Map.class);
 		
@@ -471,6 +484,7 @@ public abstract class KatharsisBase extends Tbase {
 		return objectMapper.readValue(replaceRelationshipLinkIdReturnString(origin, relationName, myType, value), Document.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private String getRelationshipUrl(String content, String resoureName, boolean self) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(content, Map.class);
 		Map<String, Object> dest = m;
@@ -492,6 +506,7 @@ public abstract class KatharsisBase extends Tbase {
 		return getRelationshipUrl(content, resoureName, false);
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected String replaceRelationshipLinkIdReturnString(String origin,String relationName, String myType, Long value) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(origin, Map.class);
 		
@@ -516,6 +531,7 @@ public abstract class KatharsisBase extends Tbase {
 		return objectMapper.writeValueAsString(m);
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected Object getDocumentProperty(String responseBody, String...keys) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(responseBody, Map.class);
 		String[] segs = Arrays.copyOf(keys, keys.length - 1);
@@ -565,6 +581,7 @@ public abstract class KatharsisBase extends Tbase {
 		verifyAllKeys(response, relationNames, new String[]{"data", "relationships"});
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void verifyAllKeys(ResponseEntity<String> response, String[] keys, String...paths) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(response.getBody(), Map.class);
 		Map<String, Object> dest = m;
@@ -574,6 +591,7 @@ public abstract class KatharsisBase extends Tbase {
 		assertThat(dest.keySet(), containsInAnyOrder(keys));
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void verifyAnyKeys(ResponseEntity<String> response, String[] keys, String...paths) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(response.getBody(), Map.class);
 		Map<String, Object> dest = m;
@@ -585,6 +603,7 @@ public abstract class KatharsisBase extends Tbase {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void verifyOneKey(ResponseEntity<String> response, String key, String...paths) throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> m = objectMapper.readValue(response.getBody(), Map.class);
 		Map<String, Object> dest = m;

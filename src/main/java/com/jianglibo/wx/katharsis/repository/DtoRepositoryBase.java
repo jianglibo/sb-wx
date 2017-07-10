@@ -66,7 +66,8 @@ public abstract class DtoRepositoryBase<T extends Dto, L extends ResourceListBas
 	//MethodSecurityMetadataSourceAdvisor
 	@Override
 	public void delete(Long id) {
-		repository.delete(id);
+		E entity = repository.findOne(id, true);
+		repository.delete(entity);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -13,7 +13,7 @@ public interface FacadeRepositoryBase<E extends BaseEntity, D extends Dto> {
 	
 	void delete(E entity);
 	
-	void delete(Long id);
+//	void delete(Long id);
 	
 	E newByDto(D dto);
 

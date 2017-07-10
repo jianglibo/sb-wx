@@ -1,4 +1,4 @@
-package com.jianglibo.wx.katharsis.rest;
+package com.jianglibo.wx.katharsis.rest.user;
 
 import java.io.IOException;
 import java.util.stream.IntStream;

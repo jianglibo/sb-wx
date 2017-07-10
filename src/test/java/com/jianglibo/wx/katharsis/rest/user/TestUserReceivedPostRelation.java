@@ -1,4 +1,4 @@
-package com.jianglibo.wx.katharsis.rest;
+package com.jianglibo.wx.katharsis.rest.user;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -14,7 +14,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jianglibo.wx.KatharsisBase;
 import com.jianglibo.wx.config.JsonApiResourceNames;
-import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
 import com.jianglibo.wx.katharsis.dto.PostDto;
@@ -47,14 +46,12 @@ public class TestUserReceivedPostRelation  extends KatharsisBase {
 		psRepo.save(new PostShare(post1, user1));
 		psRepo.save(new PostShare(post2, user1));
 		
-		String jwt1 = getJwtToken(tutil.USER_1, tutil.PASSWORD);
 		response = requestForBody(jwt1, getItemUrl(user1.getId()) + "/receivedPosts");
 		
 		writeDto(response.getBody(), getResourceName(), "getreceivedpostsrelation");
 		List<PostDto> posts = getList(response, PostDto.class);
 		assertThat(posts.size(), equalTo(2));
 		
-		String jwt2 = getJwtToken(tutil.USER_2, tutil.PASSWORD);
 		response = requestForBody(jwt2, getItemUrl(user1.getId()) + "/receivedPosts");
 		assertAccessDenied(response);
 		
@@ -67,7 +64,7 @@ public class TestUserReceivedPostRelation  extends KatharsisBase {
 		assertData(response);
 		
 		// other users are denied.		
-		BootUser user3 = tutil.createBootUser("user3", "12345");
+		tutil.createBootUser("user3", "12345");
 		String jwt3 = getJwtToken("user3", "12345");
 		response = requestForBody(jwt3, getItemUrl(JsonApiResourceNames.POST, posts.get(0).getId()));
 		assertAccessDenied(response);

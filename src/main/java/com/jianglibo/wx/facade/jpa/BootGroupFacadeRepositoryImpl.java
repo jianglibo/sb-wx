@@ -1,6 +1,7 @@
 package com.jianglibo.wx.facade.jpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
@@ -28,10 +29,21 @@ public class BootGroupFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Boot
 	}
 	
 	@Override
-	@PreAuthorize(PreAuthorizeExpression.HAS_ADMINISTRATOR_ROLE)
-	public BootGroup save(BootGroup entity, GroupDto dto) {
+	@PreAuthorize(PreAuthorizeExpression.ENTITY_CREATOR_ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE)
+	public BootGroup save(@P("entity") BootGroup entity, GroupDto dto) {
 		return super.save(entity, dto);
 	}
+	
+	@Override
+	@PreAuthorize(PreAuthorizeExpression.ENTITY_CREATOR_ID_EQUAL_OR_HAS_ADMINISTRATOR_ROLE)
+	public void delete(@P("entity" )BootGroup entity) {
+		super.delete(entity);
+	}
+	
+//	@Override
+//	public void delete(Long id) {
+//		super.delete(id);
+//	}
 	
 
 	@Override
@@ -45,7 +57,7 @@ public class BootGroupFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Boot
 	}
 
 	@Override
-	@PreAuthorize(PreAuthorizeExpression.HAS_ADMINISTRATOR_ROLE)
+	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
 	public BootGroup newByDto(GroupDto dto) {
 		BootGroup entity = new BootGroup(dto.getName());
 		PropertyCopyUtil.copyPropertyOnly(entity, dto, entity.propertiesOnCreating());

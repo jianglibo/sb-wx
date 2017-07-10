@@ -54,9 +54,12 @@ public class JwtBasicFilter implements Filter {
 	public void setPattern(@Value("${katharsis.pathPrefix}") String prefix) {
 		String t = String.format("^%s.*", prefix);
 		pathPattern = Pattern.compile(t);
+		logger.info("apply url pattern: {}", t);
 		
 		String t1 = String.format("^%s/loginAttempts", prefix);
-		negPathPattern = Pattern.compile(String.format("%s/.*|%s", t1, t1));
+		String t2 = String.format("^%s/users", prefix);
+		negPathPattern = Pattern.compile(String.format("%s/.*|%s|%s/.*|%s", t1, t1, t2, t2));
+		logger.info("negtive url pattern: {}", t1);
 	}
 
     
@@ -68,7 +71,9 @@ public class JwtBasicFilter implements Filter {
 			HttpServletResponse response = (HttpServletResponse) res;
 			if (HttpMethod.POST.matches(request.getMethod()) && negPathPattern.matcher(request.getRequestURI()).matches()) {
 				chain.doFilter(request, response);
-			} else if (pathPattern.matcher(request.getRequestURI()).matches() || UrlConstants.UPLOAD_ENDPOINT.equals(request.getRequestURI()) || UrlConstants.POSTFORM_ENDPOINT.equals(request.getRequestURI())) {
+			} else if (pathPattern.matcher(request.getRequestURI()).matches()
+					|| UrlConstants.UPLOAD_ENDPOINT.equals(request.getRequestURI())
+					|| UrlConstants.POSTFORM_ENDPOINT.equals(request.getRequestURI())) {
 				try {
 					processBasicLogin(request, response);
 					chain.doFilter(req, res);

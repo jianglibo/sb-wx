@@ -1,4 +1,4 @@
-package com.jianglibo.wx.katharsis.rest;
+package com.jianglibo.wx.katharsis.rest.user;
 
 
 import static org.hamcrest.Matchers.equalTo;
@@ -21,6 +21,7 @@ import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.katharsis.dto.MessageNotifyDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UnreadDto;
+import com.jianglibo.wx.katharsis.rest.PostUtilFort;
 import com.jianglibo.wx.repository.UnreadRepository;
 import com.jianglibo.wx.util.MyJsonApiUrlBuilder;
 

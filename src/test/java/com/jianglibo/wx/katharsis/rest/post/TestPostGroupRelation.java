@@ -28,9 +28,6 @@ import com.jianglibo.wx.repository.PostShareRepository;
 
 public class TestPostGroupRelation  extends KatharsisBase {
 	
-	
-	private String jwtToken;
-	
 	@Autowired
 	private PostShareRepository psRepo;
 	
@@ -39,9 +36,6 @@ public class TestPostGroupRelation  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		deleteAllUsers();
-		deleteAllPost();
-		groupRepo.deleteAll();
 		initTestUser();
 	}
 	
@@ -63,20 +57,25 @@ public class TestPostGroupRelation  extends KatharsisBase {
 				.build();
 		String s = objectMapper.writeValueAsString(jbw);
 		
-		ResponseEntity<String> response = postItemWithContent(s, jwtToken);
+		ResponseEntity<String> response = postItemWithContent(s, jwt0);
 		
 		PostDto newPost = getOne(response.getBody(), PostDto.class);
 		
 		JsonApiListBodyWrapper jb = new JsonApiListBodyWrapper(JsonApiResourceNames.BOOT_GROUP, bg.getId());
 		
-		response = addRelationWithContent(indentOm.writeValueAsString(jb), "sharedGroups", newPost.getId(), jwtToken);
-		
+		// The creator of the post is user0. 
+		response = addRelationWithContent(indentOm.writeValueAsString(jb), "sharedGroups", newPost.getId(), jwt0);
 		List<PostShare> ps1 = psRepo.findAllByBootUser(user1);
 		List<PostShare> ps2 = psRepo.findAllByBootUser(user2);
-		
 		assertThat(ps1.size(), equalTo(1));
 		assertThat(ps2.size(), equalTo(1));
 		
+		// share to same users again.
+		response = addRelationWithContent(indentOm.writeValueAsString(jb), "sharedGroups", newPost.getId(), jwt0);
+		ps1 = psRepo.findAllByBootUser(user1);
+		ps2 = psRepo.findAllByBootUser(user2);
+		assertThat(ps1.size(), equalTo(1));
+		assertThat(ps2.size(), equalTo(1));
 	}
 
 

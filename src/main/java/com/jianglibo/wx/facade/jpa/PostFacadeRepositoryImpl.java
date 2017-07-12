@@ -71,7 +71,7 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 	}
 	
 	@Override
-	@PreAuthorize(PreAuthorizeExpression.HAS_ADMINISTRATOR_ROLE)
+	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED)
 	public Post save(Post entity, PostDto dto) {
 		return super.save(entity, dto);
 	}
@@ -108,7 +108,6 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 			Unread unread = new Unread();
 			unread.setObid(post.getId());
 			unread.setType(Post.class.getSimpleName());
-			unread.setRead(true);
 			unread.setBootUser(currentUser);
 			unreadRepo.save(unread, null);
 		}
@@ -161,13 +160,13 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 		return entity;
 	}
 	
-	public void saveSharePost(final Post fe, BootUser user) {
-		try {
-			PostShare ps = new PostShare(fe, user);
+	public void saveSharePost(final Post post, BootUser user) {
+//		try {
+			PostShare ps = new PostShare(post, user);
 			psRepo.save(ps, null);
 			Unread ur = new Unread();
 			ur.setBootUser(user);
-			ur.setObid(fe.getId());
+			ur.setObid(post.getId());
 			ur.setType(Post.class.getName());
 			unreadRepo.save(ur, null);
 			
@@ -182,9 +181,9 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 			
 			mn.setNumber(mn.getNumber() + 1);
 			mnRepo.save(mn, null);
-		} catch (Exception e) {
-			
-		}
+//		} catch (Exception e) {
+//			
+//		}
 	}
 
 	@PreAuthorize(PreAuthorizeExpression.IS_FULLY_AUTHENTICATED + " and #toAll")

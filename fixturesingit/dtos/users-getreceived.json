@@ -1,7 +1,53 @@
 {
-  "errors" : [ {
-    "code" : "E4001001",
-    "title" : "org.springframework.security.access.AccessDeniedException",
-    "detail" : "不允许访问"
-  } ]
+  "data" : [ {
+    "id" : "196608",
+    "type" : "posts",
+    "attributes" : {
+      "toAll" : false,
+      "createdAt" : 1499845385180,
+      "read" : false,
+      "title" : "title",
+      "content" : "content",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "relationships" : {
+      "sharedUsers" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/196608/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/196608/sharedUsers"
+        }
+      },
+      "creator" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/196608/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/196608/creator"
+        }
+      },
+      "sharedGroups" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/196608/relationships/sharedGroups",
+          "related" : "http://localhost/jsonapi/posts/196608/sharedGroups"
+        }
+      },
+      "media" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/196608/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/196608/media"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/posts/196608"
+    }
+  } ],
+  "links" : {
+    "first" : "http://localhost/jsonapi/posts/?include[posts]=sharedUsers&page[limit]=20&filter[posts][sharedUsers][id][EQ]=196609",
+    "last" : "http://localhost/jsonapi/posts/?include[posts]=sharedUsers&page[limit]=20&filter[posts][sharedUsers][id][EQ]=196609",
+    "next" : null,
+    "prev" : null
+  },
+  "meta" : {
+    "totalResourceCount" : 1
+  }
 }

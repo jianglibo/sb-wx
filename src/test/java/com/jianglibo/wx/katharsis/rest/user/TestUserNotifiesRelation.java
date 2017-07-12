@@ -27,7 +27,6 @@ public class TestUserNotifiesRelation  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		deleteAllUsers();
 		initTestUser();
 	}
 	

@@ -21,7 +21,6 @@ public class TestUserGroupRelation  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		groupRepo.deleteAll();
 		initTestUser();
 	}
 	
@@ -103,7 +102,6 @@ public class TestUserGroupRelation  extends KatharsisBase {
 		// member number is not changed.
 		response = requestForBody(jwt1, getBaseURI(JsonApiResourceNames.BOOT_GROUP) + "/" + bg.getId()  + "/members");
 		assertItemNumber(response, UserDto.class, 0);
-
 	}
 
 

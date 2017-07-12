@@ -23,6 +23,7 @@ import com.jianglibo.wx.config.JsonApiResourceNames;
 import com.jianglibo.wx.domain.BootGroup;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.GroupUserRelation;
+import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.jwt.JwtUtil;
 import com.jianglibo.wx.katharsis.dto.MediumDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
@@ -40,9 +41,6 @@ public class TestPostApi  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		deleteAllPost();
-		groupRepo.deleteAll();
-		unreadRepo.deleteAll();
 		initTestUser();
 	}
 
@@ -67,12 +65,11 @@ public class TestPostApi  extends KatharsisBase {
 		gur = new GroupUserRelation(bg, b4);
 		guRepo.save(gur);
 
-		apacheResponse = postPost(jwt1,"atitle", "acontent"
+		apacheResponse = postPost(jwt1, "atitle", "acontent"
 				,Arrays.asList(m.getId())
-				,Arrays.asList(user1.getId()
-				, user2.getId())
-				, Arrays.asList(bg.getId())
-				, Paths.get("fixturesingit", "v.js"));
+				,Arrays.asList(user1.getId(), user2.getId())
+				,Arrays.asList(bg.getId())
+				,Paths.get("fixturesingit", "v.js"));
 		
 		url = apacheResponse.getFirstHeader("location").getValue();
 		response = requestForBody(jwt1, url);
@@ -108,6 +105,8 @@ public class TestPostApi  extends KatharsisBase {
 		gur = new GroupUserRelation(bg, b4);
 		guRepo.save(gur);
 		
+		// we have a group with 2 members.
+		
 		JsonApiPostBodyWrapper<CreateListBody> jbw = JsonApiPostBodyWrapperBuilder.getListRelationBuilder(getResourceName())
 				.addAttributePair("title", "title")
 				.addAttributePair("content", "content")
@@ -120,6 +119,7 @@ public class TestPostApi  extends KatharsisBase {
 		String s = objectMapper.writeValueAsString(jbw);
 		writeDto(s, getResourceName(), "postcontent");
 		ResponseEntity<String> response = postItemWithContent(s, jwt1);
+		
 		response.getHeaders().containsKey(JwtUtil.REFRESH_HEADER_NAME);
 		writeDto(response, getResourceName(), ActionNames.POST_RESULT);
 		PostDto newPost = getOne(response.getBody(), PostDto.class);
@@ -130,10 +130,17 @@ public class TestPostApi  extends KatharsisBase {
 		assertItemNumber(response, UserDto.class, 4);
 		
 		
-		// get all posts
+		// get all posts, when no filter given toAll filter is added. toAll attribute of this post is false, So no item should be return.
 		response = requestForBody(jwt1, getBaseURI());
 		writeDto(response, getResourceName(), ActionNames.GET_LIST);
+		assertItemNumber(response, PostDto.class, 0);
+		
+		Post p = postRepo.findOne(newPost.getId());
+		p.setToAll(true);
+		postRepo.save(p);
+		response = requestForBody(jwt1, getBaseURI());
 		assertItemNumber(response, PostDto.class, 1);
+		
 		// get this post
 		response = requestForBody(jwt1, getItemUrl(newPost.getId()));
 		writeDto(response, getResourceName(), ActionNames.GET_ONE);
@@ -142,7 +149,7 @@ public class TestPostApi  extends KatharsisBase {
 		response = requestForBody(jwt1, getItemUrl(newPost.getId()) + "?include=media");
 		writeDto(response, getResourceName(), ActionNames.GET_ONE_INCLUDE);
 		PostDto post = getOne(response, PostDto.class);
-		assertThat(post.getMedia().size(), equalTo(2));
+		assertThat(post.getMedia().size(), equalTo(1));
 		
 		deleteByExchange(jwt1, getItemUrl(newPost.getId()));
 	}

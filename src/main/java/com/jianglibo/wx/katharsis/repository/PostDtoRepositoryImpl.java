@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.domain.PostShare;
-import com.jianglibo.wx.domain.Unread;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
 import com.jianglibo.wx.facade.Page;
 import com.jianglibo.wx.facade.PostFacadeRepository;

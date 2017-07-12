@@ -1,11 +1,11 @@
 {
   "data" : {
-    "id" : "196609",
+    "id" : "65537",
     "type" : "posts",
     "attributes" : {
-      "toAll" : false,
-      "createdAt" : 1498785324289,
-      "read" : false,
+      "toAll" : true,
+      "createdAt" : 1499829564891,
+      "read" : true,
       "title" : "title",
       "content" : "content",
       "dtoAction" : null,
@@ -14,31 +14,31 @@
     "relationships" : {
       "sharedUsers" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/196609/sharedUsers"
+          "self" : "http://localhost/jsonapi/posts/65537/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/65537/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/196609/creator"
+          "self" : "http://localhost/jsonapi/posts/65537/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/65537/creator"
         }
       },
       "sharedGroups" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/sharedGroups",
-          "related" : "http://localhost/jsonapi/posts/196609/sharedGroups"
+          "self" : "http://localhost/jsonapi/posts/65537/relationships/sharedGroups",
+          "related" : "http://localhost/jsonapi/posts/65537/sharedGroups"
         }
       },
       "media" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/196609/relationships/media",
-          "related" : "http://localhost/jsonapi/posts/196609/media"
+          "self" : "http://localhost/jsonapi/posts/65537/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/65537/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/posts/196609"
+      "self" : "http://localhost/jsonapi/posts/65537"
     }
   }
 }

@@ -1,11 +1,11 @@
 {
   "data" : {
-    "id" : "884736",
+    "id" : "65536",
     "type" : "posts",
     "attributes" : {
       "toAll" : false,
-      "createdAt" : 1498810387302,
-      "read" : false,
+      "createdAt" : 1499829562106,
+      "read" : true,
       "title" : "atitle",
       "content" : "acontent",
       "dtoAction" : null,
@@ -14,31 +14,31 @@
     "relationships" : {
       "sharedUsers" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/884736/relationships/sharedUsers",
-          "related" : "http://localhost/jsonapi/posts/884736/sharedUsers"
+          "self" : "http://localhost/jsonapi/posts/65536/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/65536/sharedUsers"
         }
       },
       "creator" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/884736/relationships/creator",
-          "related" : "http://localhost/jsonapi/posts/884736/creator"
+          "self" : "http://localhost/jsonapi/posts/65536/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/65536/creator"
         }
       },
       "sharedGroups" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/884736/relationships/sharedGroups",
-          "related" : "http://localhost/jsonapi/posts/884736/sharedGroups"
+          "self" : "http://localhost/jsonapi/posts/65536/relationships/sharedGroups",
+          "related" : "http://localhost/jsonapi/posts/65536/sharedGroups"
         }
       },
       "media" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/posts/884736/relationships/media",
-          "related" : "http://localhost/jsonapi/posts/884736/media"
+          "self" : "http://localhost/jsonapi/posts/65536/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/65536/media"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/posts/884736"
+      "self" : "http://localhost/jsonapi/posts/65536"
     }
   }
 }

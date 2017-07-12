@@ -21,7 +21,7 @@ public class Unread extends BaseEntity {
 	
 	private String type;
 	
-	private boolean read;
+//	private boolean read;
 	
 	@NotNull
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -58,12 +58,12 @@ public class Unread extends BaseEntity {
 		return null;
 	}
 
-	public boolean isRead() {
-		return read;
-	}
-
-	public void setRead(boolean read) {
-		this.read = read;
-	}
+//	public boolean isRead() {
+//		return read;
+//	}
+//
+//	public void setRead(boolean read) {
+//		this.read = read;
+//	}
 
 }

@@ -27,6 +27,7 @@ import io.katharsis.core.internal.boot.KatharsisBoot;
 @Component
 public class Tutil {
 	
+	public static String USER_0 = "user0";
 	public static String USER_1 = "user1";
 	public static String USER_2 = "user2";
 	
@@ -52,6 +53,9 @@ public class Tutil {
 	@Autowired
 	private BootUserDetailManager bootUserDetailManager;
 
+	public BootUser createUser0() {
+    	return createBootUser(USER_0, PASSWORD);
+    }
 	
 	public BootUser createUser1() {
     	return createBootUser(USER_1, PASSWORD);

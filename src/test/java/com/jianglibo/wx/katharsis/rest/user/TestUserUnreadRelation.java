@@ -24,8 +24,6 @@ public class TestUserUnreadRelation  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		deleteAllUsers();
-		unreadRepo.deleteAll();
 		initTestUser();
 	}
 	

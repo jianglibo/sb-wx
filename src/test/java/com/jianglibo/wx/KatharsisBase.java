@@ -72,6 +72,7 @@ public abstract class KatharsisBase extends Tbase {
 	
 	protected ResponseEntity<String> response;
 	
+	protected BootUser user0;
 	protected BootUser user1;
 	protected BootUser user2;
 	
@@ -79,6 +80,7 @@ public abstract class KatharsisBase extends Tbase {
 	
 	protected String adminJwt;
 	
+	protected String jwt0;
 	protected String jwt1;
 	protected String jwt2;
 	
@@ -319,9 +321,11 @@ public abstract class KatharsisBase extends Tbase {
 	public void initTestUser() throws IOException {
 		delteAllGroups();
 		deleteAllUsers();
+		user0 = tutil.createUser0();
 		user1 = tutil.createUser1();
 		user2 = tutil.createUser2();
 		adminUser = tutil.createBootUser("admin", "123456", RoleNames.ROLE_ADMINISTRATOR);
+		jwt0 = getJwtToken(Tutil.USER_0, Tutil.PASSWORD);
 		jwt1 = getJwtToken(Tutil.USER_1, Tutil.PASSWORD);
 		jwt2 = getJwtToken(Tutil.USER_2, Tutil.PASSWORD);
 		adminJwt = getJwtToken("amdin", "123456");

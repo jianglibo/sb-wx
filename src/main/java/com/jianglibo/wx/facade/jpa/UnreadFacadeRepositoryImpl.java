@@ -48,13 +48,13 @@ public class UnreadFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Unread,
 		return new Page<>(opage.getTotalElements(), opage.getContent());
 	}
 
-	public Unread findByBootUserAndTypeAndObidAndRead(BootUser user, String type, Long id, boolean read) {
-		return getRepository().findByBootUserAndTypeAndObidAndRead(user,type,id, read);
+	public Unread findByBootUserAndTypeAndObid(BootUser user, String type, Long id) {
+		return getRepository().findByBootUserAndTypeAndObid(user,type,id);
 	}
 
 	@Override
 	public boolean userHasReadThisPost(BootUser user, Long id) {
-		Unread ur = getRepository().findByBootUserAndTypeAndObidAndRead(user,Post.class.getSimpleName(),id, true);
+		Unread ur = getRepository().findByBootUserAndTypeAndObid(user,Post.class.getSimpleName(),id);
 		return ur != null;
 	}
 }

@@ -1,7 +1,50 @@
 {
-  "errors" : [ {
-    "code" : "E4001001",
-    "title" : "org.springframework.security.access.AccessDeniedException",
-    "detail" : "不允许访问"
-  } ]
+  "data" : {
+    "id" : "65537",
+    "type" : "posts",
+    "attributes" : {
+      "toAll" : false,
+      "createdAt" : 1499829564891,
+      "read" : false,
+      "title" : "title",
+      "content" : "content",
+      "dtoAction" : null,
+      "dtoApplyTo" : null
+    },
+    "relationships" : {
+      "sharedUsers" : {
+        "data" : [ ],
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/65537/relationships/sharedUsers",
+          "related" : "http://localhost/jsonapi/posts/65537/sharedUsers"
+        }
+      },
+      "creator" : {
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/65537/relationships/creator",
+          "related" : "http://localhost/jsonapi/posts/65537/creator"
+        }
+      },
+      "sharedGroups" : {
+        "data" : [ ],
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/65537/relationships/sharedGroups",
+          "related" : "http://localhost/jsonapi/posts/65537/sharedGroups"
+        }
+      },
+      "media" : {
+        "data" : [ {
+          "id" : "65538",
+          "type" : "medium"
+        } ],
+        "links" : {
+          "self" : "http://localhost/jsonapi/posts/65537/relationships/media",
+          "related" : "http://localhost/jsonapi/posts/65537/media"
+        }
+      }
+    },
+    "links" : {
+      "self" : "http://localhost/jsonapi/posts/65537"
+    }
+  }
 }

@@ -22,22 +22,15 @@ import com.jianglibo.wx.katharsis.dto.MessageNotifyDto;
 import com.jianglibo.wx.katharsis.dto.PostDto;
 import com.jianglibo.wx.katharsis.dto.UnreadDto;
 import com.jianglibo.wx.katharsis.rest.PostUtilFort;
-import com.jianglibo.wx.repository.UnreadRepository;
 import com.jianglibo.wx.util.MyJsonApiUrlBuilder;
 
 public class TestUserUnreadPost  extends KatharsisBase {
-	
-	@Autowired
-	private UnreadRepository unreadRepo;
 	
 	@Autowired
 	private PostUtilFort postUtil;
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		deleteAllUsers();
-		deleteAllPost();
-		unreadRepo.deleteAll();
 		initTestUser();
 	}
 	

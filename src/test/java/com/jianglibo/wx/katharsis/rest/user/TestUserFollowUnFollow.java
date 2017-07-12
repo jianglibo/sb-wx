@@ -24,7 +24,6 @@ public class TestUserFollowUnFollow  extends KatharsisBase {
 	
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
-		deleteAllUsers();
 		initTestUser();
 	}
 	
@@ -35,9 +34,17 @@ public class TestUserFollowUnFollow  extends KatharsisBase {
 		
 		// you can only initiative follow a user. cannot force a user to follow you.
 		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", befollowed.getId());
+		String body = indentOm.writeValueAsString(jbw);
 		
-		response = addRelationWithContent(indentOm.writeValueAsString(jbw), "followeds", follower.getId(), jwt1);
+		// user2 want to follow user1. method one.
+		response = addRelationWithContent(body, "followeds", follower.getId(), jwt1);
 		assertResponseCode(response, 204);
+		
+		// user2 want to follow user1. method two.
+		response = addRelationWithContent(body, "followers", befollowed.getId(), jwt1);
+		assertResponseCode(response, 204);
+
+		
 		response = requestForBody(jwt1, getItemUrl(befollowed.getId()) + "/followers");
 		writeDto(response.getBody(), getResourceName(), "followers");
 		assertItemNumber(response, UserDto.class, 1);

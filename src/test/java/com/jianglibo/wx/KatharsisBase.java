@@ -313,7 +313,9 @@ public abstract class KatharsisBase extends Tbase {
 	
 	public HttpHeaders getAuthorizationHaders(String jwtToken) throws IOException {
 		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.set("Authorization", "Bearer " + jwtToken);
+		if (jwtToken != null && !jwtToken.trim().isEmpty()) {
+			requestHeaders.set("Authorization", "Bearer " + jwtToken);
+		}
 		return requestHeaders;
 	}
 	
@@ -324,11 +326,11 @@ public abstract class KatharsisBase extends Tbase {
 		user0 = tutil.createUser0();
 		user1 = tutil.createUser1();
 		user2 = tutil.createUser2();
-		adminUser = tutil.createBootUser("admin", "123456", RoleNames.ROLE_ADMINISTRATOR);
 		jwt0 = getJwtToken(Tutil.USER_0, Tutil.PASSWORD);
 		jwt1 = getJwtToken(Tutil.USER_1, Tutil.PASSWORD);
 		jwt2 = getJwtToken(Tutil.USER_2, Tutil.PASSWORD);
-		adminJwt = getJwtToken("amdin", "123456");
+		adminJwt = getJwtToken("amdin", "123456", RoleNames.ROLE_ADMINISTRATOR);
+		adminUser = bootUserRepo.findByName("admin");
 	}
 
 	

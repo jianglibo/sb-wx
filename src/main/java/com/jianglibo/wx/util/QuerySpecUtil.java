@@ -48,6 +48,7 @@ public class QuerySpecUtil {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<Long> hasMyId(QuerySpec spec) {
 		List<Long> ids = new ArrayList<>();
 		Optional<FilterSpec> fs =  spec.getFilters().stream().filter(f -> f.getOperator() == FilterOperator.EQ && f.getAttributePath().size() == 1 && "id".equals(f.getAttributePath().get(0))).findAny();
@@ -62,6 +63,7 @@ public class QuerySpecUtil {
 		return ids;
 	}
 	
+	@SuppressWarnings("unused")
 	public static RelationQuery findRelationQuery(QuerySpec spec) {
 		List<Long> ids = new ArrayList<>();
 		Optional<FilterSpec> fs =  spec.getFilters().stream().filter(f -> f.getOperator() == FilterOperator.EQ && f.getAttributePath().size() > 1 && "id".equals(f.getAttributePath().get(f.getAttributePath().size() - 1))).findAny();
@@ -90,6 +92,7 @@ public class QuerySpecUtil {
 		return new PageFacade(spec.getOffset(), spec.getLimit(), getSortBrokers(spec));
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T> Optional<T> getFilterSingleValue(QuerySpec querySpec, String fn) {
 		Optional<FilterSpec> ofs = querySpec.getFilters().stream().filter(f -> fn.equals(f.getAttributePath().get(0))).findAny();
 		if (ofs.isPresent()) {

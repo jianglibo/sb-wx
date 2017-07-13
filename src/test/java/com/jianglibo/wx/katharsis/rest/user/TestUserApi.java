@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +39,12 @@ public class TestUserApi  extends KatharsisBase {
 	@Before
 	public void b() throws JsonParseException, JsonMappingException, IOException {
 		initTestUser();
+	}
+	
+	@Test
+	public void getListNotLogin() throws IOException {
+		response = requestForBody(null, getBaseURI());
+		assertAccessDenied(response);
 	}
 	
 	@Test
@@ -108,7 +115,9 @@ public class TestUserApi  extends KatharsisBase {
 	
 	@Test
 	public void tGet() throws JsonParseException, JsonMappingException, IOException {
-		ResponseEntity<String> response = requestForBody(jwt1, getBaseURI());
+		response = requestForBody(adminJwt, getBaseURI());
+		List<UserDto> users = getList(response, UserDto.class);
+		assertThat(users.size(), greaterThan(0));
 		writeDto(response, getResourceName(), ActionNames.GET_LIST);
 	}
 	

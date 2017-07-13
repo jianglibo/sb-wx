@@ -10,16 +10,16 @@
     "relationships" : {
       "roles" : {
         "data" : [ {
-          "id" : "32770",
-          "type" : "roles"
-        }, {
           "id" : "32768",
           "type" : "roles"
         }, {
-          "id" : "32769",
+          "id" : "32770",
           "type" : "roles"
         }, {
           "id" : "1",
+          "type" : "roles"
+        }, {
+          "id" : "32769",
           "type" : "roles"
         } ]
       }

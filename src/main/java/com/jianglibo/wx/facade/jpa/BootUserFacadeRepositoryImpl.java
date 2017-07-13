@@ -42,6 +42,12 @@ public class BootUserFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<BootU
 	public void delete(@P("entity") BootUser entity) {
 		super.delete(entity);
 	}
+	
+	@Override
+	@PreAuthorize(PreAuthorizeExpression.HAS_ADMINISTRATOR_ROLE)
+	public Page<BootUser> findAll(PageFacade pf) {
+		return super.findAll(pf);
+	}
 
 
 	@Override

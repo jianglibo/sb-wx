@@ -1,29 +1,29 @@
 {
   "data" : [ {
-    "id" : "163840",
+    "id" : "98304",
     "type" : "messagenotifies",
     "attributes" : {
       "number" : 0,
-      "createdAt" : 1498697522579,
-      "ntype" : "post",
+      "createdAt" : 1499927808768,
+      "ntype" : "Post",
       "dtoAction" : null,
       "dtoApplyTo" : null
     },
     "relationships" : {
       "user" : {
         "links" : {
-          "self" : "http://localhost/jsonapi/messagenotifies/163840/relationships/user",
-          "related" : "http://localhost/jsonapi/messagenotifies/163840/user"
+          "self" : "http://localhost/jsonapi/messagenotifies/98304/relationships/user",
+          "related" : "http://localhost/jsonapi/messagenotifies/98304/user"
         }
       }
     },
     "links" : {
-      "self" : "http://localhost/jsonapi/messagenotifies/163840"
+      "self" : "http://localhost/jsonapi/messagenotifies/98304"
     }
   } ],
   "links" : {
-    "first" : "http://localhost/jsonapi/messagenotifies/?page[limit]=20&include[messagenotifies]=user&filter[messagenotifies][user][id][EQ]=1179649",
-    "last" : "http://localhost/jsonapi/messagenotifies/?page[limit]=20&include[messagenotifies]=user&filter[messagenotifies][user][id][EQ]=1179649",
+    "first" : "http://localhost/jsonapi/messagenotifies/?page[limit]=20&include[messagenotifies]=user&filter[messagenotifies][user][id][EQ]=851969",
+    "last" : "http://localhost/jsonapi/messagenotifies/?page[limit]=20&include[messagenotifies]=user&filter[messagenotifies][user][id][EQ]=851969",
     "next" : null,
     "prev" : null
   },

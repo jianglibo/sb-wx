@@ -15,17 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
-import com.jianglibo.wx.constant.UrlConstants;
 import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.facade.BootUserFacadeRepository;
-import com.jianglibo.wx.jwt.JwtBasicFilter;
 import com.jianglibo.wx.util.SecurityUtil;
 import com.jianglibo.wx.vo.BootUserAuthentication;
 import com.jianglibo.wx.vo.BootUserPrincipal;
@@ -33,7 +30,7 @@ import com.jianglibo.wx.vo.RoleNames;
 
 /**
  * copy some code from @see {@link BasicAuthenticationFilter}
- * 
+ * Maybe it's no need to match pattern. Check every income request, authenticate if jwt header exists. 
  * @author jianglibo@gmail.com
  *         2015年8月20日
  *
@@ -61,19 +58,26 @@ public class WxSessionFilter implements Filter {
 		if (req instanceof HttpServletRequest && res instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;
-			if (HttpMethod.POST.matches(request.getMethod()) && JwtBasicFilter.negPathPattern.matcher(request.getRequestURI()).matches()) {
-				chain.doFilter(request, response);
-			} else if (JwtBasicFilter.pathPattern.matcher(request.getRequestURI()).matches() || UrlConstants.UPLOAD_ENDPOINT.equals(request.getRequestURI()) || UrlConstants.POSTFORM_ENDPOINT.equals(request.getRequestURI())) {
-				try {
-					invokeSessionVerify(request, response);
-					chain.doFilter(req, res);
-				} catch (AuthenticationException | AccessDeniedException | WxAuthorizationAPIException e) {
-		            SecurityContextHolder.clearContext();
-		            throw new AccessDeniedException("authentication exception.");
-				}
-			} else {
-				chain.doFilter(request, response);
+			try {
+				invokeSessionVerify(request, response);
+				chain.doFilter(req, res);
+			} catch (AuthenticationException | AccessDeniedException | WxAuthorizationAPIException e) {
+	            SecurityContextHolder.clearContext();
+	            throw new AccessDeniedException("authentication exception.");
 			}
+//			if (HttpMethod.POST.matches(request.getMethod()) && JwtBasicFilter.negPathPattern.matcher(request.getRequestURI()).matches()) {
+//				chain.doFilter(request, response);
+//			} else if (JwtBasicFilter.pathPattern.matcher(request.getRequestURI()).matches() || UrlConstants.UPLOAD_ENDPOINT.equals(request.getRequestURI()) || UrlConstants.POSTFORM_ENDPOINT.equals(request.getRequestURI())) {
+//				try {
+//					invokeSessionVerify(request, response);
+//					chain.doFilter(req, res);
+//				} catch (AuthenticationException | AccessDeniedException | WxAuthorizationAPIException e) {
+//		            SecurityContextHolder.clearContext();
+//		            throw new AccessDeniedException("authentication exception.");
+//				}
+//			} else {
+//				chain.doFilter(request, response);
+//			}
 		}
 	}
 
@@ -91,9 +95,10 @@ public class WxSessionFilter implements Filter {
 				logger.error("had once login but not saved wx user: {}", userInfo.getOpenId());
 				throw new AccessDeniedException(String.format("had once login but not saved wx user: {}", userInfo));
 			}
-		} else {
-			throw new AccessDeniedException("no weixin id and skey header.");
 		}
+//		else {
+//			throw new AccessDeniedException("no weixin id and skey header.");
+//		}
     }
 
 	@Override

@@ -1,7 +1,6 @@
 package com.jianglibo.wx.jwt;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import javax.annotation.Priority;
 import javax.servlet.Filter;
@@ -16,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,12 +22,13 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.jianglibo.wx.constant.UrlConstants;
 import com.jianglibo.wx.vo.BootUserAuthentication;
 import com.jianglibo.wx.vo.BootUserPrincipal;
 
 /**
  * copy some code from @see {@link BasicAuthenticationFilter}
+ * 
+ * Maybe it's no need to match pattern. Check every income request, authenticate if jwt header exists.
  * 
  * @author jianglibo@gmail.com
  *         2015年8月20日
@@ -42,25 +40,25 @@ public class JwtBasicFilter implements Filter {
 
 	private static Logger logger = LoggerFactory.getLogger(JwtBasicFilter.class);
 	
-	public static Pattern pathPattern;
+//	public static Pattern pathPattern;
 	
-	public static Pattern negPathPattern;
+//	public static Pattern negPathPattern;
 	
 	@Autowired
 	private JwtUtil jwtUtil;
 
 	
-	@Autowired
-	public void setPattern(@Value("${katharsis.pathPrefix}") String prefix) {
-		String t = String.format("^%s.*", prefix);
-		pathPattern = Pattern.compile(t);
-		logger.info("apply url pattern: {}", t);
-		
-		String t1 = String.format("^%s/loginAttempts", prefix);
-		String t2 = String.format("^%s/users", prefix);
-		negPathPattern = Pattern.compile(String.format("%s/.*|%s|%s/.*|%s", t1, t1, t2, t2));
-		logger.info("negtive url pattern: {}", t1);
-	}
+//	@Autowired
+//	public void setPattern(@Value("${katharsis.pathPrefix}") String prefix) {
+//		String t = String.format("^%s.*", prefix);
+//		pathPattern = Pattern.compile(t);
+//		logger.info("apply url pattern: {}", t);
+//		
+//		String t1 = String.format("^%s/loginAttempts", prefix);
+//		String t2 = String.format("^%s/users", prefix);
+//		negPathPattern = Pattern.compile(String.format("%s/.*|%s|%s/.*|%s", t1, t1, t2, t2));
+//		logger.info("negtive url pattern: {}", t1);
+//	}
 
     
 	@Override
@@ -69,21 +67,29 @@ public class JwtBasicFilter implements Filter {
 		if (req instanceof HttpServletRequest && res instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;
-			if (HttpMethod.POST.matches(request.getMethod()) && negPathPattern.matcher(request.getRequestURI()).matches()) {
-				chain.doFilter(request, response);
-			} else if (pathPattern.matcher(request.getRequestURI()).matches()
-					|| UrlConstants.UPLOAD_ENDPOINT.equals(request.getRequestURI())
-					|| UrlConstants.POSTFORM_ENDPOINT.equals(request.getRequestURI())) {
-				try {
-					processBasicLogin(request, response);
-					chain.doFilter(req, res);
-				} catch (AuthenticationException e) {
-		            SecurityContextHolder.clearContext();
-		            throw new AccessDeniedException("authentication exception.");
-				}
-			} else {
-				chain.doFilter(request, response);
+			try {
+				processBasicLogin(request, response);
+				chain.doFilter(req, res);
+			} catch (AuthenticationException e) {
+				SecurityContextHolder.clearContext();
+				throw new AccessDeniedException("authentication exception.");
 			}
+			
+//			if (HttpMethod.POST.matches(request.getMethod()) && negPathPattern.matcher(request.getRequestURI()).matches()) {
+//				chain.doFilter(request, response);
+//			} else if (pathPattern.matcher(request.getRequestURI()).matches()
+//					|| UrlConstants.UPLOAD_ENDPOINT.equals(request.getRequestURI())
+//					|| UrlConstants.POSTFORM_ENDPOINT.equals(request.getRequestURI())) {
+//				try {
+//					processBasicLogin(request, response);
+//					chain.doFilter(req, res);
+//				} catch (AuthenticationException e) {
+//		            SecurityContextHolder.clearContext();
+//		            throw new AccessDeniedException("authentication exception.");
+//				}
+//			} else {
+//				chain.doFilter(request, response);
+//			}
 		}
 	}
 

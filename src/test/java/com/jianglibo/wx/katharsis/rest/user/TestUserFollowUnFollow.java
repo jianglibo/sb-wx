@@ -36,26 +36,29 @@ public class TestUserFollowUnFollow  extends KatharsisBase {
 		JsonApiListBodyWrapper jbw = new JsonApiListBodyWrapper("users", befollowed.getId());
 		String body = indentOm.writeValueAsString(jbw);
 		
-		// user2 want to follow user1. method one.
-		response = addRelationWithContent(body, "followeds", follower.getId(), jwt1);
+		// user2 want to follow user1. From follower's point of view, It's just adding a relation to my followeds.
+		// The body content is the Id of user about to follow!!!! The url is /users/myid/relationships/followeds
+		// as a rule, change myself instead of others.
+		response = addRelationWithContent(body, "followeds", follower.getId(), jwt2);
 		assertResponseCode(response, 204);
 		
-		// user2 want to follow user1. method two.
-		response = addRelationWithContent(body, "followers", befollowed.getId(), jwt1);
-		assertResponseCode(response, 204);
-
-		
+		// get my(user1) followers.
 		response = requestForBody(jwt1, getItemUrl(befollowed.getId()) + "/followers");
 		writeDto(response.getBody(), getResourceName(), "followers");
 		assertItemNumber(response, UserDto.class, 1);
 		
-		response = requestForBody(jwt1, getItemUrl(follower.getId()) + "/followeds");
+		// get my(user1) followeds.
+		response = requestForBody(jwt1, getItemUrl(befollowed.getId()) + "/followeds");
 		writeDto(response.getBody(), getResourceName(), "followeds");
-		assertItemNumber(response, UserDto.class, 1);
+		assertItemNumber(response, UserDto.class, 0);
 
-		
-		response = deleteRelationWithContent(indentOm.writeValueAsString(jbw), "followeds", follower.getId(), jwt1);
+		// Who can delete relation? The follower.
+		response = deleteRelationWithContent(body, "followeds", follower.getId(), jwt1);
+		assertAccessDenied(response);
+		response = deleteRelationWithContent(body, "followeds", follower.getId(), jwt2);
 		assertResponseCode(response, 204);
+		
+		
 		response = requestForBody(jwt1, getItemUrl(befollowed.getId()) + "/followers");
 		assertItemNumber(response, UserDto.class, 0);
 		

@@ -1,6 +1,7 @@
 package com.jianglibo.wx.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -26,12 +27,12 @@ public class FollowRelation extends BaseEntity {
 	
 	
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="follower_id")
 	private BootUser follower;
 	
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "followed_id")
 	private BootUser followed;
 	

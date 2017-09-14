@@ -78,7 +78,26 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
         	.emailVerified(true)
         	.mobile("123456789012")
         	.openId(UuidUtil.uuidNoDash())
-        	.password("123456");
+        	.password("123456")
+        	.and()
+        	.withUser("auser")
+        	.authorities(RoleNames.USER)
+        	.displayName("auser")
+        	.email("auser@localhost.com")
+        	.emailVerified(true)
+        	.mobile("123456789013")
+        	.openId(UuidUtil.uuidNoDash())
+        	.password("123456")
+        	.and()
+        	.withUser("buser")
+        	.authorities(RoleNames.USER)
+        	.displayName("buser")
+        	.email("buser@localhost.com")
+        	.emailVerified(true)
+        	.mobile("123456789014")
+        	.openId(UuidUtil.uuidNoDash())
+        	.password("123456")
+        	;
         // @formatter:on
     };
     

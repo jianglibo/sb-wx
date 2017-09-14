@@ -132,7 +132,6 @@ public class TestPostApi  extends KatharsisBase {
 		
 		// get all posts, when no filter given toAll filter is added. toAll attribute of this post is false, So no item should be return.
 		response = requestForBody(jwt1, getBaseURI());
-		writeDto(response, getResourceName(), ActionNames.GET_LIST);
 		assertItemNumber(response, PostDto.class, 0);
 		
 		Post p = postRepo.findOne(newPost.getId());

@@ -28,6 +28,7 @@ public class TestPostGetList  extends KatharsisBase {
 		response = requestForBody(jwt1, getBaseURI() + "?filter[toAll]=true&page[offset]=0&page[limit]=19");
 		List<PostDto> posts = getList(response, PostDto.class);
 		assertThat(posts.size(), equalTo(1));
+		writeDto(response, getResourceName(), ActionNames.GET_LIST);
 		
 		response = requestForBody(jwt1, getBaseURI() + "?filter[toAll]=true&page[offset]=19&page[limit]=19");
 		posts = getList(response, PostDto.class);

@@ -40,7 +40,8 @@ public class GroupDtoRepositoryImpl  extends DtoRepositoryBase<GroupDto, GroupDt
 
 	@Override
 	protected GroupDtoList findAllWithQuerySpec(QuerySpec querySpec) {
-		return null;
+		Page<BootGroup> groups = getRepository().findAll(QuerySpecUtil.getPageFacade(querySpec)); 
+		return convertToResourceList(groups, Scenario.FIND_LIST);
 	}
 
 	@Override

@@ -57,6 +57,7 @@ public class TestGrouptApi  extends KatharsisBase {
 		// only the administrator can get group list. 
 		response = requestForBody(jwt1, getBaseURI());
 		writeDto(response, getResourceName(), ActionNames.GET_LIST);
+		assertThat(response.getStatusCodeValue(), equalTo(200));
 		
 		response = requestForBody(jwt1, getItemUrl(newGroup.getId()));
 		

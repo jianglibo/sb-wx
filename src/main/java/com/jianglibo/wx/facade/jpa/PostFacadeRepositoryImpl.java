@@ -134,7 +134,6 @@ public class PostFacadeRepositoryImpl extends FacadeRepositoryBaseImpl<Post,Post
 		if (dto.getMedia() != null) {
 			for(MediumDto mdto : dto.getMedia()) {
 				Medium m = mediumRepo.findOne(mdto.getId(), true);
-				m.setPost(entity);
 				media.add(mediumRepo.save(m, null));
 			}
 		}

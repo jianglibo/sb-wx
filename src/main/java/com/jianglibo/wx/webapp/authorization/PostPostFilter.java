@@ -141,7 +141,7 @@ public class PostPostFilter implements Filter {
 						mediaIds.addAll(media.stream().map(dto -> dto.getId()).collect(Collectors.toList()));
 						List<Medium> ms = mediaIds.stream().map(id -> {
 							Medium m = mediumRepo.findOne(id, true);
-							m.setPost(finalPost);
+//							m.setPost(finalPost);
 							return mediumRepo.save(m, null);
 							}).collect(Collectors.toList());
 						post.setMedia(ms);

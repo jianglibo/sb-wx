@@ -1,6 +1,9 @@
 package com.jianglibo.wx.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,8 +29,8 @@ public class Medium extends BaseEntity {
 	private String localPath;
 	private long size;
 	
-	@ManyToOne
-	private Post post;
+	@ManyToMany
+	private List<Post> posts;
 	
 	public String getUrl() {
 		return url;
@@ -53,11 +56,12 @@ public class Medium extends BaseEntity {
 	public void setSize(long size) {
 		this.size = size;
 	}
-	public Post getPost() {
-		return post;
+	
+	public List<Post> getPosts() {
+		return posts;
 	}
-	public void setPost(Post post) {
-		this.post = post;
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 	public String getOrignName() {
 		return orignName;

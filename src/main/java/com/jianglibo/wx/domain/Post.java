@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -35,7 +36,7 @@ public class Post extends BaseEntity {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private BootUser creator;
 	
-	@OneToMany(mappedBy="post", fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy="posts", fetch=FetchType.EAGER)
 	private List<Medium> media = new ArrayList<>();
 	
 	@OneToMany(mappedBy="post", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)

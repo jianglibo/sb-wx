@@ -132,30 +132,7 @@ public class PostPostFilter implements Filter {
 						    	media.add(fileItemProcessor.processFileItem(item));
 						    }
 						}
-						Post post = new Post();
-						post.setTitle(title);
-						post.setContent(content);
-						post.setCreator(userRepository.findOne(SecurityUtil.getLoginUserId(), false));
-						post = postRepo.save(post, null);
-						final Post finalPost = post;
-						mediaIds.addAll(media.stream().map(dto -> dto.getId()).collect(Collectors.toList()));
-						List<Medium> ms = mediaIds.stream().map(id -> {
-							Medium m = mediumRepo.findOne(id, true);
-//							m.setPost(finalPost);
-							return mediumRepo.save(m, null);
-							}).collect(Collectors.toList());
-						post.setMedia(ms);
-						postRepo.save(post,null);
-						
-						final Post p = post;
-						sharedUserIds.stream()
-							.forEach(uid -> postRepo.saveSharePost(p, userRepository.findOne(uid, true)));
-						sharedGroupIds.stream()
-							.map(gid -> groupRepo.findOne(gid, true))
-							.flatMap(g -> guRepo.findByBootGroup(g, new PageFacade(10000L)).getContent().stream())
-							.map(gur -> gur.getBootUser())
-							.forEach(user -> postRepo.saveSharePost(p, user));
-						
+						Post post = createPost(title, content, mediaIds, media, sharedUserIds, sharedGroupIds);
 						response.sendRedirect(getPostRedirectUrl(post));
 					} catch (FileUploadException e) {
 						fileItemProcessor.writeErrotToResponse(response, e);
@@ -168,6 +145,32 @@ public class PostPostFilter implements Filter {
 				chain.doFilter(request, response);
 			}
 		}
+	}
+
+	protected Post createPost(String title, String content, List<Long> mediaIds, List<Medium> media,
+			List<Long> sharedUserIds, List<Long> sharedGroupIds) {
+		Post post = new Post();
+		post.setTitle(title);
+		post.setContent(content);
+		post.setCreator(userRepository.findOne(SecurityUtil.getLoginUserId(), false));
+		post = postRepo.save(post, null);
+		mediaIds.addAll(media.stream().map(dto -> dto.getId()).collect(Collectors.toList()));
+		List<Medium> ms = mediaIds.stream().map(id -> {
+				return mediumRepo.findOne(id, true);
+			}).collect(Collectors.toList());
+		
+		post.setMedia(ms);
+		postRepo.save(post,null);
+		
+		final Post p = post;
+		sharedUserIds.stream()
+			.forEach(uid -> postRepo.saveSharePost(p, userRepository.findOne(uid, true)));
+		sharedGroupIds.stream()
+			.map(gid -> groupRepo.findOne(gid, true))
+			.flatMap(g -> guRepo.findByBootGroup(g, new PageFacade(10000L)).getContent().stream())
+			.map(gur -> gur.getBootUser())
+			.forEach(user -> postRepo.saveSharePost(p, user));
+		return post;
 	}
 	
 

@@ -1,4 +1,4 @@
-package com.jianglibo.wx.webapp.authorization;
+package com.jianglibo.wx.katharsis.rest.medium;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertFalse;
@@ -40,7 +40,7 @@ public class TestUpload extends KatharsisBase {
 		assertFalse("should not contain {", appConfig.getUploadLinkBase().contains("{"));
 		HttpResponse apacheResponse = uploadFile(jwt1, Paths.get("fixturesingit", "v.js"), Paths.get("fixturesingit", "th.jpg"));
 		String url = apacheResponse.getFirstHeader("location").getValue();
-		printme(url);
+		// url: http://localhost/jsonapi/media?filter[id]=524288&filter[id]=524289
 		response = requestForBody(jwt1, url);
 		writeDto(response, getResourceName(), "getByIds");
 		List<MediumDto> media = getList(response, MediumDto.class);

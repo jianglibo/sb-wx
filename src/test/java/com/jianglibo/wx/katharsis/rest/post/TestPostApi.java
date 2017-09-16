@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.junit.Before;
@@ -49,8 +50,10 @@ public class TestPostApi  extends KatharsisBase {
 		HttpResponse apacheResponse = uploadFile(jwt1, Paths.get("fixturesingit", "v.js"));
 		String url = apacheResponse.getFirstHeader("location").getValue();
 		response = requestForBody(jwt1, url);
+		List<MediumDto> ms = getList(response, MediumDto.class); 
+		assertThat(ms.size(), equalTo(1));
 		
-		MediumDto m = getList(response, MediumDto.class).get(0);
+		MediumDto m = ms.get(0);
 		
 		BootUser b3 = tutil.createBootUser("b3", "123");
 		BootUser b4 = tutil.createBootUser("b4", "123");
@@ -64,7 +67,8 @@ public class TestPostApi  extends KatharsisBase {
 		
 		gur = new GroupUserRelation(bg, b4);
 		guRepo.save(gur);
-
+		
+		// html form post.
 		apacheResponse = postPost(jwt1, "atitle", "acontent"
 				,Arrays.asList(m.getId())
 				,Arrays.asList(user1.getId(), user2.getId())

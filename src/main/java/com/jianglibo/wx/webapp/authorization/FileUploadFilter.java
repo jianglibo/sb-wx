@@ -88,12 +88,6 @@ public class FileUploadFilter implements Filter {
 						    	media.add(fileItemProcessor.processFileItem(item));
 						    }
 						}
-//						r.setMedia(mediumDtos);
-//						if (appConfig.getUploadSecret().equals(keyValue)) {
-//							writeUploadResult(response, r);
-//						} else {
-//							writeUploadResult(response, new FileUploadResponse("GuessWrong", ""));
-//						}
 						response.sendRedirect(getMediaRedirectUrl(media));
 					} catch (FileUploadException e) {
 						fileItemProcessor.writeErrotToResponse(response, e);

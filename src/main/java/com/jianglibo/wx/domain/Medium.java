@@ -1,8 +1,10 @@
 package com.jianglibo.wx.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -29,8 +31,8 @@ public class Medium extends BaseEntity {
 	private String localPath;
 	private long size;
 	
-	@ManyToMany
-	private List<Post> posts;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy="media")
+	private List<Post> posts = new ArrayList<Post>();
 	
 	public String getUrl() {
 		return url;

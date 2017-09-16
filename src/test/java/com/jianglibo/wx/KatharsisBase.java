@@ -46,6 +46,8 @@ import com.jianglibo.wx.domain.BootUser;
 import com.jianglibo.wx.domain.Post;
 import com.jianglibo.wx.util.UuidUtil;
 import com.jianglibo.wx.vo.RoleNames;
+import com.jianglibo.wx.webapp.authorization.FileUploadFilter;
+import com.jianglibo.wx.webapp.authorization.PostPostFilter;
 
 import io.katharsis.client.KatharsisClient;
 import io.katharsis.core.internal.boot.KatharsisBoot;
@@ -127,11 +129,29 @@ public abstract class KatharsisBase extends Tbase {
 		HttpResponse response = httpclient.execute(post);
 		return response;
 	}
-	
+	/**
+	 * @see FileUploadFilter
+	 * @param jwtToken
+	 * @param fps
+	 * @return
+	 * @throws IOException
+	 */
 	protected HttpResponse uploadFile(String jwtToken ,Path...fps) throws IOException {
 		return postForm(jwtToken, new HashMap<>(), "/fileupload", fps);
 	}
 	
+	/**
+	 * @see PostPostFilter
+	 * @param jwtToken
+	 * @param title
+	 * @param content
+	 * @param mediaIds
+	 * @param userIds
+	 * @param groupIds
+	 * @param fps
+	 * @return
+	 * @throws IOException
+	 */
 	protected HttpResponse postPost(String jwtToken,String title, String content,List<Long> mediaIds, List<Long> userIds,List<Long> groupIds, Path...fps) throws IOException {
 		Map<String, String> m = new HashMap<>();
 		m.put("title", title);
@@ -200,8 +220,8 @@ public abstract class KatharsisBase extends Tbase {
 	}
 	
 	public void deleteAllUsers() {
-		mediumRepo.deleteAll();
 		postRepo.deleteAll();
+		mediumRepo.deleteAll();
 		bootUserRepo.deleteAll();
 		
 	}

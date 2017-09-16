@@ -36,7 +36,7 @@ public class Post extends BaseEntity {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private BootUser creator;
 	
-	@ManyToMany(mappedBy="posts", fetch=FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Medium> media = new ArrayList<>();
 	
 	@OneToMany(mappedBy="post", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)

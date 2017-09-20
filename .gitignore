@@ -8,7 +8,7 @@ gradle.properties
 
 **/bower_components/*
 **/fixtnotingit/
-
+fixturesingit/dtos/*.json
 .gradle
 build/
 
